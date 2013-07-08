@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Jupiter Broadcasting</string>
+    <string name="rss">RSS Feed</string>
+    <string name="donate">Donate</string>
+    <string name="plaiyinglivestream">Playing Live Stream</string>
+    <string name="whichstream">Which Stream:</string>
+    <string name="audio">Audio</string>
+    <string name="video">Video</string>
+    <string name="web">Web</string>
+    <string name="pause">Pause</string>
+    <string name="allshows">All Shows</string>
+    <string name="youtubefeed">Youtube Feed</string>
+    <string name="play">Play</string>
+    <string name="contact">Contact</string>
+    <string name="notes">ShowNotes</string>
+    <string name="rssmenu">RSSmenu</string>
+    <string name="drawer_open">open drawer</string>
+    <string name="drawer_close">close drawer</string>
+    <string name="alert">No Wi-fi connection!</string>
+    <string name="areyousure">Are you sure to start the video feed?</string>
+</resources>

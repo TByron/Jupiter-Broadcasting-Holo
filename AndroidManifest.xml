@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="jupiter.broadcasting.live.tv"
+          android:versionCode="9"
+          android:versionName="2.2.4">
+
+    <uses-sdk
+            android:minSdkVersion="7"
+            android:targetSdkVersion="17"/>
+
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+
+    <application
+            android:icon="@drawable/icon"
+            android:label="@string/app_name"
+            android:allowBackup="true"
+            android:theme="@style/Theme.Sherlock.Light.DarkActionBar"
+            >
+        <activity
+                android:name=".Home"
+                android:label="@string/app_name"
+
+                android:configChanges="keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".ShowActivity">
+        </activity>
+    </application>
+</manifest>
