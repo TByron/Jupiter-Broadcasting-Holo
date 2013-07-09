@@ -6,20 +6,54 @@
         <option name="logLevel" value="verbose" />
         <option name="logMessagePattern" value="" />
         <option name="logTagPattern" value="" />
-        <option name="name" value="JBapp" />
+        <option name="name" value="jb" />
         <option name="packageNamePattern" value="jupiter.broadcasting.live.tv" />
         <option name="pid" value="" />
       </filter>
     </filters>
   </component>
+  <component name="AndroidLayoutPreviewToolWindow">
+    <option name="state">
+      <GlobalState />
+    </option>
+  </component>
   <component name="AndroidLayouts">
     <shared>
-      <config />
+      <config>
+        <locale>ga</locale>
+        <target>android-17</target>
+      </config>
     </shared>
+    <layouts>
+      <layout url="file://$PROJECT_DIR$/res/layout/shownotes_fragment.xml">
+        <config>
+          <device>Nexus 4</device>
+          <theme>@android:style/Theme.Holo.Light.DarkActionBar</theme>
+        </config>
+      </layout>
+    </layouts>
+  </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="jb" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d219486e-a75f-4580-b982-1ae0e58a363f" name="Default" comment="" />
-    <ignored path="Jupiter-Broadcasting-Android-App.iws" />
+    <list default="true" id="2122cc7f-c518-4f06-a572-e718ca3a9adb" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/ShowNotesView.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/android_support_v42.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/classes.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/layout/shownotes_fragment.xml" />
+      <change type="DELETED" beforePath="D:\androidgit\Jupiter-Broadcasting-Android-App\Jupiter-Broadcasting-Holo\res\drawable\icon.png" afterPath="" />
+      <change type="DELETED" beforePath="D:\androidgit\Jupiter-Broadcasting-Android-App\Jupiter-Broadcasting-Holo\res\drawable\jb.jpg" afterPath="" />
+      <change type="DELETED" beforePath="D:\androidgit\Jupiter-Broadcasting-Android-App\Jupiter-Broadcasting-Holo\res\drawable\logo2.png" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/EpisodeListFragment.java" afterPath="$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/EpisodeListFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/Home.java" afterPath="$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/Home.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/actionbarsherlock/actionbarsherlock.iml" afterPath="$PROJECT_DIR$/libs/actionbarsherlock/actionbarsherlock.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/episodelist_fragment.xml" afterPath="$PROJECT_DIR$/res/layout/episodelist_fragment.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values-ro/strings.xml" afterPath="$PROJECT_DIR$/res/values-ro/strings.xml" />
+      <change type="MOVED" beforePath="D:\androidgit\Jupiter-Broadcasting-Android-App\Jupiter-Broadcasting-Holo\Jupiter-Broadcasting-Android-App.iml" afterPath="$PROJECT_DIR$/Jupiter-Broadcasting-Holo.iml" />
+    </list>
+    <ignored path="Jupiter-Broadcasting-Holo.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -38,7 +72,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -75,98 +108,111 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
-    <favorites_list name="Jupiter-Broadcasting-Android-App" />
+    <favorites_list name="Jupiter-Broadcasting-Holo" />
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ShowActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/ShowActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="71" column="79" selection-start="3200" selection-end="3200" vertical-scroll-proportion="0.0" vertical-offset="1241" max-vertical-offset="3281">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1675#1703#0" expanded="true" />
-                <element signature="e#2475#2503#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Home.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/Home.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="123" column="37" selection-start="5957" selection-end="5957" vertical-scroll-proportion="1.0494038" vertical-offset="1475" max-vertical-offset="3315">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1504#1738#0" expanded="true" />
-                <element signature="e#1727#1728#0" expanded="true" />
-                <element signature="e#1850#2098#0" expanded="true" />
-                <element signature="e#2087#2088#0" expanded="true" />
-                <element signature="e#2204#2429#0" expanded="true" />
-                <element signature="e#2418#2419#0" expanded="true" />
-                <element signature="e#2541#6334#0" expanded="true" />
-                <element signature="e#2772#4328#0" expanded="true" />
-                <element signature="e#4234#4248#0" expanded="true" />
-                <element signature="e#4305#4306#0" expanded="true" />
-                <element signature="e#4394#6121#0" expanded="true" />
-                <element signature="e#5213#5718#0" expanded="true" />
-                <element signature="e#5683#5684#0" expanded="true" />
-                <element signature="e#6097#6098#0" expanded="true" />
-                <element signature="e#6264#6277#0" expanded="true" />
-                <element signature="e#6318#6319#0" expanded="true" />
-                <element signature="e#7649#7687#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="0" selection-start="506" selection-end="506" vertical-scroll-proportion="-7.8461537" vertical-offset="0" max-vertical-offset="646">
-              <folding>
-                <element signature="e#592#610#0" expanded="true" />
-                <element signature="e#819#837#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="EpisodeListFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/EpisodeListFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="160" column="31" selection-start="6265" selection-end="6498" vertical-scroll-proportion="0.0" vertical-offset="2151" max-vertical-offset="3247">
+            <state line="123" column="0" selection-start="4558" selection-end="4558" vertical-scroll-proportion="0.0" vertical-offset="2040" max-vertical-offset="2992">
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#2810#2818#0" expanded="true" />
-                <element signature="e#3096#3530#0" expanded="true" />
-                <element signature="e#3515#3516#0" expanded="true" />
-                <element signature="e#5720#6233#0" expanded="true" />
-                <element signature="e#6202#6203#0" expanded="true" />
+                <element signature="e#5915#6425#0" expanded="true" />
+                <element signature="e#6394#6395#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="strings.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
+      <file leaf-file-name="Home.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/Home.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="67" selection-start="967" selection-end="967" vertical-scroll-proportion="-13.076923" vertical-offset="0" max-vertical-offset="476">
+            <state line="126" column="29" selection-start="6072" selection-end="6072" vertical-scroll-proportion="0.0" vertical-offset="1248" max-vertical-offset="2839">
+              <folding>
+                <element signature="e#4234#4248#0" expanded="true" />
+                <element signature="e#4394#6387#0" expanded="true" />
+                <element signature="e#5213#5718#0" expanded="true" />
+                <element signature="e#5683#5684#0" expanded="true" />
+                <element signature="e#6364#6365#0" expanded="true" />
+                <element signature="e#6530#6543#0" expanded="true" />
+                <element signature="e#7918#7956#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ShowActivity.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/ShowActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="30" column="0" selection-start="860" selection-end="860" vertical-scroll-proportion="0.43824703" vertical-offset="1" max-vertical-offset="2992">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ConnectivityManager.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-17/android.jar!/android/net/ConnectivityManager.class">
+      <file leaf-file-name="main.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/main.xml">
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="4" selection-start="1605" selection-end="1605" vertical-scroll-proportion="0.0" vertical-offset="400" max-vertical-offset="1156">
+            <state line="8" column="24" selection-start="353" selection-end="353" vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="476">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="episodelist_fragment.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/episodelist_fragment.xml">
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="0" selection-start="575" selection-end="575" vertical-scroll-proportion="-4.6666665" vertical-offset="0" max-vertical-offset="425">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="shownotes_fragment.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/shownotes_fragment.xml">
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="15" selection-start="607" selection-end="607" vertical-scroll-proportion="-4.6666665" vertical-offset="0" max-vertical-offset="340">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="drawer_list_item.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/drawer_list_item.xml">
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="578">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ShowNotesView.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/ShowNotesView.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="43" column="11" selection-start="1214" selection-end="1214" vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="918">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#942#1212#0" expanded="true" />
+                <element signature="e#1201#1202#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -178,12 +224,22 @@
       <setting name="OPEN_NEW_TAB" value="false" />
     </FindUsagesManager>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitLogSettings">
+    <option name="myDateState">
+      <MyDateState />
+    </option>
+  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/ShowActivity.java" />
+        <option value="$PROJECT_DIR$/Jupiter-Broadcasting-Holo.iml" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/res/layout/episodelist_fragment.xml" />
+        <option value="$PROJECT_DIR$/res/layout/shownotes_fragment.xml" />
+        <option value="$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/ShowNotesView.java" />
         <option value="$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/EpisodeListFragment.java" />
         <option value="$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/Home.java" />
       </list>
@@ -221,33 +277,31 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Jupiter-Broadcasting-Android-App" />
+              <option name="myItemId" value="Jupiter-Broadcasting-Holo" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Jupiter-Broadcasting-Android-App" />
+              <option name="myItemId" value="Jupiter-Broadcasting-Holo" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Jupiter-Broadcasting-Android-App" />
+              <option name="myItemId" value="Jupiter-Broadcasting-Holo" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Jupiter-Broadcasting-Android-App" />
+              <option name="myItemId" value="Jupiter-Broadcasting-Holo" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Jupiter-Broadcasting-Android-App" />
+              <option name="myItemId" value="Jupiter-Broadcasting-Holo" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -261,11 +315,11 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Jupiter-Broadcasting-Android-App" />
+              <option name="myItemId" value="Jupiter-Broadcasting-Holo" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Jupiter-Broadcasting-Android-App" />
+              <option name="myItemId" value="Jupiter-Broadcasting-Holo" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -275,11 +329,11 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Jupiter-Broadcasting-Android-App" />
+              <option name="myItemId" value="Jupiter-Broadcasting-Holo" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Jupiter-Broadcasting-Android-App" />
+              <option name="myItemId" value="Jupiter-Broadcasting-Holo" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -287,45 +341,30 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="values" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Jupiter-Broadcasting-Android-App" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Jupiter-Broadcasting-Android-App" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="libs" />
+              <option name="myItemId" value="layout" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="project.structure.last.edited" value="Modules" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="project.structure.proportion" value="0.0" />
-    <property name="OverrideImplement.combined" value="true" />
-    <property name="MemberChooser.sorted" value="false" />
-    <property name="recentsLimit" value="5" />
-    <property name="project.structure.side.proportion" value="0.0" />
-    <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
-    <property name="OverrideImplement.overriding.sorted" value="false" />
+    <property name="recentsLimit" value="5" />
+    <property name="MemberChooser.sorted" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="FullScreen" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="GoToClass.includeLibraries" value="false" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
   </component>
-  <component name="RunManager" selected="Android Application.Jupiter-Broadcasting-Android-App">
+  <component name="RunManager" selected="Android Application.Jupiter-Broadcasting-Holo">
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
       <module name="" />
       <option name="TESTING_TYPE" value="0" />
@@ -415,8 +454,8 @@
       <option name="CLEAR_LOGCAT" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="Jupiter-Broadcasting-Android-App" type="AndroidRunConfigurationType" factoryName="Android Application">
-      <module name="Jupiter-Broadcasting-Android-App" />
+    <configuration default="false" name="Jupiter-Broadcasting-Holo" type="AndroidRunConfigurationType" factoryName="Android Application">
+      <module name="Jupiter-Broadcasting-Holo" />
       <option name="ACTIVITY_CLASS" value="" />
       <option name="MODE" value="default_activity" />
       <option name="DEPLOY" value="true" />
@@ -434,7 +473,7 @@
       <method />
     </configuration>
     <list size="1">
-      <item index="0" class="java.lang.String" itemvalue="Android Application.Jupiter-Broadcasting-Android-App" />
+      <item index="0" class="java.lang.String" itemvalue="Android Application.Jupiter-Broadcasting-Holo" />
     </list>
     <configuration name="&lt;template&gt;" type="TestNG" default="true" selected="false">
       <option name="MAIN_CLASS_NAME" />
@@ -458,39 +497,40 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="d219486e-a75f-4580-b982-1ae0e58a363f" name="Default" comment="" />
-      <created>1373283517875</created>
-      <updated>1373283517875</updated>
+      <changelist id="2122cc7f-c518-4f06-a572-e718ca3a9adb" name="Default" comment="" />
+      <created>1373305407218</created>
+      <updated>1373305407218</updated>
     </task>
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-4" width="1928" height="1060" extended-state="6" />
-    <editor active="false" />
+    <frame x="-4" y="-4" width="1928" height="1060" extended-state="7" />
+    <editor active="true" />
     <layout>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23741794" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32932165" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2497332" sideWeight="0.6706783" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32932165" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.10832444" sideWeight="0.78930134" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24835886" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.42231947" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.42231947" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2497332" sideWeight="0.5776805" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32822758" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32854864" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -554,85 +594,139 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="0" selection-start="506" selection-end="506" vertical-scroll-proportion="-7.8461537" vertical-offset="0" max-vertical-offset="646">
-          <folding>
-            <element signature="e#592#610#0" expanded="true" />
-            <element signature="e#819#837#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-17/android.jar!/android/net/ConnectivityManager.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="4" selection-start="1605" selection-end="1605" vertical-scroll-proportion="0.0" vertical-offset="400" max-vertical-offset="1156">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-17/android.jar!/android/content/Context.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="22" selection-start="167" selection-end="167" vertical-scroll-proportion="0.14808363" vertical-offset="0" max-vertical-offset="4913">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="67" selection-start="967" selection-end="967" vertical-scroll-proportion="-13.076923" vertical-offset="0" max-vertical-offset="476">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="472">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/ShowActivity.java">
+    <entry file="file://$PROJECT_DIR$/res/layout/startscreen.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="79" selection-start="3200" selection-end="3200" vertical-scroll-proportion="0.0" vertical-offset="722" max-vertical-offset="3247">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1020">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/libs/actionbarsherlock/libs/android-support-v4.jar!/android/support/v4/app/Fragment.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="140" column="21" selection-start="5338" selection-end="5338" vertical-scroll-proportion="0.34562212" vertical-offset="1935" max-vertical-offset="4035" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/actionbarsherlock/src/com/actionbarsherlock/app/SherlockFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="45" selection-start="937" selection-end="937" vertical-scroll-proportion="0.39215687" vertical-offset="0" max-vertical-offset="960" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/drawable/wallpaper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="396">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/drawable/jb_icon.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="43" selection-start="567" selection-end="567" vertical-scroll-proportion="0.0" vertical-offset="78" max-vertical-offset="570">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gen/jupiter/broadcasting/live/tv/R.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="19" selection-start="179" selection-end="179" vertical-scroll-proportion="0.21306819" vertical-offset="0" max-vertical-offset="352">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/main.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="24" selection-start="353" selection-end="353" vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="476">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/episodelist_fragment.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="0" selection-start="575" selection-end="575" vertical-scroll-proportion="-4.6666665" vertical-offset="0" max-vertical-offset="425">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/drawer_list_item.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/shownotes_fragment.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="15" selection-start="607" selection-end="607" vertical-scroll-proportion="-4.6666665" vertical-offset="0" max-vertical-offset="340">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/ShowNotesView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="11" selection-start="1214" selection-end="1214" vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="918">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1675#1703#0" expanded="true" />
-            <element signature="e#2475#2503#0" expanded="true" />
+            <element signature="e#942#1212#0" expanded="true" />
+            <element signature="e#1201#1202#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/EpisodeListFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="160" column="31" selection-start="6265" selection-end="6498" vertical-scroll-proportion="0.0" vertical-offset="2151" max-vertical-offset="3247">
+        <state line="123" column="0" selection-start="4558" selection-end="4558" vertical-scroll-proportion="0.0" vertical-offset="2040" max-vertical-offset="2992">
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2810#2818#0" expanded="true" />
-            <element signature="e#3096#3530#0" expanded="true" />
-            <element signature="e#3515#3516#0" expanded="true" />
-            <element signature="e#5720#6233#0" expanded="true" />
-            <element signature="e#6202#6203#0" expanded="true" />
+            <element signature="e#5915#6425#0" expanded="true" />
+            <element signature="e#6394#6395#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/Home.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="123" column="37" selection-start="5957" selection-end="5957" vertical-scroll-proportion="1.0494038" vertical-offset="1475" max-vertical-offset="3315">
+        <state line="126" column="29" selection-start="6072" selection-end="6072" vertical-scroll-proportion="0.0" vertical-offset="1248" max-vertical-offset="2839">
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1504#1738#0" expanded="true" />
-            <element signature="e#1727#1728#0" expanded="true" />
-            <element signature="e#1850#2098#0" expanded="true" />
-            <element signature="e#2087#2088#0" expanded="true" />
-            <element signature="e#2204#2429#0" expanded="true" />
-            <element signature="e#2418#2419#0" expanded="true" />
-            <element signature="e#2541#6334#0" expanded="true" />
-            <element signature="e#2772#4328#0" expanded="true" />
             <element signature="e#4234#4248#0" expanded="true" />
-            <element signature="e#4305#4306#0" expanded="true" />
-            <element signature="e#4394#6121#0" expanded="true" />
+            <element signature="e#4394#6387#0" expanded="true" />
             <element signature="e#5213#5718#0" expanded="true" />
             <element signature="e#5683#5684#0" expanded="true" />
-            <element signature="e#6097#6098#0" expanded="true" />
-            <element signature="e#6264#6277#0" expanded="true" />
-            <element signature="e#6318#6319#0" expanded="true" />
-            <element signature="e#7649#7687#0" expanded="true" />
+            <element signature="e#6364#6365#0" expanded="true" />
+            <element signature="e#6530#6543#0" expanded="true" />
+            <element signature="e#7918#7956#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/ShowActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="0" selection-start="860" selection-end="860" vertical-scroll-proportion="0.43824703" vertical-offset="1" max-vertical-offset="2992">
+          <folding />
         </state>
       </provider>
     </entry>
@@ -689,7 +783,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>Jupiter-Broadcasting-Android-App</last-edited>
+          <last-edited>Jupiter-Broadcasting-Holo</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

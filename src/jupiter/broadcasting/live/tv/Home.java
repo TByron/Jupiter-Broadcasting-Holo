@@ -114,7 +114,7 @@ public class Home extends Activity {
                                 alertbox.setMessage(R.string.areyousure);
                                 alertbox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface arg0, int arg1) {
-                                        // do something when the OK button is clicked
+                                        // // start videostreaming if the user agrees
                                         Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("rtsp://videocdn-us.geocdn.scaleengine.net/jblive/jblive.stream"));
                                         startActivity(i);
                                     }
@@ -125,8 +125,11 @@ public class Home extends Activity {
                                 });
                                 alertbox.show();
                             }
+                            else {
+                                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("rtsp://videocdn-us.geocdn.scaleengine.net/jblive/jblive.stream"));
+                                startActivity(i);
+                            }
                         }
-
                     });
                         alertbox.show();
                     }else{
@@ -159,7 +162,7 @@ public class Home extends Activity {
                 //mp.release();
 
                 mNotificationManager.cancel(NOTIFICATION_ID);
-                Notification notification = new Notification(R.drawable.icon, "Jupiter Broadcasting", System.currentTimeMillis());
+                Notification notification = new Notification(R.drawable.jb_icon, "Jupiter Broadcasting", System.currentTimeMillis());
 
                 Intent notificationIntent = new Intent(this, Home.class);
                 notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);

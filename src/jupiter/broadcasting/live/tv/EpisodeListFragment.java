@@ -19,6 +19,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,6 @@ public class EpisodeListFragment extends SherlockFragment {
 
     List<String> episodes;
     String afeed, vfeed;
-    boolean wifi;
     Hashtable<String, String[]> arssLinkTable;
     Hashtable<String, String[]> vrssLinkTable;
     ListView asyncResultView;
@@ -116,6 +116,9 @@ public class EpisodeListFragment extends SherlockFragment {
                 menu.add(1, 3, 0, R.string.web)
                         .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
+                /*menu.add(1, 4, 0, R.string.notes)
+                        .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);*/
+
                 return true;
             }
 
@@ -148,7 +151,7 @@ public class EpisodeListFragment extends SherlockFragment {
                             myAlertDialog.setMessage(R.string.areyousure);
                             myAlertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface arg0, int arg1) {
-                                    // do something when the OK button is clicked
+                                    // start videostreaming if the user agrees
                                     Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(vurls[1]));
                                     i.setDataAndType(Uri.parse(vurls[1]), "video/mp4");
                                     startActivity(i);
@@ -170,6 +173,16 @@ public class EpisodeListFragment extends SherlockFragment {
                     case 3: // web
                         Intent k = new Intent(Intent.ACTION_VIEW, Uri.parse(aurls[0]));
                         startActivity(k);
+                        break;
+                    case 4:
+                        SherlockFragment fragment = new ShowNotesView();
+                        Bundle args = new Bundle();
+                        String link = aurls[0];
+                        args.putString("Notes",link);
+                        fragment.setArguments(args);
+
+                        FragmentManager fragmentManager = getSherlockActivity().getSupportFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.episodelist, fragment).commit();
                         break;
                 }
                 mode.finish();
