@@ -113,11 +113,11 @@ public class EpisodeListFragment extends SherlockFragment {
                 menu.add(1, 2, 0, R.string.video)
                         .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
-                menu.add(1, 3, 0, R.string.web)
-                        .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-
-                /*menu.add(1, 4, 0, R.string.notes)
+                /*ßmenu.add(1, 3, 0, R.string.web)
                         .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);*/
+
+                menu.add(1, 4, 0, R.string.notes)
+                        .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
                 return true;
             }
@@ -174,7 +174,7 @@ public class EpisodeListFragment extends SherlockFragment {
                         Intent k = new Intent(Intent.ACTION_VIEW, Uri.parse(aurls[0]));
                         startActivity(k);
                         break;
-                    case 4:
+                    case 4: //shownotes
                         SherlockFragment fragment = new ShowNotesView();
                         Bundle args = new Bundle();
                         String link = aurls[0];
