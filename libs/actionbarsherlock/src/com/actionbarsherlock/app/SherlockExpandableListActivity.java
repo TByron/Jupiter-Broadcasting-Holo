@@ -7,6 +7,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
+
 import com.actionbarsherlock.ActionBarSherlock;
 import com.actionbarsherlock.ActionBarSherlock.OnActionModeFinishedListener;
 import com.actionbarsherlock.ActionBarSherlock.OnActionModeStartedListener;
@@ -42,10 +43,12 @@ public abstract class SherlockExpandableListActivity extends ExpandableListActiv
     }
 
     @Override
-    public void onActionModeStarted(ActionMode mode) {}
+    public void onActionModeStarted(ActionMode mode) {
+    }
 
     @Override
-    public void onActionModeFinished(ActionMode mode) {}
+    public void onActionModeFinished(ActionMode mode) {
+    }
 
 
     ///////////////////////////////////////////////////////////////////////////
@@ -229,7 +232,7 @@ public abstract class SherlockExpandableListActivity extends ExpandableListActiv
     }
 
     public void requestWindowFeature(long featureId) {
-        getSherlock().requestFeature((int)featureId);
+        getSherlock().requestFeature((int) featureId);
     }
 
     @Override

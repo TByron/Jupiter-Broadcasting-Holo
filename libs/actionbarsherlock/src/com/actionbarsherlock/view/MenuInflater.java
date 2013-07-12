@@ -17,11 +17,6 @@
 
 package com.actionbarsherlock.view;
 
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
@@ -35,9 +30,16 @@ import android.view.View;
 import com.actionbarsherlock.R;
 import com.actionbarsherlock.internal.view.menu.MenuItemImpl;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+
 /**
  * This class is used to instantiate menu XML files into Menu objects.
- * <p>
+ * <p/>
  * For performance reasons, menu inflation relies heavily on pre-processing of
  * XML files that is done at build time. Therefore, it is not currently possible
  * to use MenuInflater with an XmlPullParser over a plain XML file at runtime;
@@ -47,18 +49,24 @@ import com.actionbarsherlock.internal.view.menu.MenuItemImpl;
 public class MenuInflater {
     private static final String LOG_TAG = "MenuInflater";
 
-    /** Menu tag name in XML. */
+    /**
+     * Menu tag name in XML.
+     */
     private static final String XML_MENU = "menu";
 
-    /** Group tag name in XML. */
+    /**
+     * Group tag name in XML.
+     */
     private static final String XML_GROUP = "group";
 
-    /** Item tag name in XML. */
+    /**
+     * Item tag name in XML.
+     */
     private static final String XML_ITEM = "item";
 
     private static final int NO_ID = 0;
 
-    private static final Class<?>[] ACTION_VIEW_CONSTRUCTOR_SIGNATURE = new Class[] {Context.class};
+    private static final Class<?>[] ACTION_VIEW_CONSTRUCTOR_SIGNATURE = new Class[]{Context.class};
 
     private static final Class<?>[] ACTION_PROVIDER_CONSTRUCTOR_SIGNATURE = ACTION_VIEW_CONSTRUCTOR_SIGNATURE;
 
@@ -77,20 +85,20 @@ public class MenuInflater {
     public MenuInflater(Context context) {
         mContext = context;
         mRealOwner = context;
-        mActionViewConstructorArguments = new Object[] {context};
+        mActionViewConstructorArguments = new Object[]{context};
         mActionProviderConstructorArguments = mActionViewConstructorArguments;
     }
 
     /**
      * Constructs a menu inflater.
      *
-     * @see Activity#getMenuInflater()
      * @hide
+     * @see Activity#getMenuInflater()
      */
     public MenuInflater(Context context, Object realOwner) {
         mContext = context;
         mRealOwner = realOwner;
-        mActionViewConstructorArguments = new Object[] {context};
+        mActionViewConstructorArguments = new Object[]{context};
         mActionProviderConstructorArguments = mActionViewConstructorArguments;
     }
 
@@ -99,9 +107,9 @@ public class MenuInflater {
      * {@link InflateException} if there is an error.
      *
      * @param menuRes Resource ID for an XML layout resource to load (e.g.,
-     *            <code>R.menu.main_activity</code>)
-     * @param menu The Menu to inflate into. The items and submenus will be
-     *            added to this Menu.
+     *                <code>R.menu.main_activity</code>)
+     * @param menu    The Menu to inflate into. The items and submenus will be
+     *                added to this Menu.
      */
     public void inflate(int menuRes, Menu menu) {
         XmlResourceParser parser = null;
@@ -205,7 +213,7 @@ public class MenuInflater {
 
     private static class InflatedOnMenuItemClickListener
             implements MenuItem.OnMenuItemClickListener {
-        private static final Class<?>[] PARAM_TYPES = new Class[] { MenuItem.class };
+        private static final Class<?>[] PARAM_TYPES = new Class[]{MenuItem.class};
 
         private Object mRealOwner;
         private Method mMethod;
@@ -218,7 +226,7 @@ public class MenuInflater {
             } catch (Exception e) {
                 InflateException ex = new InflateException(
                         "Couldn't resolve menu item onClick handler " + methodName +
-                        " in class " + c.getName());
+                                " in class " + c.getName());
                 ex.initCause(e);
                 throw ex;
             }
@@ -240,7 +248,7 @@ public class MenuInflater {
 
     /**
      * State for the current menu.
-     * <p>
+     * <p/>
      * Groups can not be nested unless there is another menu (which will have
      * its state class).
      */
@@ -387,8 +395,8 @@ public class MenuInflater {
             final boolean hasActionProvider = itemActionProviderClassName != null;
             if (hasActionProvider && itemActionViewLayout == 0 && itemActionViewClassName == null) {
                 itemActionProvider = newInstance(itemActionProviderClassName,
-                            ACTION_PROVIDER_CONSTRUCTOR_SIGNATURE,
-                            mActionProviderConstructorArguments);
+                        ACTION_PROVIDER_CONSTRUCTOR_SIGNATURE,
+                        mActionProviderConstructorArguments);
             } else {
                 if (hasActionProvider) {
                     Log.w(LOG_TAG, "Ignoring attribute 'actionProviderClass'."
@@ -412,13 +420,13 @@ public class MenuInflater {
 
         private void setItem(MenuItem item) {
             item.setChecked(itemChecked)
-                .setVisible(itemVisible)
-                .setEnabled(itemEnabled)
-                .setCheckable(itemCheckable >= 1)
-                .setTitleCondensed(itemTitleCondensed)
-                .setIcon(itemIconResId)
-                .setAlphabeticShortcut(itemAlphabeticShortcut)
-                .setNumericShortcut(itemNumericShortcut);
+                    .setVisible(itemVisible)
+                    .setEnabled(itemEnabled)
+                    .setCheckable(itemCheckable >= 1)
+                    .setTitleCondensed(itemTitleCondensed)
+                    .setIcon(itemIconResId)
+                    .setAlphabeticShortcut(itemAlphabeticShortcut)
+                    .setNumericShortcut(itemNumericShortcut);
 
             if (itemShowAsAction >= 0) {
                 item.setShowAsAction(itemShowAsAction);
@@ -481,7 +489,7 @@ public class MenuInflater {
 
         @SuppressWarnings("unchecked")
         private <T> T newInstance(String className, Class<?>[] constructorSignature,
-                Object[] arguments) {
+                                  Object[] arguments) {
             try {
                 Class<?> clazz = mContext.getClassLoader().loadClass(className);
                 Constructor<?> constructor = clazz.getConstructor(constructorSignature);

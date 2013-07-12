@@ -2,6 +2,7 @@ package com.actionbarsherlock.app;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
+
 import com.actionbarsherlock.internal.view.menu.MenuItemWrapper;
 import com.actionbarsherlock.internal.view.menu.MenuWrapper;
 import com.actionbarsherlock.view.Menu;
@@ -24,7 +25,7 @@ public class SherlockFragment extends Fragment implements OnCreateOptionsMenuLis
         if (!(activity instanceof SherlockFragmentActivity)) {
             throw new IllegalStateException(getClass().getSimpleName() + " must be attached to a SherlockFragmentActivity.");
         }
-        mActivity = (SherlockFragmentActivity)activity;
+        mActivity = (SherlockFragmentActivity) activity;
 
         super.onAttach(activity);
     }

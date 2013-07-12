@@ -124,70 +124,69 @@ public class Home extends Activity {
                                     }
                                 });
                                 alertbox.show();
-                            }
-                            else {
+                            } else {
                                 Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("rtsp://videocdn-us.geocdn.scaleengine.net/jblive/jblive.stream"));
                                 startActivity(i);
                             }
                         }
                     });
-                        alertbox.show();
-                    }else{
-                        mp.stop();
-                        play.setText(R.string.play);
-                    }
+                    alertbox.show();
+                } else {
+                    mp.stop();
+                    play.setText(R.string.play);
                 }
-
             }
 
-            );
         }
 
-        @Override
-        protected void onResume () {
-            super.onResume();
-            String ns = Context.NOTIFICATION_SERVICE;
-            NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
-            mNotificationManager.cancel(NOTIFICATION_ID);//For good measure because app pauses before it quits aswell as on pause
+        );
+    }
 
-        }
-
-        @Override
-        protected void onPause () {
-            super.onPause();
-            String ns = Context.NOTIFICATION_SERVICE;
-            NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
-            if (mp.isPlaying()) {
-                //mp.stop();
-                //mp.release();
-
-                mNotificationManager.cancel(NOTIFICATION_ID);
-                Notification notification = new Notification(R.drawable.jb_icon, "Jupiter Broadcasting", System.currentTimeMillis());
-
-                Intent notificationIntent = new Intent(this, Home.class);
-                notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-                PendingIntent intent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-                notification.setLatestEventInfo(getApplicationContext(), "Jupiter Broadcasting", getString(R.string.plaiyinglivestream), intent);
-
-                notification.flags = Notification.FLAG_ONGOING_EVENT;
-                mNotificationManager.notify(NOTIFICATION_ID, notification);
-            } else {
-                mNotificationManager.cancel(NOTIFICATION_ID);
-            }
-        }
-
-        @Override
-        protected void onDestroy () {
-            super.onDestroy();
-            String ns = Context.NOTIFICATION_SERVICE;
-            NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
-            if (mp.isPlaying()) {
-                mp.stop();
-                mp.release();
-            }
-            mNotificationManager.cancel(NOTIFICATION_ID);//because onPause is called first
-
-        }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String ns = Context.NOTIFICATION_SERVICE;
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
+        mNotificationManager.cancel(NOTIFICATION_ID);//For good measure because app pauses before it quits aswell as on pause
 
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        String ns = Context.NOTIFICATION_SERVICE;
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
+        if (mp.isPlaying()) {
+            //mp.stop();
+            //mp.release();
+
+            mNotificationManager.cancel(NOTIFICATION_ID);
+            Notification notification = new Notification(R.drawable.jb_icon, "Jupiter Broadcasting", System.currentTimeMillis());
+
+            Intent notificationIntent = new Intent(this, Home.class);
+            notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+            PendingIntent intent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+            notification.setLatestEventInfo(getApplicationContext(), "Jupiter Broadcasting", getString(R.string.plaiyinglivestream), intent);
+
+            notification.flags = Notification.FLAG_ONGOING_EVENT;
+            mNotificationManager.notify(NOTIFICATION_ID, notification);
+        } else {
+            mNotificationManager.cancel(NOTIFICATION_ID);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        String ns = Context.NOTIFICATION_SERVICE;
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
+        if (mp.isPlaying()) {
+            mp.stop();
+            mp.release();
+        }
+        mNotificationManager.cancel(NOTIFICATION_ID);//because onPause is called first
+
+    }
+
+}

@@ -33,6 +33,7 @@ public class NineFrameLayout extends FrameLayout {
             return super.getAlpha();
         }
     }
+
     public void setAlpha(float alpha) {
         if (AnimatorProxy.NEEDS_PROXY) {
             mProxy.setAlpha(alpha);
@@ -40,6 +41,7 @@ public class NineFrameLayout extends FrameLayout {
             super.setAlpha(alpha);
         }
     }
+
     public float getTranslationY() {
         if (AnimatorProxy.NEEDS_PROXY) {
             return mProxy.getTranslationY();
@@ -47,6 +49,7 @@ public class NineFrameLayout extends FrameLayout {
             return super.getTranslationY();
         }
     }
+
     public void setTranslationY(float translationY) {
         if (AnimatorProxy.NEEDS_PROXY) {
             mProxy.setTranslationY(translationY);

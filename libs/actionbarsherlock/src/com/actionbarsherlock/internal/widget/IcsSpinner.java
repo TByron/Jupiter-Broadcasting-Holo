@@ -16,9 +16,6 @@
 
 package com.actionbarsherlock.internal.widget;
 
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-import com.actionbarsherlock.R;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -37,12 +34,17 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.SpinnerAdapter;
 
+import com.actionbarsherlock.R;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
 
 /**
  * A view that displays one child at a time and lets the user pick among them.
  * The items in the Spinner come from the {@link Adapter} associated with
  * this view.
- *
+ * <p/>
  * <p>See the <a href="{@docRoot}resources/tutorials/views/hello-spinner.html">Spinner
  * tutorial</a>.</p>
  *
@@ -86,13 +88,13 @@ public class IcsSpinner extends IcsAbsSpinner implements OnClickListener {
      * Construct a new spinner with the given context's theme, the supplied attribute set,
      * and default style.
      *
-     * @param context The Context the view is running in, through which it can
-     *        access the current theme, resources, etc.
-     * @param attrs The attributes of the XML tag that is inflating the view.
+     * @param context  The Context the view is running in, through which it can
+     *                 access the current theme, resources, etc.
+     * @param attrs    The attributes of the XML tag that is inflating the view.
      * @param defStyle The default style to apply to this view. If 0, no style
-     *        will be applied (beyond what is included in the theme). This may
-     *        either be an attribute resource, whose value will be retrieved
-     *        from the current theme, or an explicit style resource.
+     *                 will be applied (beyond what is included in the theme). This may
+     *                 either be an attribute resource, whose value will be retrieved
+     *                 from the current theme, or an explicit style resource.
      */
     public IcsSpinner(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -154,7 +156,6 @@ public class IcsSpinner extends IcsAbsSpinner implements OnClickListener {
      * is used. The default is determined by the current theme.
      *
      * @param gravity See {@link android.view.Gravity}
-     *
      * @attr ref android.R.styleable#Spinner_gravity
      */
     public void setGravity(int gravity) {
@@ -231,10 +232,9 @@ public class IcsSpinner extends IcsAbsSpinner implements OnClickListener {
     }
 
     /**
-     * @see android.view.View#onLayout(boolean,int,int,int,int)
-     *
-     * Creates and positions all views
-     *
+     * @see android.view.View#onLayout(boolean, int, int, int, int)
+     *      <p/>
+     *      Creates and positions all views
      */
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
@@ -248,7 +248,7 @@ public class IcsSpinner extends IcsAbsSpinner implements OnClickListener {
      * Creates and positions all views for this Spinner.
      *
      * @param delta Change in the selected position. +1 moves selection is moving to the right,
-     * so views are scrolling to the left. -1 means selection is moving to the left.
+     *              so views are scrolling to the left. -1 means selection is moving to the left.
      */
     @Override
     void layout(int delta, boolean animate) {
@@ -370,7 +370,7 @@ public class IcsSpinner extends IcsAbsSpinner implements OnClickListener {
         // Position vertically based on gravity setting
         int childTop = mSpinnerPadding.top
                 + ((getMeasuredHeight() - mSpinnerPadding.bottom -
-                        mSpinnerPadding.top - child.getMeasuredHeight()) / 2);
+                mSpinnerPadding.top - child.getMeasuredHeight()) / 2);
         int childBottom = childTop + child.getMeasuredHeight();
 
         int width = child.getMeasuredWidth();
@@ -402,6 +402,7 @@ public class IcsSpinner extends IcsAbsSpinner implements OnClickListener {
 
     /**
      * Sets the prompt to display when the dialog is shown.
+     *
      * @param prompt the prompt to set
      */
     public void setPrompt(CharSequence prompt) {
@@ -410,6 +411,7 @@ public class IcsSpinner extends IcsAbsSpinner implements OnClickListener {
 
     /**
      * Sets the prompt to display when the dialog is shown.
+     *
      * @param promptId the resource ID of the prompt to display when the dialog is shown
      */
     public void setPromptId(int promptId) {
@@ -432,9 +434,9 @@ public class IcsSpinner extends IcsAbsSpinner implements OnClickListener {
         View itemView = null;
         int itemType = 0;
         final int widthMeasureSpec =
-            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
         final int heightMeasureSpec =
-            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
 
         // Make sure the number of items we'll measure is capped. If it's a huge data set
         // with wildly varying sizes, oh well.
@@ -588,9 +590,11 @@ public class IcsSpinner extends IcsAbsSpinner implements OnClickListener {
         /**
          * Set hint text to be displayed to the user. This should provide
          * a description of the choice being made.
+         *
          * @param hintText Hint text to set.
          */
         public void setPromptText(CharSequence hintText);
+
         public CharSequence getHintText();
     }
 

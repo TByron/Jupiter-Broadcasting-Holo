@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.LinearLayout;
+
 import com.actionbarsherlock.internal.widget.IcsLinearLayout;
 
 /**
@@ -334,18 +335,18 @@ public class ActionMenuView extends IcsLinearLayout implements MenuBuilder.ItemI
     /**
      * Measure a child view to fit within cell-based formatting. The child's width
      * will be measured to a whole multiple of cellSize.
-     *
+     * <p/>
      * <p>Sets the expandable and cellsUsed fields of LayoutParams.
      *
-     * @param child Child to measure
-     * @param cellSize Size of one cell
-     * @param cellsRemaining Number of cells remaining that this view can expand to fill
+     * @param child                   Child to measure
+     * @param cellSize                Size of one cell
+     * @param cellsRemaining          Number of cells remaining that this view can expand to fill
      * @param parentHeightMeasureSpec MeasureSpec used by the parent view
-     * @param parentHeightPadding Padding present in the parent view
+     * @param parentHeightPadding     Padding present in the parent view
      * @return Number of cells this child was measured to occupy
      */
     static int measureChildForCells(View child, int cellSize, int cellsRemaining,
-            int parentHeightMeasureSpec, int parentHeightPadding) {
+                                    int parentHeightMeasureSpec, int parentHeightPadding) {
         final LayoutParams lp = (LayoutParams) child.getLayoutParams();
 
         final int childHeightSize = MeasureSpec.getSize(parentHeightMeasureSpec) -
@@ -418,7 +419,7 @@ public class ActionMenuView extends IcsLinearLayout implements MenuBuilder.ItemI
                 //UNUSED nonOverflowWidth += size;
                 widthRemaining -= size;
                 //if (hasDividerBeforeChildAt(i)) {
-                    //UNUSED nonOverflowWidth += dividerWidth;
+                //UNUSED nonOverflowWidth += dividerWidth;
                 //}
                 nonOverflowCount++;
             }
@@ -541,6 +542,7 @@ public class ActionMenuView extends IcsLinearLayout implements MenuBuilder.ItemI
 
     public interface ActionMenuChildView {
         public boolean needsDividerBefore();
+
         public boolean needsDividerAfter();
     }
 

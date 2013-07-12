@@ -1,4 +1,5 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
+
     <style name="NoCloseButton" parent="@style/Widget.Sherlock.ActionButton.CloseMode">
         <item name="android:visibility">gone</item>
     </style>

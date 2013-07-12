@@ -42,6 +42,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.actionbarsherlock.R;
 
 import java.io.FileNotFoundException;
@@ -93,13 +94,12 @@ class SuggestionsAdapter extends ResourceCursorAdapter implements OnClickListene
      * The amount of time we delay in the filter when the user presses the delete key.
      */
     //private static final long DELETE_KEY_POST_DELAY = 500L;
-
     public SuggestionsAdapter(Context context, SearchView searchView,
                               SearchableInfo searchable, WeakHashMap<String, Drawable.ConstantState> outsideDrawablesCache) {
         super(context,
-            R.layout.abs__search_dropdown_item_icons_2line,
-            null,   // no initial cursor
-            true);  // auto-requery
+                R.layout.abs__search_dropdown_item_icons_2line,
+                null,   // no initial cursor
+                true);  // auto-requery
         mSearchManager = (SearchManager) mContext.getSystemService(Context.SEARCH_SERVICE);
         mSearchable = searchable;
         mProviderContext = mContext;
@@ -138,10 +138,10 @@ class SuggestionsAdapter extends ResourceCursorAdapter implements OnClickListene
      * Enables query refinement for all suggestions. This means that an additional icon
      * will be shown for each entry. When clicked, the suggested text on that line will be
      * copied to the query text field.
-     * <p>
+     * <p/>
      *
      * @param refineWhat which queries to refine. Possible values are {@link #REFINE_NONE},
-     * {@link #REFINE_BY_ENTRY}, and {@link #REFINE_ALL}.
+     *                   {@link #REFINE_BY_ENTRY}, and {@link #REFINE_ALL}.
      */
     public void setQueryRefinement(int refineWhat) {
         mQueryRefinement = refineWhat;
@@ -149,6 +149,7 @@ class SuggestionsAdapter extends ResourceCursorAdapter implements OnClickListene
 
     /**
      * Returns the current query refinement preference.
+     *
      * @return value of query refinement preference
      */
     public int getQueryRefinement() {
@@ -230,7 +231,7 @@ class SuggestionsAdapter extends ResourceCursorAdapter implements OnClickListene
         // inject query, either as selection args or inline
         String[] selArgs = null;
         if (selection != null) {    // use selection if provided
-            selArgs = new String[] { query };
+            selArgs = new String[]{query};
         } else {                    // no selection, use REST pattern
             uriBuilder.appendPath(query);
         }
@@ -481,7 +482,7 @@ class SuggestionsAdapter extends ResourceCursorAdapter implements OnClickListene
      * Gets the text to show in the query field when a suggestion is selected.
      *
      * @param cursor The Cursor to read the suggestion data from. The Cursor should already
-     *        be moved to the suggestion that is to be read from.
+     *               be moved to the suggestion that is to be read from.
      * @return The text to show, or <code>null</code> if the query should not be
      *         changed when selecting this suggestion.
      */
@@ -524,21 +525,21 @@ class SuggestionsAdapter extends ResourceCursorAdapter implements OnClickListene
 
     /**
      * Gets a drawable given a value provided by a suggestion provider.
-     *
+     * <p/>
      * This value could be just the string value of a resource id
      * (e.g., "2130837524"), in which case we will try to retrieve a drawable from
      * the provider's resources. If the value is not an integer, it is
      * treated as a Uri and opened with
      * {@link ContentResolver#openOutputStream(android.net.Uri, String)}.
-     *
+     * <p/>
      * All resources and URIs are read using the suggestion provider's context.
-     *
+     * <p/>
      * If the string is not formatted as expected, or no drawable can be found for
      * the provided value, this method returns null.
      *
      * @param drawableId a string like "2130837524",
-     *        "android.resource://com.android.alarmclock/2130837524",
-     *        or "content://contacts/photos/253".
+     *                   "android.resource://com.android.alarmclock/2130837524",
+     *                   or "content://contacts/photos/253".
      * @return a Drawable, or null if none found
      */
     private Drawable getDrawableFromResourceValue(String drawableId) {
@@ -732,7 +733,7 @@ class SuggestionsAdapter extends ResourceCursorAdapter implements OnClickListene
     /**
      * Gets the value of a string column by name.
      *
-     * @param cursor Cursor to read the value from.
+     * @param cursor     Cursor to read the value from.
      * @param columnName The name of the column to read.
      * @return The value of the given column, or <code>null</null>
      *         if the cursor does not contain the given column.

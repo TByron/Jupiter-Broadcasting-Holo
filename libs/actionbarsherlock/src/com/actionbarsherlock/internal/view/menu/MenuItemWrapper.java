@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View;
+
 import com.actionbarsherlock.internal.view.ActionProviderWrapper;
 import com.actionbarsherlock.internal.widget.CollapsibleActionViewWrapper;
 import com.actionbarsherlock.view.ActionProvider;
@@ -243,7 +244,7 @@ public class MenuItemWrapper implements MenuItem, android.view.MenuItem.OnMenuIt
     public View getActionView() {
         View actionView = mNativeItem.getActionView();
         if (actionView instanceof CollapsibleActionViewWrapper) {
-            return ((CollapsibleActionViewWrapper)actionView).unwrap();
+            return ((CollapsibleActionViewWrapper) actionView).unwrap();
         }
         return actionView;
     }
@@ -258,7 +259,7 @@ public class MenuItemWrapper implements MenuItem, android.view.MenuItem.OnMenuIt
     public ActionProvider getActionProvider() {
         android.view.ActionProvider nativeProvider = mNativeItem.getActionProvider();
         if (nativeProvider != null && nativeProvider instanceof ActionProviderWrapper) {
-            return ((ActionProviderWrapper)nativeProvider).unwrap();
+            return ((ActionProviderWrapper) nativeProvider).unwrap();
         }
         return null;
     }

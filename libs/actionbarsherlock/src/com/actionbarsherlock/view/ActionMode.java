@@ -29,12 +29,11 @@ public abstract class ActionMode {
 
     /**
      * Set a tag object associated with this ActionMode.
-     *
+     * <p/>
      * <p>Like the tag available to views, this allows applications to associate arbitrary
      * data with an ActionMode for later reference.
      *
      * @param tag Tag to associate with this ActionMode
-     *
      * @see #getTag()
      */
     public void setTag(Object tag) {
@@ -43,12 +42,11 @@ public abstract class ActionMode {
 
     /**
      * Retrieve the tag object associated with this ActionMode.
-     *
+     * <p/>
      * <p>Like the tag available to views, this allows applications to associate arbitrary
      * data with an ActionMode for later reference.
      *
      * @return Tag associated with this ActionMode
-     *
      * @see #setTag(Object)
      */
     public Object getTag() {
@@ -60,7 +58,6 @@ public abstract class ActionMode {
      * a custom view has been set.
      *
      * @param title Title string to set
-     *
      * @see #setTitle(int)
      * @see #setCustomView(View)
      */
@@ -71,7 +68,6 @@ public abstract class ActionMode {
      * a custom view has been set.
      *
      * @param resId Resource ID of a string to set as the title
-     *
      * @see #setTitle(CharSequence)
      * @see #setCustomView(View)
      */
@@ -82,7 +78,6 @@ public abstract class ActionMode {
      * a custom view has been set.
      *
      * @param subtitle Subtitle string to set
-     *
      * @see #setSubtitle(int)
      * @see #setCustomView(View)
      */
@@ -93,7 +88,6 @@ public abstract class ActionMode {
      * a custom view has been set.
      *
      * @param resId Resource ID of a string to set as the subtitle
-     *
      * @see #setSubtitle(CharSequence)
      * @see #setCustomView(View)
      */
@@ -104,7 +98,6 @@ public abstract class ActionMode {
      * the title and subtitle. Useful for things like search boxes.
      *
      * @param view Custom view to use in place of the title/subtitle.
-     *
      * @see #setTitle(CharSequence)
      * @see #setSubtitle(CharSequence)
      */
@@ -127,24 +120,28 @@ public abstract class ActionMode {
 
     /**
      * Returns the menu of actions that this action mode presents.
+     *
      * @return The action mode's menu.
      */
     public abstract Menu getMenu();
 
     /**
      * Returns the current title of this action mode.
+     *
      * @return Title text
      */
     public abstract CharSequence getTitle();
 
     /**
      * Returns the current subtitle of this action mode.
+     *
      * @return Subtitle text
      */
     public abstract CharSequence getSubtitle();
 
     /**
      * Returns the current custom view for this action mode.
+     *
      * @return The current custom view
      */
     public abstract View getCustomView();
@@ -170,7 +167,7 @@ public abstract class ActionMode {
      * Callback interface for action modes. Supplied to
      * {@link View#startActionMode(Callback)}, a Callback
      * configures and handles events raised by a user's interaction with an action mode.
-     *
+     * <p/>
      * <p>An action mode's lifecycle is as follows:
      * <ul>
      * <li>{@link Callback#onCreateActionMode(ActionMode, Menu)} once on initial
@@ -191,7 +188,7 @@ public abstract class ActionMode {
          * @param mode ActionMode being created
          * @param menu Menu used to populate action buttons
          * @return true if the action mode should be created, false if entering this
-         *              mode should be aborted.
+         *         mode should be aborted.
          */
         public boolean onCreateActionMode(ActionMode mode, Menu menu);
 
@@ -210,7 +207,7 @@ public abstract class ActionMode {
          * @param mode The current ActionMode
          * @param item The item that was clicked
          * @return true if this callback handled the event, false if the standard MenuItem
-         *          invocation should continue.
+         *         invocation should continue.
          */
         public boolean onActionItemClicked(ActionMode mode, MenuItem item);
 

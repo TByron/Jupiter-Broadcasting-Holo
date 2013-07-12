@@ -16,9 +16,9 @@
 
 package com.actionbarsherlock.internal.nineoldandroids.animation;
 
-import java.util.ArrayList;
-
 import android.view.animation.Interpolator;
+
+import java.util.ArrayList;
 
 /**
  * This is the superclass for classes which provide basic support for animations which can be
@@ -37,13 +37,12 @@ public abstract class Animator implements Cloneable {
      * running after that delay elapses. A non-delayed animation will have its initial
      * value(s) set immediately, followed by calls to
      * {@link AnimatorListener#onAnimationStart(Animator)} for any listeners of this animator.
-     *
+     * <p/>
      * <p>The animation started by calling this method will be run on the thread that called
      * this method. This thread should have a Looper on it (a runtime exception will be thrown if
      * this is not the case). Also, if the animation will animate
      * properties of objects in the view hierarchy, then the calling thread should be the UI
      * thread for that view hierarchy.</p>
-     *
      */
     public void start() {
     }
@@ -54,7 +53,7 @@ public abstract class Animator implements Cloneable {
      * {@link android.animation.Animator.AnimatorListener#onAnimationCancel(Animator)} to
      * its listeners, followed by an
      * {@link android.animation.Animator.AnimatorListener#onAnimationEnd(Animator)} message.
-     *
+     * <p/>
      * <p>This method must be called on the thread that is running the animation.</p>
      */
     public void cancel() {
@@ -65,7 +64,7 @@ public abstract class Animator implements Cloneable {
      * animated, then calling the
      * {@link android.animation.Animator.AnimatorListener#onAnimationEnd(Animator)} method on
      * its listeners.
-     *
+     * <p/>
      * <p>This method must be called on the thread that is running the animation.</p>
      */
     public void end() {
@@ -82,7 +81,7 @@ public abstract class Animator implements Cloneable {
     /**
      * The amount of time, in milliseconds, to delay starting the animation after
      * {@link #start()} is called.
-
+     *
      * @param startDelay The amount of the delay, in milliseconds
      */
     public abstract void setStartDelay(long startDelay);
@@ -200,7 +199,7 @@ public abstract class Animator implements Cloneable {
             }
             return anim;
         } catch (CloneNotSupportedException e) {
-           throw new AssertionError();
+            throw new AssertionError();
         }
     }
 

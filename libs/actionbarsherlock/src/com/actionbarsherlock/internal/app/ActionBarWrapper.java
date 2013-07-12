@@ -1,8 +1,5 @@
 package com.actionbarsherlock.internal.app;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -12,6 +9,9 @@ import android.view.View;
 import android.widget.SpinnerAdapter;
 
 import com.actionbarsherlock.app.ActionBar;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class ActionBarWrapper extends ActionBar implements android.app.ActionBar.OnNavigationListener, android.app.ActionBar.OnMenuVisibilityListener {
     private final Activity mActivity;
@@ -332,7 +332,7 @@ public class ActionBarWrapper extends ActionBar implements android.app.ActionBar
             if (mListener != null) {
                 FragmentTransaction trans = null;
                 if (mActivity instanceof FragmentActivity) {
-                    trans = ((FragmentActivity)mActivity).getSupportFragmentManager().beginTransaction()
+                    trans = ((FragmentActivity) mActivity).getSupportFragmentManager().beginTransaction()
                             .disallowAddToBackStack();
                 }
 
@@ -349,7 +349,7 @@ public class ActionBarWrapper extends ActionBar implements android.app.ActionBar
             if (mListener != null) {
 
                 if (mFragmentTransaction == null && mActivity instanceof FragmentActivity) {
-                    mFragmentTransaction = ((FragmentActivity)mActivity).getSupportFragmentManager().beginTransaction()
+                    mFragmentTransaction = ((FragmentActivity) mActivity).getSupportFragmentManager().beginTransaction()
                             .disallowAddToBackStack();
                 }
 
@@ -369,7 +369,7 @@ public class ActionBarWrapper extends ActionBar implements android.app.ActionBar
             if (mListener != null) {
                 FragmentTransaction trans = null;
                 if (mActivity instanceof FragmentActivity) {
-                    trans = ((FragmentActivity)mActivity).getSupportFragmentManager().beginTransaction()
+                    trans = ((FragmentActivity) mActivity).getSupportFragmentManager().beginTransaction()
                             .disallowAddToBackStack();
                     mFragmentTransaction = trans;
                 }
@@ -386,27 +386,27 @@ public class ActionBarWrapper extends ActionBar implements android.app.ActionBar
 
     @Override
     public void addTab(Tab tab) {
-        mActionBar.addTab(((TabWrapper)tab).mNativeTab);
+        mActionBar.addTab(((TabWrapper) tab).mNativeTab);
     }
 
     @Override
     public void addTab(Tab tab, boolean setSelected) {
-        mActionBar.addTab(((TabWrapper)tab).mNativeTab, setSelected);
+        mActionBar.addTab(((TabWrapper) tab).mNativeTab, setSelected);
     }
 
     @Override
     public void addTab(Tab tab, int position) {
-        mActionBar.addTab(((TabWrapper)tab).mNativeTab, position);
+        mActionBar.addTab(((TabWrapper) tab).mNativeTab, position);
     }
 
     @Override
     public void addTab(Tab tab, int position, boolean setSelected) {
-        mActionBar.addTab(((TabWrapper)tab).mNativeTab, position, setSelected);
+        mActionBar.addTab(((TabWrapper) tab).mNativeTab, position, setSelected);
     }
 
     @Override
     public void removeTab(Tab tab) {
-        mActionBar.removeTab(((TabWrapper)tab).mNativeTab);
+        mActionBar.removeTab(((TabWrapper) tab).mNativeTab);
     }
 
     @Override
@@ -421,19 +421,19 @@ public class ActionBarWrapper extends ActionBar implements android.app.ActionBar
 
     @Override
     public void selectTab(Tab tab) {
-        mActionBar.selectTab(((TabWrapper)tab).mNativeTab);
+        mActionBar.selectTab(((TabWrapper) tab).mNativeTab);
     }
 
     @Override
     public Tab getSelectedTab() {
         android.app.ActionBar.Tab selected = mActionBar.getSelectedTab();
-        return (selected != null) ? (Tab)selected.getTag() : null;
+        return (selected != null) ? (Tab) selected.getTag() : null;
     }
 
     @Override
     public Tab getTabAt(int index) {
         android.app.ActionBar.Tab selected = mActionBar.getTabAt(index);
-        return (selected != null) ? (Tab)selected.getTag() : null;
+        return (selected != null) ? (Tab) selected.getTag() : null;
     }
 
     @Override

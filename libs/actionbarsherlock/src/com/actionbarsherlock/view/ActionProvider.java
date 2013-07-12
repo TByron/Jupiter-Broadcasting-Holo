@@ -88,15 +88,15 @@ public abstract class ActionProvider {
      * <ul>
      * <li>
      * Receiving a call to {@link MenuItem.OnMenuItemClickListener#onMenuItemClick
-     *  MenuItem.OnMenuItemClickListener.onMenuItemClick}.
+     * MenuItem.OnMenuItemClickListener.onMenuItemClick}.
      * </li>
      * <li>
      * Receiving a call to {@link android.app.Activity#onOptionsItemSelected(MenuItem)
-     *  Activity.onOptionsItemSelected(MenuItem)}
+     * Activity.onOptionsItemSelected(MenuItem)}
      * </li>
      * <li>
      * Receiving a call to {@link android.app.Fragment#onOptionsItemSelected(MenuItem)
-     *  Fragment.onOptionsItemSelected(MenuItem)}
+     * Fragment.onOptionsItemSelected(MenuItem)}
      * </li>
      * <li>
      * Launching the {@link android.content.Intent} set via
@@ -117,7 +117,7 @@ public abstract class ActionProvider {
 
     /**
      * Determines if this ActionProvider has a submenu associated with it.
-     *
+     * <p/>
      * <p>Associated submenus will be shown when an action view is not. This
      * provider instance will receive a call to {@link #onPrepareSubMenu(SubMenu)}
      * after the call to {@link #onPerformDefaultAction()} and before a submenu is
@@ -131,7 +131,7 @@ public abstract class ActionProvider {
 
     /**
      * Called to prepare an associated submenu for the menu item backed by this ActionProvider.
-     *
+     * <p/>
      * <p>if {@link #hasSubMenu()} returns true, this method will be called when the
      * menu item is selected to prepare the submenu for presentation to the user. Apps
      * may use this to create or alter submenu content right before display.

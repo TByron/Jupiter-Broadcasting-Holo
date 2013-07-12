@@ -12,8 +12,8 @@ public class CapitalizingTextView extends TextView {
     private static final boolean SANS_ICE_CREAM = Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH;
     private static final boolean IS_GINGERBREAD = Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD;
 
-    private static final int[] R_styleable_TextView = new int[] {
-        android.R.attr.textAllCaps
+    private static final int[] R_styleable_TextView = new int[]{
+            android.R.attr.textAllCaps
     };
     private static final int R_styleable_TextView_textAllCaps = 0;
 

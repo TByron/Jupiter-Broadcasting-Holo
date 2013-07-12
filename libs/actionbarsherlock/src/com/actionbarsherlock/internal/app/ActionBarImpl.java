@@ -16,8 +16,6 @@
 
 package com.actionbarsherlock.internal.app;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -35,13 +33,14 @@ import android.view.View;
 import android.view.Window;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.SpinnerAdapter;
+
 import com.actionbarsherlock.R;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.internal.nineoldandroids.animation.Animator;
+import com.actionbarsherlock.internal.nineoldandroids.animation.Animator.AnimatorListener;
 import com.actionbarsherlock.internal.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.actionbarsherlock.internal.nineoldandroids.animation.AnimatorSet;
 import com.actionbarsherlock.internal.nineoldandroids.animation.ObjectAnimator;
-import com.actionbarsherlock.internal.nineoldandroids.animation.Animator.AnimatorListener;
 import com.actionbarsherlock.internal.nineoldandroids.widget.NineFrameLayout;
 import com.actionbarsherlock.internal.view.menu.MenuBuilder;
 import com.actionbarsherlock.internal.view.menu.MenuPopupHelper;
@@ -54,6 +53,10 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+
 import static com.actionbarsherlock.internal.ResourcesCompat.getResources_getBoolean;
 
 /**
@@ -140,7 +143,7 @@ public class ActionBarImpl extends ActionBar {
 
         //window.hasFeature() workaround for pre-3.0
         if ((features & (1 << Window.FEATURE_ACTION_BAR_OVERLAY)) == 0) {
-            mContentView = (NineFrameLayout)decor.findViewById(android.R.id.content);
+            mContentView = (NineFrameLayout) decor.findViewById(android.R.id.content);
         }
     }
 
@@ -318,15 +321,15 @@ public class ActionBarImpl extends ActionBar {
 
     public void setSelectedNavigationItem(int position) {
         switch (mActionView.getNavigationMode()) {
-        case NAVIGATION_MODE_TABS:
-            selectTab(mTabs.get(position));
-            break;
-        case NAVIGATION_MODE_LIST:
-            mActionView.setDropdownSelectedPosition(position);
-            break;
-        default:
-            throw new IllegalStateException(
-                    "setSelectedNavigationIndex not valid for current navigation mode");
+            case NAVIGATION_MODE_TABS:
+                selectTab(mTabs.get(position));
+                break;
+            case NAVIGATION_MODE_LIST:
+                mActionView.setDropdownSelectedPosition(position);
+                break;
+            default:
+                throw new IllegalStateException(
+                        "setSelectedNavigationIndex not valid for current navigation mode");
         }
     }
 
@@ -512,7 +515,7 @@ public class ActionBarImpl extends ActionBar {
 
         FragmentTransaction trans = null;
         if (mActivity instanceof FragmentActivity) {
-            trans = ((FragmentActivity)mActivity).getSupportFragmentManager().beginTransaction()
+            trans = ((FragmentActivity) mActivity).getSupportFragmentManager().beginTransaction()
                     .disallowAddToBackStack();
         }
 

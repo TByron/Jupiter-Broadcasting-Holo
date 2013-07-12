@@ -1,7 +1,5 @@
 package com.actionbarsherlock.internal.nineoldandroids.view.animation;
 
-import java.lang.ref.WeakReference;
-import java.util.WeakHashMap;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.os.Build;
@@ -9,6 +7,9 @@ import android.util.FloatMath;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+
+import java.lang.ref.WeakReference;
+import java.util.WeakHashMap;
 
 public final class AnimatorProxy extends Animation {
     public static final boolean NEEDS_PROXY = Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB;
@@ -47,6 +48,7 @@ public final class AnimatorProxy extends Animation {
     public float getAlpha() {
         return mAlpha;
     }
+
     public void setAlpha(float alpha) {
         if (mAlpha != alpha) {
             mAlpha = alpha;
@@ -56,9 +58,11 @@ public final class AnimatorProxy extends Animation {
             }
         }
     }
+
     public float getScaleX() {
         return mScaleX;
     }
+
     public void setScaleX(float scaleX) {
         if (mScaleX != scaleX) {
             prepareForUpdate();
@@ -66,9 +70,11 @@ public final class AnimatorProxy extends Animation {
             invalidateAfterUpdate();
         }
     }
+
     public float getScaleY() {
         return mScaleY;
     }
+
     public void setScaleY(float scaleY) {
         if (mScaleY != scaleY) {
             prepareForUpdate();
@@ -76,6 +82,7 @@ public final class AnimatorProxy extends Animation {
             invalidateAfterUpdate();
         }
     }
+
     public int getScrollX() {
         View view = mView.get();
         if (view == null) {
@@ -83,12 +90,14 @@ public final class AnimatorProxy extends Animation {
         }
         return view.getScrollX();
     }
+
     public void setScrollX(int value) {
         View view = mView.get();
         if (view != null) {
             view.scrollTo(value, view.getScrollY());
         }
     }
+
     public int getScrollY() {
         View view = mView.get();
         if (view == null) {
@@ -96,6 +105,7 @@ public final class AnimatorProxy extends Animation {
         }
         return view.getScrollY();
     }
+
     public void setScrollY(int value) {
         View view = mView.get();
         if (view != null) {
@@ -106,6 +116,7 @@ public final class AnimatorProxy extends Animation {
     public float getTranslationX() {
         return mTranslationX;
     }
+
     public void setTranslationX(float translationX) {
         if (mTranslationX != translationX) {
             prepareForUpdate();
@@ -113,9 +124,11 @@ public final class AnimatorProxy extends Animation {
             invalidateAfterUpdate();
         }
     }
+
     public float getTranslationY() {
         return mTranslationY;
     }
+
     public void setTranslationY(float translationY) {
         if (mTranslationY != translationY) {
             prepareForUpdate();
@@ -130,12 +143,13 @@ public final class AnimatorProxy extends Animation {
             computeRect(mBefore, view);
         }
     }
+
     private void invalidateAfterUpdate() {
         View view = mView.get();
         if (view == null) {
             return;
         }
-        View parent = (View)view.getParent();
+        View parent = (View) view.getParent();
         if (parent == null) {
             return;
         }

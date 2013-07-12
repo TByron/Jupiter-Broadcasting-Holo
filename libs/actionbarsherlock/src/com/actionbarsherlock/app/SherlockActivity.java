@@ -5,8 +5,9 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
+
 import com.actionbarsherlock.ActionBarSherlock;
 import com.actionbarsherlock.ActionBarSherlock.OnActionModeFinishedListener;
 import com.actionbarsherlock.ActionBarSherlock.OnActionModeStartedListener;
@@ -42,10 +43,12 @@ public abstract class SherlockActivity extends Activity implements OnCreatePanel
     }
 
     @Override
-    public void onActionModeStarted(ActionMode mode) {}
+    public void onActionModeStarted(ActionMode mode) {
+    }
 
     @Override
-    public void onActionModeFinished(ActionMode mode) {}
+    public void onActionModeFinished(ActionMode mode) {
+    }
 
 
     ///////////////////////////////////////////////////////////////////////////
@@ -240,7 +243,7 @@ public abstract class SherlockActivity extends Activity implements OnCreatePanel
     }
 
     public void requestWindowFeature(long featureId) {
-        getSherlock().requestFeature((int)featureId);
+        getSherlock().requestFeature((int) featureId);
     }
 
     @Override

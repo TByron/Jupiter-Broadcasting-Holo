@@ -203,7 +203,7 @@ public class ActionBarContextView extends AbsActionBarView implements AnimatorLi
     public void initForMode(final ActionMode mode) {
         if (mClose == null) {
             LayoutInflater inflater = LayoutInflater.from(mContext);
-            mClose = (NineLinearLayout)inflater.inflate(R.layout.abs__action_mode_close_item, this, false);
+            mClose = (NineLinearLayout) inflater.inflate(R.layout.abs__action_mode_close_item, this, false);
             addView(mClose);
         } else if (mClose.getParent() == null) {
             addView(mClose);

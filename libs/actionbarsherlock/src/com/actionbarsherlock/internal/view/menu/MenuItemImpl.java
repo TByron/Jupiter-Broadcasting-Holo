@@ -51,7 +51,9 @@ public final class MenuItemImpl implements MenuItem {
     private char mShortcutNumericChar;
     private char mShortcutAlphabeticChar;
 
-    /** The icon's drawable which is only created as needed */
+    /**
+     * The icon's drawable which is only created as needed
+     */
     private Drawable mIconDrawable;
     /**
      * The icon's resource ID which is used to get the Drawable when it is
@@ -60,21 +62,25 @@ public final class MenuItemImpl implements MenuItem {
      */
     private int mIconResId = NO_ICON;
 
-    /** The menu to which this item belongs */
+    /**
+     * The menu to which this item belongs
+     */
     private MenuBuilder mMenu;
-    /** If this item should launch a sub menu, this is the sub menu to launch */
+    /**
+     * If this item should launch a sub menu, this is the sub menu to launch
+     */
     private SubMenuBuilder mSubMenu;
 
     private Runnable mItemCallback;
     private MenuItem.OnMenuItemClickListener mClickListener;
 
     private int mFlags = ENABLED;
-    private static final int CHECKABLE      = 0x00000001;
-    private static final int CHECKED        = 0x00000002;
-    private static final int EXCLUSIVE      = 0x00000004;
-    private static final int HIDDEN         = 0x00000008;
-    private static final int ENABLED        = 0x00000010;
-    private static final int IS_ACTION      = 0x00000020;
+    private static final int CHECKABLE = 0x00000001;
+    private static final int CHECKED = 0x00000002;
+    private static final int EXCLUSIVE = 0x00000004;
+    private static final int HIDDEN = 0x00000008;
+    private static final int ENABLED = 0x00000010;
+    private static final int IS_ACTION = 0x00000020;
 
     private int mShowAsAction = SHOW_AS_ACTION_NEVER;
 
@@ -83,7 +89,9 @@ public final class MenuItemImpl implements MenuItem {
     private OnActionExpandListener mOnActionExpandListener;
     private boolean mIsActionViewExpanded = false;
 
-    /** Used for the icon resource ID if this item does not have an icon */
+    /**
+     * Used for the icon resource ID if this item does not have an icon
+     */
     static final int NO_ICON = 0;
 
     /**
@@ -102,16 +110,16 @@ public final class MenuItemImpl implements MenuItem {
      * Instantiates this menu item.
      *
      * @param menu
-     * @param group Item ordering grouping control. The item will be added after
-     *            all other items whose order is <= this number, and before any
-     *            that are larger than it. This can also be used to define
-     *            groups of items for batch state changes. Normally use 0.
-     * @param id Unique item ID. Use 0 if you do not need a unique ID.
+     * @param group         Item ordering grouping control. The item will be added after
+     *                      all other items whose order is <= this number, and before any
+     *                      that are larger than it. This can also be used to define
+     *                      groups of items for batch state changes. Normally use 0.
+     * @param id            Unique item ID. Use 0 if you do not need a unique ID.
      * @param categoryOrder The ordering for this item.
-     * @param title The text to display for the item.
+     * @param title         The text to display for the item.
      */
     MenuItemImpl(MenuBuilder menu, int group, int id, int categoryOrder, int ordering,
-            CharSequence title, int showAsAction) {
+                 CharSequence title, int showAsAction) {
 
         /* TODO if (sPrependShortcutLabel == null) {
             // This is instantiated from the UI thread, so no chance of sync issues
@@ -141,7 +149,7 @@ public final class MenuItemImpl implements MenuItem {
      */
     public boolean invoke() {
         if (mClickListener != null &&
-            mClickListener.onMenuItemClick(this)) {
+                mClickListener.onMenuItemClick(this)) {
             return true;
         }
 
@@ -479,7 +487,7 @@ public final class MenuItemImpl implements MenuItem {
         return this;
     }
 
-   public MenuItem setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener clickListener) {
+    public MenuItem setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener clickListener) {
         mClickListener = clickListener;
         return this;
     }

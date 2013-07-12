@@ -2,6 +2,7 @@ package com.actionbarsherlock.internal.nineoldandroids.widget;
 
 import android.content.Context;
 import android.widget.HorizontalScrollView;
+
 import com.actionbarsherlock.internal.nineoldandroids.view.animation.AnimatorProxy;
 
 public class NineHorizontalScrollView extends HorizontalScrollView {
@@ -31,6 +32,7 @@ public class NineHorizontalScrollView extends HorizontalScrollView {
             return super.getAlpha();
         }
     }
+
     public void setAlpha(float alpha) {
         if (AnimatorProxy.NEEDS_PROXY) {
             mProxy.setAlpha(alpha);

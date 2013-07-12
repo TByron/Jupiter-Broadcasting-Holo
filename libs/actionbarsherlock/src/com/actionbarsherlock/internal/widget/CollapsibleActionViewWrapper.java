@@ -2,6 +2,7 @@ package com.actionbarsherlock.internal.widget;
 
 import android.view.View;
 import android.widget.FrameLayout;
+
 import com.actionbarsherlock.view.CollapsibleActionView;
 
 /**
@@ -16,11 +17,13 @@ public class CollapsibleActionViewWrapper extends FrameLayout implements android
         addView(child);
     }
 
-    @Override public void onActionViewExpanded() {
+    @Override
+    public void onActionViewExpanded() {
         child.onActionViewExpanded();
     }
 
-    @Override public void onActionViewCollapsed() {
+    @Override
+    public void onActionViewCollapsed() {
         child.onActionViewCollapsed();
     }
 

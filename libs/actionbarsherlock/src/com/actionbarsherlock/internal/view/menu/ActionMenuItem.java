@@ -51,14 +51,14 @@ public class ActionMenuItem implements MenuItem {
     //UNUSED private static final int NO_ICON = 0;
 
     private int mFlags = ENABLED;
-    private static final int CHECKABLE      = 0x00000001;
-    private static final int CHECKED        = 0x00000002;
-    private static final int EXCLUSIVE      = 0x00000004;
-    private static final int HIDDEN         = 0x00000008;
-    private static final int ENABLED        = 0x00000010;
+    private static final int CHECKABLE = 0x00000001;
+    private static final int CHECKED = 0x00000002;
+    private static final int EXCLUSIVE = 0x00000004;
+    private static final int HIDDEN = 0x00000008;
+    private static final int ENABLED = 0x00000010;
 
     public ActionMenuItem(Context context, int group, int id, int categoryOrder, int ordering,
-            CharSequence title) {
+                          CharSequence title) {
         mContext = context;
         mId = id;
         mGroup = group;

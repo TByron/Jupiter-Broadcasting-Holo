@@ -16,7 +16,6 @@
 
 package com.actionbarsherlock.internal.widget;
 
-import com.actionbarsherlock.internal.ResourcesCompat;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -47,6 +46,7 @@ import android.widget.TextView;
 import com.actionbarsherlock.R;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
+import com.actionbarsherlock.internal.ResourcesCompat;
 import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
 import com.actionbarsherlock.internal.view.menu.ActionMenuPresenter;
 import com.actionbarsherlock.internal.view.menu.ActionMenuView;
@@ -78,10 +78,10 @@ public class ActionBarView extends AbsActionBarView {
      */
     private static final int DISPLAY_RELAYOUT_MASK =
             ActionBar.DISPLAY_SHOW_HOME |
-            ActionBar.DISPLAY_USE_LOGO |
-            ActionBar.DISPLAY_HOME_AS_UP |
-            ActionBar.DISPLAY_SHOW_CUSTOM |
-            ActionBar.DISPLAY_SHOW_TITLE;
+                    ActionBar.DISPLAY_USE_LOGO |
+                    ActionBar.DISPLAY_HOME_AS_UP |
+                    ActionBar.DISPLAY_SHOW_CUSTOM |
+                    ActionBar.DISPLAY_SHOW_TITLE;
 
     private static final int DEFAULT_CUSTOM_GRAVITY = Gravity.LEFT | Gravity.CENTER_VERTICAL;
 
@@ -138,15 +138,16 @@ public class ActionBarView extends AbsActionBarView {
     @SuppressWarnings("rawtypes")
     private final IcsAdapterView.OnItemSelectedListener mNavItemSelectedListener =
             new IcsAdapterView.OnItemSelectedListener() {
-        public void onItemSelected(IcsAdapterView parent, View view, int position, long id) {
-            if (mCallback != null) {
-                mCallback.onNavigationItemSelected(position, id);
-            }
-        }
-        public void onNothingSelected(IcsAdapterView parent) {
-            // Do nothing
-        }
-    };
+                public void onItemSelected(IcsAdapterView parent, View view, int position, long id) {
+                    if (mCallback != null) {
+                        mCallback.onNavigationItemSelected(position, id);
+                    }
+                }
+
+                public void onNothingSelected(IcsAdapterView parent) {
+                    // Do nothing
+                }
+            };
 
     private final OnClickListener mExpandedActionViewUpListener = new OnClickListener() {
         @Override
@@ -291,6 +292,7 @@ public class ActionBarView extends AbsActionBarView {
 
     /**
      * Set the window callback used to invoke menu items; used for dispatching home button presses.
+     *
      * @param cb Window callback to dispatch to
      */
     public void setWindowCallback(Window.Callback cb) {
@@ -404,7 +406,7 @@ public class ActionBarView extends AbsActionBarView {
         if (!mSplitActionBar) {
             mActionMenuPresenter.setExpandedActionViewsExclusive(
                     getResources_getBoolean(getContext(),
-                    R.bool.abs__action_bar_expanded_action_views_exclusive));
+                            R.bool.abs__action_bar_expanded_action_views_exclusive));
             configPresenters(builder);
             menuView = (ActionMenuView) mActionMenuPresenter.getMenuView(this);
             final ViewGroup oldParent = (ViewGroup) menuView.getParent();
@@ -480,8 +482,8 @@ public class ActionBarView extends AbsActionBarView {
 
     /**
      * Set the action bar title. This will always replace or override window titles.
-     * @param title Title to set
      *
+     * @param title Title to set
      * @see #setWindowTitle(CharSequence)
      */
     public void setTitle(CharSequence title) {
@@ -491,8 +493,8 @@ public class ActionBarView extends AbsActionBarView {
 
     /**
      * Set the window title. A window title will always be replaced or overridden by a user title.
-     * @param title Title to set
      *
+     * @param title Title to set
      * @see #setTitle(CharSequence)
      */
     public void setWindowTitle(CharSequence title) {
@@ -640,40 +642,40 @@ public class ActionBarView extends AbsActionBarView {
         final int oldMode = mNavigationMode;
         if (mode != oldMode) {
             switch (oldMode) {
-            case ActionBar.NAVIGATION_MODE_LIST:
-                if (mListNavLayout != null) {
-                    removeView(mListNavLayout);
-                }
-                break;
-            case ActionBar.NAVIGATION_MODE_TABS:
-                if (mTabScrollView != null && mIncludeTabs) {
-                    removeView(mTabScrollView);
-                }
+                case ActionBar.NAVIGATION_MODE_LIST:
+                    if (mListNavLayout != null) {
+                        removeView(mListNavLayout);
+                    }
+                    break;
+                case ActionBar.NAVIGATION_MODE_TABS:
+                    if (mTabScrollView != null && mIncludeTabs) {
+                        removeView(mTabScrollView);
+                    }
             }
 
             switch (mode) {
-            case ActionBar.NAVIGATION_MODE_LIST:
-                if (mSpinner == null) {
-                    mSpinner = new IcsSpinner(mContext, null,
-                            R.attr.actionDropDownStyle);
-                    mListNavLayout = (IcsLinearLayout) LayoutInflater.from(mContext)
-                            .inflate(R.layout.abs__action_bar_tab_bar_view, null);
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                            LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
-                    params.gravity = Gravity.CENTER;
-                    mListNavLayout.addView(mSpinner, params);
-                }
-                if (mSpinner.getAdapter() != mSpinnerAdapter) {
-                    mSpinner.setAdapter(mSpinnerAdapter);
-                }
-                mSpinner.setOnItemSelectedListener(mNavItemSelectedListener);
-                addView(mListNavLayout);
-                break;
-            case ActionBar.NAVIGATION_MODE_TABS:
-                if (mTabScrollView != null && mIncludeTabs) {
-                    addView(mTabScrollView);
-                }
-                break;
+                case ActionBar.NAVIGATION_MODE_LIST:
+                    if (mSpinner == null) {
+                        mSpinner = new IcsSpinner(mContext, null,
+                                R.attr.actionDropDownStyle);
+                        mListNavLayout = (IcsLinearLayout) LayoutInflater.from(mContext)
+                                .inflate(R.layout.abs__action_bar_tab_bar_view, null);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                                LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+                        params.gravity = Gravity.CENTER;
+                        mListNavLayout.addView(mSpinner, params);
+                    }
+                    if (mSpinner.getAdapter() != mSpinnerAdapter) {
+                        mSpinner.setAdapter(mSpinnerAdapter);
+                    }
+                    mSpinner.setOnItemSelectedListener(mNavItemSelectedListener);
+                    addView(mListNavLayout);
+                    break;
+                case ActionBar.NAVIGATION_MODE_TABS:
+                    if (mTabScrollView != null && mIncludeTabs) {
+                        addView(mTabScrollView);
+                    }
+                    break;
             }
             mNavigationMode = mode;
             requestLayout();
@@ -937,7 +939,7 @@ public class ActionBarView extends AbsActionBarView {
                     MeasureSpec.EXACTLY : MeasureSpec.AT_MOST;
             int customNavWidth = Math.max(0,
                     (lp.width >= 0 ? Math.min(lp.width, availableWidth) : availableWidth)
-                    - horizontalMargin);
+                            - horizontalMargin);
             final int hgrav = (ablp != null ? ablp.gravity : DEFAULT_CUSTOM_GRAVITY) &
                     Gravity.HORIZONTAL_GRAVITY_MASK;
 
@@ -1192,14 +1194,14 @@ public class ActionBarView extends AbsActionBarView {
 
         public static final Parcelable.Creator<SavedState> CREATOR =
                 new Parcelable.Creator<SavedState>() {
-            public SavedState createFromParcel(Parcel in) {
-                return new SavedState(in);
-            }
+                    public SavedState createFromParcel(Parcel in) {
+                        return new SavedState(in);
+                    }
 
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
+                    public SavedState[] newArray(int size) {
+                        return new SavedState[size];
+                    }
+                };
     }
 
     public static class HomeView extends FrameLayout {

@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 public class TabsLinearLayout extends IcsLinearLayout {
-    private static final int[] R_styleable_LinearLayout = new int[] {
+    private static final int[] R_styleable_LinearLayout = new int[]{
             /* 0 */ android.R.attr.measureWithLargestChild,
     };
     private static final int LinearLayout_measureWithLargestChild = 0;
@@ -30,7 +30,6 @@ public class TabsLinearLayout extends IcsLinearLayout {
      *
      * @return True to measure children with a weight using the minimum
      *         size of the largest child, false otherwise.
-     *
      * @attr ref android.R.styleable#LinearLayout_measureWithLargestChild
      */
     public boolean isMeasureWithLargestChildEnabled() {
@@ -41,12 +40,11 @@ public class TabsLinearLayout extends IcsLinearLayout {
      * When set to true, all children with a weight will be considered having
      * the minimum size of the largest child. If false, all children are
      * measured normally.
-     *
+     * <p/>
      * Disabled by default.
      *
      * @param enabled True to measure children with a weight using the
-     *        minimum size of the largest child, false otherwise.
-     *
+     *                minimum size of the largest child, false otherwise.
      * @attr ref android.R.styleable#LinearLayout_measureWithLargestChild
      */
     public void setMeasureWithLargestChildEnabled(boolean enabled) {

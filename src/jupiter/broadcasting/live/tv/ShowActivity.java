@@ -11,25 +11,22 @@ package jupiter.broadcasting.live.tv;
  */
 
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Window;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Window;
 
 import java.util.Hashtable;
 
@@ -170,7 +167,9 @@ public class ShowActivity extends SherlockFragmentActivity {
         fragment.setArguments(args);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.episodelist, fragment).commit();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        //ft.setCustomAnimations(android.R.anim.fade_in,android.R.anim.fade_out);
+        ft.replace(R.id.episodelist, fragment).commit();
 
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);

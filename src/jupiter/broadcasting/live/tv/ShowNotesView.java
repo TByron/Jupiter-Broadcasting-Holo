@@ -30,6 +30,7 @@ public class ShowNotesView extends SherlockFragment {
     WebView wv;
     String link;
     ProgressBar loadingProgressBar;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -38,7 +39,7 @@ public class ShowNotesView extends SherlockFragment {
 
         v = inflater.inflate(R.layout.shownotes_fragment, null);
         wv = (WebView) v.findViewById(R.id.notesview);
-        loadingProgressBar=(ProgressBar)v.findViewById(R.id.progressbar_Horizontal);
+        loadingProgressBar = (ProgressBar) v.findViewById(R.id.progressbar_Horizontal);
         wv.getSettings().setJavaScriptEnabled(true);
         wv.setVisibility(View.INVISIBLE);
         wv.setWebChromeClient(new WebChromeClient() {
@@ -54,7 +55,7 @@ public class ShowNotesView extends SherlockFragment {
                 // hide the progress bar if the loading is complete
                 if (newProgress == 100) {
                     loadingProgressBar.setVisibility(View.GONE);
-                } else{
+                } else {
                     loadingProgressBar.setVisibility(View.VISIBLE);
                 }
             }
@@ -62,21 +63,20 @@ public class ShowNotesView extends SherlockFragment {
         });
 
         wv.setWebViewClient(new WebViewClient() {
-
             @Override
-            public void onPageFinished(WebView view, String url){
+            public void onPageFinished(WebView view, String url) {
                 wv.loadUrl("javascript:(function() {var mon = document.getElementsByTagName('div');" +
-                "for (var i = 0; i < mon.length; i++) {"+
-                    "if (mon[i].id == 'footer'){mon[i].style.display = 'none';}"+
-                    "if (mon[i].id == 'header'){mon[i].style.display = 'none';}"+
-                    "if (mon[i].id == 'thevideo'){mon[i].style.display = 'none';}"+
-                    "if (mon[i].id == 'sidebar'){mon[i].style.display = 'none';}"+
-                    "if (mon[i].id == 'menubar'){mon[i].style.display = 'none';}"+
-                    "if (mon[i].id == 'videodets'){mon[i].style.display = 'none';}"+
-                    "if (mon[i].id == 'postcomments'){mon[i].style.display = 'none';}"+
-                "}})()");
+                        "for (var i = 0; i < mon.length; i++) {" +
+                        "if (mon[i].id == 'footer'){mon[i].style.display = 'none';}" +
+                        "if (mon[i].id == 'header'){mon[i].style.display = 'none';}" +
+                        "if (mon[i].id == 'thevideo'){mon[i].style.display = 'none';}" +
+                        "if (mon[i].id == 'sidebar'){mon[i].style.display = 'none';}" +
+                        "if (mon[i].id == 'menubar'){mon[i].style.display = 'none';}" +
+                        "if (mon[i].id == 'videodets'){mon[i].style.display = 'none';}" +
+                        "if (mon[i].id == 'postcomments'){mon[i].style.display = 'none';}" +
+                        "}})()");
                 wv.loadUrl("javascript: window.CallToAnAndroidFunction.setVisible()");
-                }
+            }
         });
         wv.addJavascriptInterface(new myJavaScriptInterface(), "CallToAnAndroidFunction");
         wv.loadUrl(link);
@@ -84,9 +84,10 @@ public class ShowNotesView extends SherlockFragment {
 
         return v;
     }
+
     public class myJavaScriptInterface {
         @JavascriptInterface
-        public void setVisible(){
+        public void setVisible() {
             getSherlockActivity().runOnUiThread(new Runnable() {
 
                 @Override

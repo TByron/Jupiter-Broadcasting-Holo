@@ -84,7 +84,7 @@ public class ShareActionProvider extends ActionProvider {
          * behavior which is launching it.
          * <p>
          * <strong>Note:</strong> Modifying the intent is not permitted and
-         *     any changes to the latter will be ignored.
+         * any changes to the latter will be ignored.
          * </p>
          *
          * @param source The source of the notification.
@@ -108,7 +108,7 @@ public class ShareActionProvider extends ActionProvider {
      * Listener for handling menu item clicks.
      */
     private final ShareMenuItemOnMenuItemClickListener mOnMenuItemClickListener =
-        new ShareMenuItemOnMenuItemClickListener();
+            new ShareMenuItemOnMenuItemClickListener();
 
     /**
      * The default name for storing share history.
@@ -145,8 +145,9 @@ public class ShareActionProvider extends ActionProvider {
      * not rely on the default behavior which is to launch the activity.
      * <p>
      * <strong>Note:</strong> If you choose the backing share history file
-     *     you will still be notified in this callback.
+     * you will still be notified in this callback.
      * </p>
+     *
      * @param listener The listener.
      */
     public void setOnShareTargetSelectedListener(OnShareTargetSelectedListener listener) {
@@ -206,8 +207,8 @@ public class ShareActionProvider extends ActionProvider {
         for (int i = 0; i < collapsedActivityCount; i++) {
             ResolveInfo activity = dataModel.getActivity(i);
             subMenu.add(0, i, i, activity.loadLabel(packageManager))
-                .setIcon(activity.loadIcon(packageManager))
-                .setOnMenuItemClickListener(mOnMenuItemClickListener);
+                    .setIcon(activity.loadIcon(packageManager))
+                    .setOnMenuItemClickListener(mOnMenuItemClickListener);
         }
 
         if (collapsedActivityCount < expandedActivityCount) {
@@ -218,8 +219,8 @@ public class ShareActionProvider extends ActionProvider {
             for (int i = 0; i < expandedActivityCount; i++) {
                 ResolveInfo activity = dataModel.getActivity(i);
                 expandedSubMenu.add(0, i, i, activity.loadLabel(packageManager))
-                    .setIcon(activity.loadIcon(packageManager))
-                    .setOnMenuItemClickListener(mOnMenuItemClickListener);
+                        .setIcon(activity.loadIcon(packageManager))
+                        .setOnMenuItemClickListener(mOnMenuItemClickListener);
             }
         }
     }
@@ -230,11 +231,11 @@ public class ShareActionProvider extends ActionProvider {
      * for all view created by {@link #onCreateActionView()}. Defaults to
      * {@link #DEFAULT_SHARE_HISTORY_FILE_NAME}. Set to <code>null</code>
      * if share history should not be persisted between sessions.
-     * <p>
+     * <p/>
      * <strong>Note:</strong> The history file name can be set any time, however
      * only the action views created by {@link #onCreateActionView()} after setting
      * the file name will be backed by the provided file.
-     * <p>
+     * <p/>
      *
      * @param shareHistoryFile The share history file name.
      */
@@ -258,13 +259,12 @@ public class ShareActionProvider extends ActionProvider {
      * </p>
      *
      * @param shareIntent The share intent.
-     *
      * @see Intent#ACTION_SEND
      * @see Intent#ACTION_SEND_MULTIPLE
      */
     public void setShareIntent(Intent shareIntent) {
         ActivityChooserModel dataModel = ActivityChooserModel.get(mContext,
-            mShareHistoryFileName);
+                mShareHistoryFileName);
         dataModel.setIntent(shareIntent);
     }
 

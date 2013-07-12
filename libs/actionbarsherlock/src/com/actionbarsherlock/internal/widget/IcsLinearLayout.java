@@ -19,7 +19,7 @@ import com.actionbarsherlock.internal.nineoldandroids.widget.NineLinearLayout;
  * {@link android.widget.FrameLayout} so it can receive the margin.
  */
 public class IcsLinearLayout extends NineLinearLayout {
-    private static final int[] R_styleable_LinearLayout = new int[] {
+    private static final int[] R_styleable_LinearLayout = new int[]{
         /* 0 */ android.R.attr.divider,
         /* 2 */ android.R.attr.showDividers,
         /* 3 */ android.R.attr.dividerPadding,
@@ -89,6 +89,7 @@ public class IcsLinearLayout extends NineLinearLayout {
 
     /**
      * Set a drawable to be used as a divider between items.
+     *
      * @param divider Drawable that will divide each item.
      * @see #setShowDividers(int)
      */
@@ -118,7 +119,6 @@ public class IcsLinearLayout extends NineLinearLayout {
      * Set padding displayed on both ends of dividers.
      *
      * @param padding Padding value in pixels that will be applied to each end
-     *
      * @see #setShowDividers(int)
      * @see #setDividerDrawable(Drawable)
      * @see #getDividerPadding()

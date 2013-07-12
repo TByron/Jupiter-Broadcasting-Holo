@@ -26,7 +26,8 @@ public class IcsColorDrawable extends Drawable {
         this.color = color;
     }
 
-    @Override public void draw(Canvas canvas) {
+    @Override
+    public void draw(Canvas canvas) {
         if ((color >>> 24) != 0) {
             paint.setColor(color);
             canvas.drawRect(getBounds(), paint);
@@ -41,11 +42,13 @@ public class IcsColorDrawable extends Drawable {
         }
     }
 
-    @Override public void setColorFilter(ColorFilter colorFilter) {
+    @Override
+    public void setColorFilter(ColorFilter colorFilter) {
         //Ignored
     }
 
-    @Override public int getOpacity() {
+    @Override
+    public int getOpacity() {
         return color >>> 24;
     }
 }

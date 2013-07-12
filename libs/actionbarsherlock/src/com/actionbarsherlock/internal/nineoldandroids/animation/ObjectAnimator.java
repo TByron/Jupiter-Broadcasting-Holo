@@ -17,10 +17,11 @@
 package com.actionbarsherlock.internal.nineoldandroids.animation;
 
 import android.util.Log;
-//import android.util.Property;
 
-//import java.lang.reflect.Method;
 import java.util.ArrayList;
+
+//import android.util.Property;
+//import java.lang.reflect.Method;
 
 /**
  * This subclass of {@link ValueAnimator} provides support for animating properties on target objects.
@@ -30,7 +31,6 @@ import java.util.ArrayList;
  * animate the property.
  *
  * @see #setPropertyName(String)
- *
  */
 @SuppressWarnings("rawtypes")
 public final class ObjectAnimator extends ValueAnimator {
@@ -50,19 +50,19 @@ public final class ObjectAnimator extends ValueAnimator {
      * in a call to the function <code>setFoo()</code> on the target object. If either
      * <code>valueFrom</code> or <code>valueTo</code> is null, then a getter function will
      * also be derived and called.
-     *
+     * <p/>
      * <p>For best performance of the mechanism that calls the setter function determined by the
      * name of the property being animated, use <code>float</code> or <code>int</code> typed values,
      * and make the setter function for those properties have a <code>void</code> return value. This
      * will cause the code to take an optimized path for these constrained circumstances. Other
      * property types and return types will work, but will have more overhead in processing
      * the requests due to normal reflection mechanisms.</p>
-     *
+     * <p/>
      * <p>Note that the setter function derived from this property name
      * must take the same parameter type as the
      * <code>valueFrom</code> and <code>valueTo</code> properties, otherwise the call to
      * the setter function will fail.</p>
-     *
+     * <p/>
      * <p>If this ObjectAnimator has been set up to animate several properties together,
      * using more than one PropertyValuesHolder objects, then setting the propertyName simply
      * sets the propertyName in the first of those PropertyValuesHolder objects.</p>
@@ -133,9 +133,9 @@ public final class ObjectAnimator extends ValueAnimator {
      * Private utility constructor that initializes the target object and name of the
      * property being animated.
      *
-     * @param target The object whose property is to be animated. This object should
-     * have a public method on it called <code>setName()</code>, where <code>name</code> is
-     * the value of the <code>propertyName</code> parameter.
+     * @param target       The object whose property is to be animated. This object should
+     *                     have a public method on it called <code>setName()</code>, where <code>name</code> is
+     *                     the value of the <code>propertyName</code> parameter.
      * @param propertyName The name of the property being animated.
      */
     private ObjectAnimator(Object target, String propertyName) {
@@ -161,11 +161,11 @@ public final class ObjectAnimator extends ValueAnimator {
      * along the way, and an ending value (these values will be distributed evenly across
      * the duration of the animation).
      *
-     * @param target The object whose property is to be animated. This object should
-     * have a public method on it called <code>setName()</code>, where <code>name</code> is
-     * the value of the <code>propertyName</code> parameter.
+     * @param target       The object whose property is to be animated. This object should
+     *                     have a public method on it called <code>setName()</code>, where <code>name</code> is
+     *                     the value of the <code>propertyName</code> parameter.
      * @param propertyName The name of the property being animated.
-     * @param values A set of values that the animation will animate between over time.
+     * @param values       A set of values that the animation will animate between over time.
      * @return An ObjectAnimator object that is set up to animate between the given values.
      */
     public static ObjectAnimator ofInt(Object target, String propertyName, int... values) {
@@ -199,11 +199,11 @@ public final class ObjectAnimator extends ValueAnimator {
      * along the way, and an ending value (these values will be distributed evenly across
      * the duration of the animation).
      *
-     * @param target The object whose property is to be animated. This object should
-     * have a public method on it called <code>setName()</code>, where <code>name</code> is
-     * the value of the <code>propertyName</code> parameter.
+     * @param target       The object whose property is to be animated. This object should
+     *                     have a public method on it called <code>setName()</code>, where <code>name</code> is
+     *                     the value of the <code>propertyName</code> parameter.
      * @param propertyName The name of the property being animated.
-     * @param values A set of values that the animation will animate between over time.
+     * @param values       A set of values that the animation will animate between over time.
      * @return An ObjectAnimator object that is set up to animate between the given values.
      */
     public static ObjectAnimator ofFloat(Object target, String propertyName, float... values) {
@@ -238,18 +238,18 @@ public final class ObjectAnimator extends ValueAnimator {
      * along the way, and an ending value (these values will be distributed evenly across
      * the duration of the animation).
      *
-     * @param target The object whose property is to be animated. This object should
-     * have a public method on it called <code>setName()</code>, where <code>name</code> is
-     * the value of the <code>propertyName</code> parameter.
+     * @param target       The object whose property is to be animated. This object should
+     *                     have a public method on it called <code>setName()</code>, where <code>name</code> is
+     *                     the value of the <code>propertyName</code> parameter.
      * @param propertyName The name of the property being animated.
-     * @param evaluator A TypeEvaluator that will be called on each animation frame to
-     * provide the necessary interpolation between the Object values to derive the animated
-     * value.
-     * @param values A set of values that the animation will animate between over time.
+     * @param evaluator    A TypeEvaluator that will be called on each animation frame to
+     *                     provide the necessary interpolation between the Object values to derive the animated
+     *                     value.
+     * @param values       A set of values that the animation will animate between over time.
      * @return An ObjectAnimator object that is set up to animate between the given values.
      */
     public static ObjectAnimator ofObject(Object target, String propertyName,
-            TypeEvaluator evaluator, Object... values) {
+                                          TypeEvaluator evaluator, Object... values) {
         ObjectAnimator anim = new ObjectAnimator(target, propertyName);
         anim.setObjectValues(values);
         anim.setEvaluator(evaluator);
@@ -286,18 +286,18 @@ public final class ObjectAnimator extends ValueAnimator {
      * you to associate a set of animation values with a property name.
      *
      * @param target The object whose property is to be animated. Depending on how the
-     * PropertyValuesObjects were constructed, the target object should either have the {@link
-     * android.util.Property} objects used to construct the PropertyValuesHolder objects or (if the
-     * PropertyValuesHOlder objects were created with property names) the target object should have
-     * public methods on it called <code>setName()</code>, where <code>name</code> is the name of
-     * the property passed in as the <code>propertyName</code> parameter for each of the
-     * PropertyValuesHolder objects.
+     *               PropertyValuesObjects were constructed, the target object should either have the {@link
+     *               android.util.Property} objects used to construct the PropertyValuesHolder objects or (if the
+     *               PropertyValuesHOlder objects were created with property names) the target object should have
+     *               public methods on it called <code>setName()</code>, where <code>name</code> is the name of
+     *               the property passed in as the <code>propertyName</code> parameter for each of the
+     *               PropertyValuesHolder objects.
      * @param values A set of PropertyValuesHolder objects whose values will be animated between
-     * over time.
+     *               over time.
      * @return An ObjectAnimator object that is set up to animate between the given values.
      */
     public static ObjectAnimator ofPropertyValuesHolder(Object target,
-            PropertyValuesHolder... values) {
+                                                        PropertyValuesHolder... values) {
         ObjectAnimator anim = new ObjectAnimator();
         anim.mTarget = target;
         anim.setValues(values);
@@ -312,7 +312,7 @@ public final class ObjectAnimator extends ValueAnimator {
             //if (mProperty != null) {
             //    setValues(PropertyValuesHolder.ofInt(mProperty, values));
             //} else {
-                setValues(PropertyValuesHolder.ofInt(mPropertyName, values));
+            setValues(PropertyValuesHolder.ofInt(mPropertyName, values));
             //}
         } else {
             super.setIntValues(values);
@@ -327,7 +327,7 @@ public final class ObjectAnimator extends ValueAnimator {
             //if (mProperty != null) {
             //    setValues(PropertyValuesHolder.ofFloat(mProperty, values));
             //} else {
-                setValues(PropertyValuesHolder.ofFloat(mPropertyName, values));
+            setValues(PropertyValuesHolder.ofFloat(mPropertyName, values));
             //}
         } else {
             super.setFloatValues(values);
@@ -342,7 +342,7 @@ public final class ObjectAnimator extends ValueAnimator {
             //if (mProperty != null) {
             //    setValues(PropertyValuesHolder.ofObject(mProperty, (TypeEvaluator)null, values));
             //} else {
-                setValues(PropertyValuesHolder.ofObject(mPropertyName, (TypeEvaluator)null, values));
+            setValues(PropertyValuesHolder.ofObject(mPropertyName, (TypeEvaluator) null, values));
             //}
         } else {
             super.setObjectValues(values);
@@ -357,8 +357,8 @@ public final class ObjectAnimator extends ValueAnimator {
                 PropertyValuesHolder pvh = mValues[i];
                 ArrayList<Keyframe> keyframes = pvh.mKeyframeSet.mKeyframes;
                 Log.d("ObjectAnimator", "   Values[" + i + "]: " +
-                    pvh.getPropertyName() + ", " + keyframes.get(0).getValue() + ", " +
-                    keyframes.get(pvh.mKeyframeSet.mNumKeyframes - 1).getValue());
+                        pvh.getPropertyName() + ", " + keyframes.get(0).getValue() + ", " +
+                        keyframes.get(pvh.mKeyframeSet.mNumKeyframes - 1).getValue());
             }
         }
         super.start();
@@ -372,9 +372,9 @@ public final class ObjectAnimator extends ValueAnimator {
      * animation. This includes setting mEvaluator, if the user has not yet
      * set it up, and the setter/getter methods, if the user did not supply
      * them.
-     *
-     *  <p>Overriders of this method should call the superclass method to cause
-     *  internal mechanisms to be set up correctly.</p>
+     * <p/>
+     * <p>Overriders of this method should call the superclass method to cause
+     * internal mechanisms to be set up correctly.</p>
      */
     @Override
     void initAnimation() {
@@ -394,9 +394,9 @@ public final class ObjectAnimator extends ValueAnimator {
      *
      * @param duration The length of the animation, in milliseconds.
      * @return ObjectAnimator The object called with setDuration(). This return
-     * value makes it easier to compose statements together that construct and then set the
-     * duration, as in
-     * <code>ObjectAnimator.ofInt(target, propertyName, 0, 10).setDuration(500).start()</code>.
+     *         value makes it easier to compose statements together that construct and then set the
+     *         duration, as in
+     *         <code>ObjectAnimator.ofInt(target, propertyName, 0, 10).setDuration(500).start()</code>.
      */
     @Override
     public ObjectAnimator setDuration(long duration) {
@@ -456,7 +456,7 @@ public final class ObjectAnimator extends ValueAnimator {
      * and then into an animated value (from the evaluator. The function is called mostly during
      * animation updates, but it is also called when the <code>end()</code>
      * function is called, to set the final value on the property.
-     *
+     * <p/>
      * <p>Overrides of this method must call the superclass to perform the calculation
      * of the animated value.</p>
      *
@@ -480,7 +480,7 @@ public final class ObjectAnimator extends ValueAnimator {
     @Override
     public String toString() {
         String returnVal = "ObjectAnimator@" + Integer.toHexString(hashCode()) + ", target " +
-            mTarget;
+                mTarget;
         if (mValues != null) {
             for (int i = 0; i < mValues.length; ++i) {
                 returnVal += "\n    " + mValues[i].toString();

@@ -47,7 +47,7 @@ public abstract class AbsActionBarView extends NineViewGroup {
     protected Animator mVisibilityAnim;
     protected final VisibilityAnimListener mVisAnimListener = new VisibilityAnimListener();
 
-    private static final /*Time*/Interpolator sAlphaInterpolator = new DecelerateInterpolator();
+    private static final /*Time*/ Interpolator sAlphaInterpolator = new DecelerateInterpolator();
 
     private static final int FADE_DURATION = 200;
 
@@ -94,6 +94,7 @@ public abstract class AbsActionBarView extends NineViewGroup {
 
     /**
      * Sets whether the bar should be split right now, no questions asked.
+     *
      * @param split true if the bar should split
      */
     public void setSplitActionBar(boolean split) {
@@ -102,6 +103,7 @@ public abstract class AbsActionBarView extends NineViewGroup {
 
     /**
      * Sets whether the bar should split if we enter a narrow screen configuration.
+     *
      * @param splitWhenNarrow true if the bar should check to split after a config change
      */
     public void setSplitWhenNarrow(boolean splitWhenNarrow) {
@@ -222,7 +224,7 @@ public abstract class AbsActionBarView extends NineViewGroup {
     }
 
     protected int measureChildView(View child, int availableWidth, int childSpecHeight,
-            int spacing) {
+                                   int spacing) {
         child.measure(MeasureSpec.makeMeasureSpec(availableWidth, MeasureSpec.AT_MOST),
                 childSpecHeight);
 

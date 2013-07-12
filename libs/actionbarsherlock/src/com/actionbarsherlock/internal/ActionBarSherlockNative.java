@@ -8,6 +8,7 @@ import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
+
 import com.actionbarsherlock.ActionBarSherlock;
 import com.actionbarsherlock.BuildConfig;
 import com.actionbarsherlock.app.ActionBar;
@@ -78,7 +79,8 @@ public class ActionBarSherlockNative extends ActionBarSherlock {
 
     @Override
     public boolean dispatchOptionsItemSelected(android.view.MenuItem item) {
-        if (BuildConfig.DEBUG) Log.d(TAG, "[dispatchOptionsItemSelected] item: " + item.getTitleCondensed());
+        if (BuildConfig.DEBUG)
+            Log.d(TAG, "[dispatchOptionsItemSelected] item: " + item.getTitleCondensed());
 
         MenuItem wrapped;
         if (mMenu == null) {
@@ -122,7 +124,8 @@ public class ActionBarSherlockNative extends ActionBarSherlock {
 
     @Override
     public void setUiOptions(int uiOptions, int mask) {
-        if (BuildConfig.DEBUG) Log.d(TAG, "[setUiOptions] uiOptions: " + uiOptions + ", mask: " + mask);
+        if (BuildConfig.DEBUG)
+            Log.d(TAG, "[setUiOptions] uiOptions: " + uiOptions + ", mask: " + mask);
 
         mActivity.getWindow().setUiOptions(uiOptions, mask);
     }
@@ -167,14 +170,16 @@ public class ActionBarSherlockNative extends ActionBarSherlock {
 
     @Override
     public void setProgressBarIndeterminateVisibility(boolean visible) {
-        if (BuildConfig.DEBUG) Log.d(TAG, "[setProgressBarIndeterminateVisibility] visible: " + visible);
+        if (BuildConfig.DEBUG)
+            Log.d(TAG, "[setProgressBarIndeterminateVisibility] visible: " + visible);
 
         mActivity.setProgressBarIndeterminateVisibility(visible);
     }
 
     @Override
     public void setProgressBarIndeterminate(boolean indeterminate) {
-        if (BuildConfig.DEBUG) Log.d(TAG, "[setProgressBarIndeterminate] indeterminate: " + indeterminate);
+        if (BuildConfig.DEBUG)
+            Log.d(TAG, "[setProgressBarIndeterminate] indeterminate: " + indeterminate);
 
         mActivity.setProgressBarIndeterminate(indeterminate);
     }
@@ -188,7 +193,8 @@ public class ActionBarSherlockNative extends ActionBarSherlock {
 
     @Override
     public void setSecondaryProgress(int secondaryProgress) {
-        if (BuildConfig.DEBUG) Log.d(TAG, "[setSecondaryProgress] secondaryProgress: " + secondaryProgress);
+        if (BuildConfig.DEBUG)
+            Log.d(TAG, "[setSecondaryProgress] secondaryProgress: " + secondaryProgress);
 
         mActivity.setSecondaryProgress(secondaryProgress);
     }
@@ -227,7 +233,7 @@ public class ActionBarSherlockNative extends ActionBarSherlock {
             mActionMode = null;
         }
         if (mActivity instanceof OnActionModeStartedListener && mActionMode != null) {
-            ((OnActionModeStartedListener)mActivity).onActionModeStarted(mActionMode);
+            ((OnActionModeStartedListener) mActivity).onActionModeStarted(mActionMode);
         }
 
         return mActionMode;
@@ -262,7 +268,7 @@ public class ActionBarSherlockNative extends ActionBarSherlock {
         public void onDestroyActionMode(android.view.ActionMode mode) {
             mCallback.onDestroyActionMode(mActionMode);
             if (mActivity instanceof OnActionModeFinishedListener) {
-                ((OnActionModeFinishedListener)mActivity).onActionModeFinished(mActionMode);
+                ((OnActionModeFinishedListener) mActivity).onActionModeFinished(mActionMode);
             }
         }
     }

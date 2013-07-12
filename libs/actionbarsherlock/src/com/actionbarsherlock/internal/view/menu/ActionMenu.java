@@ -16,9 +16,6 @@
 
 package com.actionbarsherlock.internal.view.menu;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -29,6 +26,9 @@ import android.view.KeyEvent;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.SubMenu;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @hide
@@ -69,8 +69,8 @@ public class ActionMenu implements Menu {
     }
 
     public int addIntentOptions(int groupId, int itemId, int order,
-            ComponentName caller, Intent[] specifics, Intent intent, int flags,
-            MenuItem[] outSpecificItems) {
+                                ComponentName caller, Intent[] specifics, Intent intent, int flags,
+                                MenuItem[] outSpecificItems) {
         PackageManager pm = mContext.getPackageManager();
         final List<ResolveInfo> lri =
                 pm.queryIntentActivityOptions(caller, specifics, intent, 0);
@@ -80,10 +80,10 @@ public class ActionMenu implements Menu {
             removeGroup(groupId);
         }
 
-        for (int i=0; i<N; i++) {
+        for (int i = 0; i < N; i++) {
             final ResolveInfo ri = lri.get(i);
             Intent rintent = new Intent(
-                ri.specificIndex < 0 ? intent : specifics[ri.specificIndex]);
+                    ri.specificIndex < 0 ? intent : specifics[ri.specificIndex]);
             rintent.setComponent(new ComponentName(
                     ri.activityInfo.applicationInfo.packageName,
                     ri.activityInfo.name));
@@ -109,7 +109,7 @@ public class ActionMenu implements Menu {
     }
 
     public SubMenu addSubMenu(int groupId, int itemId, int order,
-            CharSequence title) {
+                              CharSequence title) {
         // TODO Implement submenus
         return null;
     }
@@ -217,7 +217,7 @@ public class ActionMenu implements Menu {
     }
 
     public void setGroupCheckable(int group, boolean checkable,
-            boolean exclusive) {
+                                  boolean exclusive) {
         final ArrayList<ActionMenuItem> items = mItems;
         final int itemCount = items.size();
 

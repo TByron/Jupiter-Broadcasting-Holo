@@ -24,11 +24,13 @@ public class RssHandler extends DefaultHandler {
     private String linkString;
     private String titleString;
     private int counter = 0;
-    private int maxRecords = 15;
+    private int maxRecords = 20;
+    private int page = 0;
     private boolean isLink = false;
     private boolean isTitle = false;
     private boolean ifInsideItem = false;
     private boolean badLinkNext = false;
+    private boolean donethis = false;
 
     /**
      * Constructor
@@ -47,30 +49,41 @@ public class RssHandler extends DefaultHandler {
      * @param link
      * @param numberOfRecords The max number of item to be parsed.
      */
-    public RssHandler(String title, String link, int numberOfRecords) {
+    public RssHandler(String title, String link, int targetpage) {
         titleString = title;
         linkString = link;
         rssTitles = new Vector<String>();
         rssLinks = new Vector<String>();
-        maxRecords = numberOfRecords;
+        page = targetpage;
         rssEnclosures = new Vector<String>();
+
     }
 
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+
         if (ifInsideItem) {
+
             isLink = qName.equalsIgnoreCase(linkString);
             isTitle = qName.equalsIgnoreCase(titleString);
             boolean enclosure = true;
-            if (qName.equalsIgnoreCase("enclosure")) {
-                rssEnclosures.addElement(attributes.getValue("url"));
+            if (!donethis) {
+                if (qName.equalsIgnoreCase("enclosure")) {
+                    rssEnclosures.addElement(attributes.getValue("url"));
+                }
             }
         } else {
             ifInsideItem = qName.equalsIgnoreCase("item");
         }
         if (isTitle) {
-            if (counter > maxRecords) {
-                throw new SAXException("Parsing limit of " + maxRecords + " items reached");
+            if (counter < maxRecords * (page)) {
+                donethis = true;
+            } else {
+                donethis = false;
             }
+            if (counter > maxRecords * (page + 1)) {
+                throw new SAXException("Parsing limit reached");
+            }
+            Log.e("Counting", "checked this much:" + counter + "on page " + page);
             counter++;
         }
     }
@@ -82,10 +95,10 @@ public class RssHandler extends DefaultHandler {
     public void characters(char ch[], int start, int length) throws SAXException {
         String toAdd = new String(ch, start, length);
         if (!toAdd.contains("del.icio.us")) {
-            if (isLink && !badLinkNext) {
+            if (isLink && !badLinkNext &&!donethis) {
                 rssLinks.addElement(new String(ch, start, length));
                 isLink = false;
-            } else if (isTitle) {
+            } else if (isTitle && !donethis) {
                 rssTitles.addElement(new String(ch, start, length));
                 isTitle = false;
                 badLinkNext = false;
