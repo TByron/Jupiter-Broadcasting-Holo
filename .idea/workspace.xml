@@ -35,9 +35,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2122cc7f-c518-4f06-a572-e718ca3a9adb" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/EpisodeListFragment.java" afterPath="$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/EpisodeListFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/parser/RssHandler.java" afterPath="$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/parser/RssHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Jupiter-Broadcasting-Holo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -143,10 +141,10 @@
       <file leaf-file-name="RssHandler.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/parser/RssHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="110" column="9" selection-start="3341" selection-end="3341" vertical-scroll-proportion="0.6241497" vertical-offset="1503" max-vertical-offset="2295">
+            <state line="31" column="25" selection-start="745" selection-end="745" vertical-scroll-proportion="0.5952381" vertical-offset="177" max-vertical-offset="2295">
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3459#3477#0" expanded="true" />
+                <element signature="e#3477#3495#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -509,7 +507,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-4" width="1928" height="1060" extended-state="7" />
+    <frame x="-4" y="-4" width="1928" height="1060" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -529,7 +527,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2497332" sideWeight="0.6717724" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32822758" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32822758" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.10832444" sideWeight="0.69584244" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -701,10 +699,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/tv/parser/RssHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="110" column="9" selection-start="3341" selection-end="3341" vertical-scroll-proportion="0.6241497" vertical-offset="1503" max-vertical-offset="2295">
+        <state line="31" column="25" selection-start="745" selection-end="745" vertical-scroll-proportion="0.5952381" vertical-offset="177" max-vertical-offset="2295">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3459#3477#0" expanded="true" />
+            <element signature="e#3477#3495#0" expanded="true" />
           </folding>
         </state>
       </provider>

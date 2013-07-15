@@ -81,7 +81,7 @@ public class RssHandler extends DefaultHandler {
             ifInsideItem = qName.equalsIgnoreCase("item");
         }
         if (isTitle) {
-            if (counter < maxRecords * (page)) {
+            if (counter < (maxRecords + 1) * (page) && page > 1) {
                 donethis = true;
             } else {
                 donethis = false;
