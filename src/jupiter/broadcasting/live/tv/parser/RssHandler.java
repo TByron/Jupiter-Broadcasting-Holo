@@ -17,6 +17,10 @@ import java.util.Vector;
  * 
  * @author Shane Quigley
  */
+
+/**
+ * Constructor
+ */
 public class RssHandler extends DefaultHandler {
     private Vector<String> rssTitles;
     private Vector<String> rssLinks;
@@ -31,6 +35,7 @@ public class RssHandler extends DefaultHandler {
     private boolean ifInsideItem = false;
     private boolean badLinkNext = false;
     private boolean donethis = false;
+    private StringBuffer toAdd;
 
     /**
      * Constructor
@@ -41,14 +46,15 @@ public class RssHandler extends DefaultHandler {
         rssTitles = new Vector<String>();
         rssLinks = new Vector<String>();
         rssEnclosures = new Vector<String>();
+        toAdd = new StringBuffer();
     }
 
     /*
-     * Constructer that allows a little more control over parsing the feed
-     * @param title
-     * @param link
-     * @param numberOfRecords The max number of item to be parsed.
-     */
+* Constructer that allows a little more control over parsing the feed
+* @param title
+* @param link
+* @param numberOfRecords The max number of item to be parsed.
+*/
     public RssHandler(String title, String link, int targetpage) {
         titleString = title;
         linkString = link;
@@ -89,22 +95,19 @@ public class RssHandler extends DefaultHandler {
     }
 
     public void endElement(String uri, String localName, String qName) throws SAXException {
-        super.endElement(uri, localName, qName);
+        if (isLink && !donethis) {
+            rssLinks.addElement(toAdd.toString());
+        }else if (isTitle && !donethis) {
+            rssTitles.addElement(toAdd.toString());
+        }
+        toAdd = new StringBuffer();
     }
 
     public void characters(char ch[], int start, int length) throws SAXException {
-        String toAdd = new String(ch, start, length);
-        if (!toAdd.contains("del.icio.us")) {
-            if (isLink && !badLinkNext &&!donethis) {
-                rssLinks.addElement(new String(ch, start, length));
-                isLink = false;
-            } else if (isTitle && !donethis) {
-                rssTitles.addElement(new String(ch, start, length));
-                isTitle = false;
-                badLinkNext = false;
-            }
-        } else {
-            badLinkNext = true;
+        if (isLink && !donethis) {
+            toAdd.append(new String(ch,start,length));
+        } else if (isTitle && !donethis) {
+            toAdd.append(new String(ch,start,length));
         }
     }
 

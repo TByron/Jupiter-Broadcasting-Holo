@@ -59,7 +59,7 @@ public class EpisodeListFragment extends SherlockFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        //getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
+        getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
 
         v = inflater.inflate(R.layout.episodelist_fragment, null);
 
@@ -156,7 +156,7 @@ public class EpisodeListFragment extends SherlockFragment {
                 adapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_list_item_1, android.R.id.text1, args);
                 //adapter.setNotifyOnChange(true);
                 asyncResultView.setAdapter(adapter);
-
+                getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
             } else {
                 for (int i = 0; i < args.size(); i++) {
                     adapter.add(args.get(i));
