@@ -1,4 +1,4 @@
-package jupiter.broadcasting.live.tv;
+package jupiter.broadcasting.live.holo;
 
 /*
  * Copyright (c) 2012 Shane Quigley
@@ -37,8 +37,9 @@ import com.actionbarsherlock.view.MenuItem;
 import java.util.Hashtable;
 import java.util.List;
 
-import jupiter.broadcasting.live.tv.parser.RssHandler;
-import jupiter.broadcasting.live.tv.parser.SaxRssParser;
+import jupiter.broadcasting.live.holo.parser.RssHandler;
+import jupiter.broadcasting.live.holo.parser.SaxRssParser;
+
 
 
 public class EpisodeListFragment extends SherlockFragment {
@@ -52,7 +53,6 @@ public class EpisodeListFragment extends SherlockFragment {
     com.actionbarsherlock.view.ActionMode mMode;
     String aurls[];
     String vurls[];
-
     ArrayAdapter<String> adapter;
     boolean first;
 
@@ -154,7 +154,8 @@ public class EpisodeListFragment extends SherlockFragment {
         protected void onPostExecute(List<String> args) {
             if (first) {
                 adapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_list_item_1, android.R.id.text1, args);
-                //adapter.setNotifyOnChange(true);
+
+
                 asyncResultView.setAdapter(adapter);
                 getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
             } else {
@@ -163,11 +164,7 @@ public class EpisodeListFragment extends SherlockFragment {
                 }
                 adapter.notifyDataSetChanged();
             }
-
         }
-        //asyncResultView.setAdapter(adapter);
-        //getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
-
     }
 
     private final class EpisodeActionMode implements com.actionbarsherlock.view.ActionMode.Callback {
@@ -263,5 +260,4 @@ public class EpisodeListFragment extends SherlockFragment {
 
         }
     }
-
 }

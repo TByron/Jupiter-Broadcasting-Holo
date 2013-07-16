@@ -1,4 +1,4 @@
-package jupiter.broadcasting.live.tv;
+package jupiter.broadcasting.live.holo;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,6 +20,8 @@ import android.widget.ImageView;
 
 import java.io.IOException;
 
+
+
 /*
  * Copyright (c) 2012 Shane Quigley
  *
@@ -27,6 +29,7 @@ import java.io.IOException;
  * http://www.opensource.org/licenses/MIT
  * 
  * @author Shane Quigley
+ * @hacked Adam Szabo
  */
 public class Home extends Activity {
     /**

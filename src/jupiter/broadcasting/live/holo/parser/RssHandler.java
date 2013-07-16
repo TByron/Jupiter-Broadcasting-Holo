@@ -1,4 +1,4 @@
-package jupiter.broadcasting.live.tv.parser;
+package jupiter.broadcasting.live.holo.parser;
 
 import android.util.Log;
 
@@ -25,6 +25,7 @@ public class RssHandler extends DefaultHandler {
     private Vector<String> rssTitles;
     private Vector<String> rssLinks;
     private Vector<String> rssEnclosures;
+    private Vector<String> thumbnails;
     private String linkString;
     private String titleString;
     private int counter = 0;
@@ -46,6 +47,7 @@ public class RssHandler extends DefaultHandler {
         rssTitles = new Vector<String>();
         rssLinks = new Vector<String>();
         rssEnclosures = new Vector<String>();
+        thumbnails = new Vector<String>();
         toAdd = new StringBuffer();
     }
 
@@ -62,6 +64,9 @@ public class RssHandler extends DefaultHandler {
         rssLinks = new Vector<String>();
         page = targetpage;
         rssEnclosures = new Vector<String>();
+        thumbnails = new Vector<String>();
+        toAdd = new StringBuffer();
+
 
     }
 
@@ -76,12 +81,15 @@ public class RssHandler extends DefaultHandler {
                 if (qName.equalsIgnoreCase("enclosure")) {
                     rssEnclosures.addElement(attributes.getValue("url"));
                 }
+                if (qName.equalsIgnoreCase("media:thumbnail")){
+                    thumbnails.addElement(attributes.getValue("url"));
+                }
             }
         } else {
             ifInsideItem = qName.equalsIgnoreCase("item");
         }
         if (isTitle) {
-            if (counter < (maxRecords + 1) * (page) && page > 0) {
+            if (counter < (maxRecords * page + 1) && page > 0) {
                 donethis = true;
             } else {
                 donethis = false;
@@ -115,7 +123,7 @@ public class RssHandler extends DefaultHandler {
         Hashtable<String, String[]> output = new Hashtable<String, String[]>();
         for (int i = 0; i < rssTitles.size(); i++) {
             try {
-                output.put(rssTitles.elementAt(i), new String[]{rssLinks.elementAt(i), rssEnclosures.elementAt(i)});
+                output.put(rssTitles.elementAt(i), new String[]{rssLinks.elementAt(i), rssEnclosures.elementAt(i), thumbnails.elementAt(i)});
             } catch (Exception e) {
                 Log.e("Woops", e.getMessage());
             }
