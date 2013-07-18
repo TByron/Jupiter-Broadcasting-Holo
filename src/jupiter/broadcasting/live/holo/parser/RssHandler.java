@@ -16,6 +16,7 @@ import java.util.Vector;
  * http://www.opensource.org/licenses/MIT
  * 
  * @author Shane Quigley
+ * @hacked Adam Szabo
  */
 
 /**
@@ -29,12 +30,11 @@ public class RssHandler extends DefaultHandler {
     private String linkString;
     private String titleString;
     private int counter = 0;
-    private int maxRecords = 20;
+    private int maxRecords = 7;
     private int page = 0;
     private boolean isLink = false;
     private boolean isTitle = false;
     private boolean ifInsideItem = false;
-    private boolean badLinkNext = false;
     private boolean donethis = false;
     private StringBuffer toAdd;
 
@@ -81,7 +81,7 @@ public class RssHandler extends DefaultHandler {
                 if (qName.equalsIgnoreCase("enclosure")) {
                     rssEnclosures.addElement(attributes.getValue("url"));
                 }
-                if (qName.equalsIgnoreCase("media:thumbnail")){
+                if (qName.equalsIgnoreCase("media:thumbnail")) {
                     thumbnails.addElement(attributes.getValue("url"));
                 }
             }
@@ -123,7 +123,12 @@ public class RssHandler extends DefaultHandler {
         Hashtable<String, String[]> output = new Hashtable<String, String[]>();
         for (int i = 0; i < rssTitles.size(); i++) {
             try {
-                output.put(rssTitles.elementAt(i), new String[]{rssLinks.elementAt(i), rssEnclosures.elementAt(i), thumbnails.elementAt(i)});
+                if (thumbnails.size()>0) {
+                    output.put(rssTitles.elementAt(i), new String[]{rssLinks.elementAt(i), rssEnclosures.elementAt(i), thumbnails.elementAt(i)});
+                } else{
+                    output.put(rssTitles.elementAt(i), new String[]{rssLinks.elementAt(i), rssEnclosures.elementAt(i)});
+                }
+
             } catch (Exception e) {
                 Log.e("Woops", e.getMessage());
             }

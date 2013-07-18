@@ -34,12 +34,13 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 
 import jupiter.broadcasting.live.holo.parser.RssHandler;
 import jupiter.broadcasting.live.holo.parser.SaxRssParser;
-
 
 
 public class EpisodeListFragment extends SherlockFragment {
@@ -54,6 +55,7 @@ public class EpisodeListFragment extends SherlockFragment {
     String aurls[];
     String vurls[];
     ArrayAdapter<String> adapter;
+    LazyAdapter lAdapter;
     boolean first;
 
     @Override
@@ -80,6 +82,7 @@ public class EpisodeListFragment extends SherlockFragment {
         first = true;
         RSS_parse newparse = new RSS_parse();  //do networking in async task SDK>9
         newparse.execute(afeed, vfeed, "0");
+
 
         return v;
     }
@@ -125,7 +128,7 @@ public class EpisodeListFragment extends SherlockFragment {
 
 
     public class RSS_parse extends AsyncTask<String, Integer, List<String>> {
-
+        private List<HashMap<String, String>> epi = new ArrayList<HashMap<String, String>>();
         @Override
         protected List<String> doInBackground(String... link) {
             int page = Integer.parseInt(link[2]);
@@ -154,15 +157,17 @@ public class EpisodeListFragment extends SherlockFragment {
         protected void onPostExecute(List<String> args) {
             if (first) {
                 adapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_list_item_1, android.R.id.text1, args);
-
-
-                asyncResultView.setAdapter(adapter);
+                lAdapter = new LazyAdapter(getSherlockActivity(),args, vrssLinkTable);
+                asyncResultView.setAdapter(lAdapter);
                 getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
             } else {
-                for (int i = 0; i < args.size(); i++) {
+                /*for (int i = 0; i < args.size(); i++) {
                     adapter.add(args.get(i));
                 }
-                adapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();*/
+                lAdapter.add(args,vrssLinkTable);
+
+
             }
         }
     }
@@ -177,8 +182,8 @@ public class EpisodeListFragment extends SherlockFragment {
             menu.add(1, 2, 0, R.string.video)
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
-                /*ßmenu.add(1, 3, 0, R.string.web)
-                        .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);*/
+                menu.add(1, 3, 0, "p")
+                        .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
             menu.add(1, 4, 0, R.string.notes)
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
@@ -235,7 +240,8 @@ public class EpisodeListFragment extends SherlockFragment {
                     }
                     break;
                 case 3: // web
-                    Intent k = new Intent(Intent.ACTION_VIEW, Uri.parse(aurls[0]));
+                    String kep = vurls[2];
+                    Intent k = new Intent(Intent.ACTION_VIEW, Uri.parse(kep));
                     startActivity(k);
                     break;
                 case 4: //shownotes

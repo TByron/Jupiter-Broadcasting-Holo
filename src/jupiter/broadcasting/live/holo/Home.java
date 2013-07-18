@@ -20,8 +20,6 @@ import android.widget.ImageView;
 
 import java.io.IOException;
 
-
-
 /*
  * Copyright (c) 2012 Shane Quigley
  *
