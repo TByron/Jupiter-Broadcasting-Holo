@@ -166,6 +166,7 @@ public class ShowActivity extends SherlockFragmentActivity {
         args.putInt("SHOW_ID", position);
         args.putString("SHOW_AUDIO", afeed);
         args.putString("SHOW_VIDEO", vfeed);
+        args.putString("SHOW_NAME", shows[position]);
         fragment.setArguments(args);
 
         FragmentManager fragmentManager = getSupportFragmentManager();

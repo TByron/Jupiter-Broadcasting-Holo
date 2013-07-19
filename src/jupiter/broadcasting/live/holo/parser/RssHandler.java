@@ -27,15 +27,17 @@ public class RssHandler extends DefaultHandler {
     private Vector<String> rssLinks;
     private Vector<String> rssEnclosures;
     private Vector<String> thumbnails;
+    private Vector<String> duration;
     private String linkString;
     private String titleString;
     private int counter = 0;
-    private int maxRecords = 7;
+    private int maxRecords = 12;
     private int page = 0;
     private boolean isLink = false;
     private boolean isTitle = false;
     private boolean ifInsideItem = false;
     private boolean donethis = false;
+    private boolean isDur = false;
     private StringBuffer toAdd;
 
     /**
@@ -48,6 +50,7 @@ public class RssHandler extends DefaultHandler {
         rssLinks = new Vector<String>();
         rssEnclosures = new Vector<String>();
         thumbnails = new Vector<String>();
+        duration = new Vector<String>();
         toAdd = new StringBuffer();
     }
 
@@ -65,6 +68,7 @@ public class RssHandler extends DefaultHandler {
         page = targetpage;
         rssEnclosures = new Vector<String>();
         thumbnails = new Vector<String>();
+        duration = new Vector<String>();
         toAdd = new StringBuffer();
 
 
@@ -76,6 +80,7 @@ public class RssHandler extends DefaultHandler {
 
             isLink = qName.equalsIgnoreCase(linkString);
             isTitle = qName.equalsIgnoreCase(titleString);
+            isDur = qName.equalsIgnoreCase("itunes:duration");
             boolean enclosure = true;
             if (!donethis) {
                 if (qName.equalsIgnoreCase("enclosure")) {
@@ -107,14 +112,14 @@ public class RssHandler extends DefaultHandler {
             rssLinks.addElement(toAdd.toString());
         }else if (isTitle && !donethis) {
             rssTitles.addElement(toAdd.toString());
+        }else if (isDur && !donethis) {
+            duration.addElement(toAdd.toString());
         }
         toAdd = new StringBuffer();
     }
 
     public void characters(char ch[], int start, int length) throws SAXException {
-        if (isLink && !donethis) {
-            toAdd.append(new String(ch,start,length));
-        } else if (isTitle && !donethis) {
+        if ((isLink || isTitle || isDur) && !donethis) {
             toAdd.append(new String(ch,start,length));
         }
     }
@@ -124,8 +129,15 @@ public class RssHandler extends DefaultHandler {
         for (int i = 0; i < rssTitles.size(); i++) {
             try {
                 if (thumbnails.size()>0) {
-                    output.put(rssTitles.elementAt(i), new String[]{rssLinks.elementAt(i), rssEnclosures.elementAt(i), thumbnails.elementAt(i)});
-                } else{
+                    if (duration.size()>0){
+                        output.put(rssTitles.elementAt(i), new String[]{rssLinks.elementAt(i), rssEnclosures.elementAt(i), thumbnails.elementAt(i), duration.elementAt(i)});
+                    }
+                    else {
+                        output.put(rssTitles.elementAt(i), new String[]{rssLinks.elementAt(i), rssEnclosures.elementAt(i), thumbnails.elementAt(i)});
+                    }
+                } else if (duration.size()>0){
+                    output.put(rssTitles.elementAt(i), new String[]{rssLinks.elementAt(i), rssEnclosures.elementAt(i), duration.elementAt(i)});
+                }else{
                     output.put(rssTitles.elementAt(i), new String[]{rssLinks.elementAt(i), rssEnclosures.elementAt(i)});
                 }
 

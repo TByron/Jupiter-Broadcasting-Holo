@@ -14,6 +14,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -35,9 +36,11 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import jupiter.broadcasting.live.holo.parser.RssHandler;
 import jupiter.broadcasting.live.holo.parser.SaxRssParser;
@@ -46,10 +49,11 @@ import jupiter.broadcasting.live.holo.parser.SaxRssParser;
 public class EpisodeListFragment extends SherlockFragment {
 
     List<String> episodes;
-    String afeed, vfeed;
+    String afeed, vfeed, name;
     Hashtable<String, String[]> arssLinkTable;
     Hashtable<String, String[]> vrssLinkTable;
     ListView asyncResultView;
+    SharedPreferences history;
     View v;
     com.actionbarsherlock.view.ActionMode mMode;
     String aurls[];
@@ -79,10 +83,11 @@ public class EpisodeListFragment extends SherlockFragment {
         Bundle b = getArguments();
         afeed = b.getString("SHOW_AUDIO");
         vfeed = b.getString("SHOW_VIDEO");
+        name = b.getString("SHOW_NAME");
         first = true;
+        history = getActivity().getSharedPreferences(name, 0);
         RSS_parse newparse = new RSS_parse();  //do networking in async task SDK>9
         newparse.execute(afeed, vfeed, "0");
-
 
         return v;
     }
@@ -105,6 +110,7 @@ public class EpisodeListFragment extends SherlockFragment {
         public void onScrollStateChanged(AbsListView absListView, int i) {
 
         }
+
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem,
                              int visibleItemCount, int totalItemCount) {
@@ -125,10 +131,9 @@ public class EpisodeListFragment extends SherlockFragment {
             }
         }
     }
-
+    private List<String> titleList;
 
     public class RSS_parse extends AsyncTask<String, Integer, List<String>> {
-        private List<HashMap<String, String>> epi = new ArrayList<HashMap<String, String>>();
         @Override
         protected List<String> doInBackground(String... link) {
             int page = Integer.parseInt(link[2]);
@@ -155,20 +160,42 @@ public class EpisodeListFragment extends SherlockFragment {
 
         @Override
         protected void onPostExecute(List<String> args) {
+            titleList = args;
+
             if (first) {
-                adapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_list_item_1, android.R.id.text1, args);
-                lAdapter = new LazyAdapter(getSherlockActivity(),args, vrssLinkTable);
+                adapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_list_item_1, android.R.id.text1, titleList);
+                lAdapter = new LazyAdapter(getSherlockActivity(), titleList, vrssLinkTable, checkNew());
                 asyncResultView.setAdapter(lAdapter);
                 getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
             } else {
-                /*for (int i = 0; i < args.size(); i++) {
-                    adapter.add(args.get(i));
-                }
-                adapter.notifyDataSetChanged();*/
-                lAdapter.add(args,vrssLinkTable);
-
-
+                lAdapter.add(titleList, vrssLinkTable);
             }
+        }
+
+        private ArrayList<Boolean> checkNew() {
+            ArrayList<Boolean> newList = new ArrayList<Boolean>();
+            String s = name;
+
+            String lastTitle = history.getString("X", "0");
+            boolean finished = false;
+            for (int i = 0; i < titleList.size(); i++) {
+                if (lastTitle == titleList.get(0) || finished ) {
+                    //nothing new, fill the array with zeroes
+                    newList.add(false);
+                } else {
+                    //something new, find and mark the new
+                    newList.add(true);
+                    if (titleList.get(i) == lastTitle) {
+                        newList.add(false);
+                        finished = true;
+                    }
+                }
+            }
+            SharedPreferences.Editor editor = history.edit();
+            editor.putString("X", titleList.get(0));
+            editor.commit();
+
+            return newList;
         }
     }
 
@@ -182,8 +209,8 @@ public class EpisodeListFragment extends SherlockFragment {
             menu.add(1, 2, 0, R.string.video)
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
-                menu.add(1, 3, 0, "p")
-                        .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+            menu.add(1, 3, 0, "p")
+                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
             menu.add(1, 4, 0, R.string.notes)
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
