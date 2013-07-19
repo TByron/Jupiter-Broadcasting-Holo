@@ -177,15 +177,17 @@ public class EpisodeListFragment extends SherlockFragment {
             String s = name;
 
             String lastTitle = history.getString("X", "0");
+
             boolean finished = false;
             for (int i = 0; i < titleList.size(); i++) {
-                if (lastTitle == titleList.get(0) || finished ) {
+                if (lastTitle.equalsIgnoreCase(titleList.get(0))  || finished ) {
                     //nothing new, fill the array with zeroes
                     newList.add(false);
                 } else {
                     //something new, find and mark the new
                     newList.add(true);
-                    if (titleList.get(i) == lastTitle) {
+                    if (lastTitle.equalsIgnoreCase(titleList.get(i))) {
+                        newList.remove(i);
                         newList.add(false);
                         finished = true;
                     }
