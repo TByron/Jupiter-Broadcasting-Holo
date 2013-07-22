@@ -12,7 +12,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 
-
     <application
             android:icon="@drawable/jb_icon"
             android:label="@string/app_name"
@@ -22,13 +21,19 @@
         <activity
                 android:name=".Home"
                 android:label="@string/app_name"
-
+                android:launchMode="singleTask"
                 android:configChanges="keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <receiver
+                android:name=".Home$NotificationReceiver">
+            <intent-filter>
+                <action android:name="DO_NOTIFICATION_ACTION"/>
+            </intent-filter>
+        </receiver>
         <activity android:name=".ShowActivity">
         </activity>
     </application>
