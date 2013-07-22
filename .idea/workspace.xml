@@ -40,11 +40,8 @@
       </layout>
     </layouts>
   </component>
-  <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="jb" />
-  </component>
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/EpisodeListFragment.java" line="175" />
+    <bookmark url="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/EpisodeListFragment.java" line="179" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2122cc7f-c518-4f06-a572-e718ca3a9adb" name="Default" comment="">
@@ -71,7 +68,7 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -108,7 +105,23 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
+      <breakpoint url="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/EpisodeListFragment.java" line="253" class="jupiter.broadcasting.live.holo.EpisodeListFragment.EpisodeActionMode$1" package="jupiter.broadcasting.live.holo">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </line_breakpoints>
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -121,16 +134,40 @@
       <file leaf-file-name="EpisodeListFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/EpisodeListFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="189" column="42" selection-start="7019" selection-end="7019" vertical-scroll-proportion="0.0" vertical-offset="1290" max-vertical-offset="4539">
+            <state line="146" column="20" selection-start="5241" selection-end="5241" vertical-scroll-proportion="0.0" vertical-offset="816" max-vertical-offset="4607">
+              <folding>
+                <element signature="e#2245#2655#0" expanded="true" />
+                <element signature="e#2644#2645#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Home.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/Home.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="164" column="30" selection-start="7328" selection-end="7328" vertical-scroll-proportion="0.33282906" vertical-offset="1973" max-vertical-offset="2771">
               <folding />
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="episodelist_fragment.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/episodelist_fragment.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="8" column="38" selection-start="353" selection-end="353" vertical-scroll-proportion="-2.6666667" vertical-offset="0" max-vertical-offset="357">
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer">
+            <state />
           </provider>
         </entry>
       </file>
       <file leaf-file-name="RssHandler.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/parser/RssHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="144" column="45" selection-start="4992" selection-end="5015" vertical-scroll-proportion="0.0" vertical-offset="1711" max-vertical-offset="2601">
+            <state line="144" column="45" selection-start="4992" selection-end="5015" vertical-scroll-proportion="0.0" vertical-offset="2431" max-vertical-offset="2720">
               <folding />
             </state>
           </provider>
@@ -139,7 +176,7 @@
       <file leaf-file-name="ShowActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/ShowActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="79" column="0" selection-start="3437" selection-end="3437" vertical-scroll-proportion="0.0" vertical-offset="833" max-vertical-offset="3196">
+            <state line="79" column="0" selection-start="3437" selection-end="3437" vertical-scroll-proportion="0.0" vertical-offset="1020" max-vertical-offset="3196">
               <folding />
             </state>
           </provider>
@@ -157,10 +194,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LazyAdapter.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="LazyAdapter.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/LazyAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="104" column="0" selection-start="3017" selection-end="3017" vertical-scroll-proportion="0.82751936" vertical-offset="1103" max-vertical-offset="1632">
+            <state line="97" column="5" selection-start="3021" selection-end="3021" vertical-scroll-proportion="0.0" vertical-offset="249" max-vertical-offset="1632">
               <folding />
             </state>
           </provider>
@@ -198,8 +235,8 @@
         <option value="$PROJECT_DIR$/res/layout/episodelist_item.xml" />
         <option value="$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/ShowActivity.java" />
         <option value="$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/parser/RssHandler.java" />
-        <option value="$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/EpisodeListFragment.java" />
         <option value="$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/LazyAdapter.java" />
+        <option value="$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/EpisodeListFragment.java" />
       </list>
     </option>
   </component>
@@ -238,7 +275,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -285,15 +321,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="holo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="parser" />
+              <option name="myItemId" value="res" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -307,20 +335,17 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
+              <option name="myItemId" value="res" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="holo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="list" />
+              <option name="myItemId" value="layout" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -340,8 +365,8 @@
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="FullScreen" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
+    <property name="FullScreen" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
   </component>
   <component name="RecentsManager">
@@ -504,27 +529,27 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.120064035" sideWeight="0.5929978" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32932165" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40700218" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36105034" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.2713348" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.2713348" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24835886" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24835886" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.79431075" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2497332" sideWeight="0.5929978" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2497332" sideWeight="0.75164115" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13676149" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1696905" sideWeight="0.6724891" order="6" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.120064035" sideWeight="0.8621444" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32822758" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
     </layout>
@@ -590,13 +615,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/res/values-hu/style.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="367" selection-end="367" vertical-scroll-proportion="0.24094488" vertical-offset="0" max-vertical-offset="635">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/menu/rssmenu.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="7" selection-start="298" selection-end="298" vertical-scroll-proportion="0.26771653" vertical-offset="0" max-vertical-offset="635">
@@ -604,36 +622,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/Home.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="49" selection-start="916" selection-end="916" vertical-scroll-proportion="-0.30862328" vertical-offset="765" max-vertical-offset="3111">
-          <folding>
-            <element signature="e#1874#2122#0" expanded="false" />
-            <element signature="e#2111#2112#0" expanded="false" />
-            <element signature="e#2228#2453#0" expanded="false" />
-            <element signature="e#2442#2443#0" expanded="false" />
-            <element signature="e#2565#6570#0" expanded="false" />
-            <element signature="e#2796#4352#0" expanded="false" />
-            <element signature="e#4258#4272#0" expanded="false" />
-            <element signature="e#4329#4330#0" expanded="false" />
-            <element signature="e#4418#6383#0" expanded="false" />
-            <element signature="e#5237#5742#0" expanded="false" />
-            <element signature="e#5707#5708#0" expanded="false" />
-            <element signature="e#6360#6361#0" expanded="false" />
-            <element signature="e#6512#6525#0" expanded="false" />
-            <element signature="e#6558#6559#0" expanded="false" />
-            <element signature="e#7794#7832#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/list/ImageLoader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="26" selection-start="758" selection-end="758" vertical-scroll-proportion="-2.0271494" vertical-offset="1837" max-vertical-offset="3400">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
+        <state line="29" column="26" selection-start="758" selection-end="758" vertical-scroll-proportion="-2.0271494" vertical-offset="1837" max-vertical-offset="3400" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/list/FileCache.java">
@@ -701,9 +692,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/EpisodeListFragment.java">
+    <entry file="file://$PROJECT_DIR$/res/layout/episodelist_fragment.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="189" column="42" selection-start="7019" selection-end="7019" vertical-scroll-proportion="0.0" vertical-offset="1290" max-vertical-offset="4539">
+        <state line="8" column="38" selection-start="353" selection-end="353" vertical-scroll-proportion="-2.6666667" vertical-offset="0" max-vertical-offset="357">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/LazyAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="97" column="5" selection-start="3021" selection-end="3021" vertical-scroll-proportion="0.0" vertical-offset="249" max-vertical-offset="1632">
           <folding />
         </state>
       </provider>
@@ -715,9 +716,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/LazyAdapter.java">
+    <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/EpisodeListFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="104" column="0" selection-start="3017" selection-end="3017" vertical-scroll-proportion="0.82751936" vertical-offset="1103" max-vertical-offset="1632">
+        <state line="146" column="20" selection-start="5241" selection-end="5241" vertical-scroll-proportion="0.0" vertical-offset="816" max-vertical-offset="4607">
+          <folding>
+            <element signature="e#2245#2655#0" expanded="true" />
+            <element signature="e#2644#2645#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/Home.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="164" column="30" selection-start="7328" selection-end="7328" vertical-scroll-proportion="0.33282906" vertical-offset="1973" max-vertical-offset="2771">
           <folding />
         </state>
       </provider>

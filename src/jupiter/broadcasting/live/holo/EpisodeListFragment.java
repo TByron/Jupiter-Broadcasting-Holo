@@ -22,10 +22,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -36,11 +38,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import jupiter.broadcasting.live.holo.parser.RssHandler;
 import jupiter.broadcasting.live.holo.parser.SaxRssParser;
@@ -131,6 +130,7 @@ public class EpisodeListFragment extends SherlockFragment {
             }
         }
     }
+
     private List<String> titleList;
 
     public class RSS_parse extends AsyncTask<String, Integer, List<String>> {
@@ -143,6 +143,9 @@ public class EpisodeListFragment extends SherlockFragment {
             RssHandler vcustomhandler = new RssHandler("title", "link", page);
             aparser.setRssHadler(acustomhandler);
             vparser.setRssHadler(vcustomhandler);
+            if (page > 0) {
+                first = false;
+            }
             if (first) {
                 arssLinkTable = aparser.parse(link[0]);
                 vrssLinkTable = vparser.parse(link[1]);
@@ -152,23 +155,24 @@ public class EpisodeListFragment extends SherlockFragment {
                 vrssLinkTable.putAll(vparser.parse(link[1]));
             }
             episodes = vparser.getTitles();
-            if (page > 0) {
-                first = false;
-            }
+
             return episodes;
         }
 
         @Override
         protected void onPostExecute(List<String> args) {
             titleList = args;
-
-            if (first) {
-                adapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_list_item_1, android.R.id.text1, titleList);
-                lAdapter = new LazyAdapter(getSherlockActivity(), titleList, vrssLinkTable, checkNew());
-                asyncResultView.setAdapter(lAdapter);
-                getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
-            } else {
-                lAdapter.add(titleList, vrssLinkTable);
+            try {
+                if (first) {
+                    adapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_list_item_1, android.R.id.text1, titleList);
+                    lAdapter = new LazyAdapter(getSherlockActivity(), titleList, vrssLinkTable, checkNew());
+                    asyncResultView.setAdapter(lAdapter);
+                    getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
+                } else {
+                    lAdapter.add(titleList, vrssLinkTable);
+                }
+            } catch (Exception e) {
+                Log.e("image catch: ", e.toString());
             }
         }
 
@@ -180,7 +184,7 @@ public class EpisodeListFragment extends SherlockFragment {
 
             boolean finished = false;
             for (int i = 0; i < titleList.size(); i++) {
-                if (lastTitle.equalsIgnoreCase(titleList.get(0))  || finished ) {
+                if (lastTitle.equalsIgnoreCase(titleList.get(0)) || finished) {
                     //nothing new, fill the array with zeroes
                     newList.add(false);
                 } else {
@@ -209,9 +213,6 @@ public class EpisodeListFragment extends SherlockFragment {
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
             menu.add(1, 2, 0, R.string.video)
-                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-
-            menu.add(1, 3, 0, "p")
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
             menu.add(1, 4, 0, R.string.notes)
