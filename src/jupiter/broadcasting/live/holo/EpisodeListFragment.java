@@ -15,19 +15,23 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AbsListView;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -36,7 +40,18 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
+import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.decode.BaseImageDecoder;
+import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
+import com.nostra13.universalimageloader.utils.StorageUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -57,16 +72,47 @@ public class EpisodeListFragment extends SherlockFragment {
     com.actionbarsherlock.view.ActionMode mMode;
     String aurls[];
     String vurls[];
-    ArrayAdapter<String> adapter;
     LazyAdapter lAdapter;
     boolean first;
+    ImageLoader imageLoader;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
-
         v = inflater.inflate(R.layout.episodelist_fragment, null);
+
+        Context c = getSherlockActivity().getApplicationContext();
+        Point size = new Point();
+        WindowManager w = getSherlockActivity().getWindowManager();
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2){
+            w.getDefaultDisplay().getSize(size);
+        }else{
+            Display d = w.getDefaultDisplay();
+            size.x = d.getWidth();
+            size.y = d.getHeight();
+        }
+
+        File cacheDir = StorageUtils.getCacheDirectory(c);
+        ImageLoaderConfiguration iConfig = new ImageLoaderConfiguration.Builder(c)
+                .memoryCacheExtraOptions(size.x/3, size.y/5)
+                .discCacheExtraOptions(size.x / 3, size.y / 5, Bitmap.CompressFormat.JPEG, 75, null)
+                .threadPoolSize(3) // default
+                .threadPriority(Thread.NORM_PRIORITY - 1) // default
+                .tasksProcessingOrder(QueueProcessingType.FIFO) // default
+                .denyCacheImageMultipleSizesInMemory()
+                .memoryCache(new LruMemoryCache(2 * 1024 * 1024))
+                .memoryCacheSizePercentage(13) // default
+                .discCache(new UnlimitedDiscCache(cacheDir)) // default
+                .discCacheFileNameGenerator(new HashCodeFileNameGenerator()) // default
+                .imageDownloader(new BaseImageDownloader(c)) // default
+                .imageDecoder(new BaseImageDecoder(false)) // default
+                .defaultDisplayImageOptions(DisplayImageOptions.createSimple()) // default
+                .writeDebugLogs()
+                .build();
+        imageLoader = ImageLoader.getInstance();
+        imageLoader.init(iConfig);
 
         asyncResultView = (ListView) v.findViewById(R.id.episodelist);
         asyncResultView.setOnScrollListener(new EndlessScrollListener());
@@ -164,8 +210,8 @@ public class EpisodeListFragment extends SherlockFragment {
             titleList = args;
             try {
                 if (first) {
-                    adapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_list_item_1, android.R.id.text1, titleList);
-                    lAdapter = new LazyAdapter(getSherlockActivity(), titleList, vrssLinkTable, checkNew());
+                    //adapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_list_item_1, android.R.id.text1, titleList);
+                    lAdapter = new LazyAdapter(getSherlockActivity(), imageLoader, titleList, vrssLinkTable, checkNew());
                     asyncResultView.setAdapter(lAdapter);
                     getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
                 } else {

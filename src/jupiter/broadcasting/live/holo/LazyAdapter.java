@@ -10,11 +10,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
-import jupiter.broadcasting.live.holo.list.ImageLoader;
+
 
 public class LazyAdapter extends BaseAdapter {
 
@@ -23,15 +25,17 @@ public class LazyAdapter extends BaseAdapter {
     private List<String> titles;
     private ArrayList<Boolean> markNew;
     private static LayoutInflater inflater = null;
-    public ImageLoader imageLoader;
+    private ImageLoader iLoader;
 
-    public LazyAdapter(Activity a, List<String> t, Hashtable<String, String[]> table, ArrayList<Boolean> aNew) {
+
+    public LazyAdapter(Activity a, ImageLoader imageLoader, List<String> t, Hashtable<String, String[]> table, ArrayList<Boolean> aNew) {
         activity = a;
         data = table;
         titles = t;
         markNew = aNew;
+        iLoader = imageLoader;
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        imageLoader = new ImageLoader(activity.getApplicationContext());
+
     }
 
     public int getCount() {
@@ -64,29 +68,31 @@ public class LazyAdapter extends BaseAdapter {
         TextView dura = (TextView) vi.findViewById(R.id.dur);
         ImageView newtag = (ImageView) vi.findViewById(R.id.newtag);
 
-        text.setText(titles.get(position));
+        String duration = null;
+        String url = null;
+        String title = null;
         // inconsistent rss formats, so making sure...
         try {
             if (data.get(titles.get(position))[3] != null) {
-                dura.setText(data.get(titles.get(position))[3]);
+                title = titles.get(position);
+                url = data.get(titles.get(position))[2];
+                duration = data.get(titles.get(position))[3];
+
             }
-
-
         } catch (Exception e) {
             String err = (e.getMessage()==null)?"Something wrong":e.getMessage();
-            Log.e("duration catch: ",err);
+            Log.e("rss error: ",err);
         }
-        try {
-            if (data.get(titles.get(position))[2] != null) {
-                imageLoader.DisplayImage(data.get(titles.get(position))[2], image);
-            }
-        }catch (Exception e) {
-            String err = (e.getMessage()==null)?"Something wrong":e.getMessage();
-            Log.e("image catch: ",err);
+        if (null != duration){
+            dura.setText(duration);
         }
+        else{
+            dura.setText("11:11");
+        }
+        text.setText(title);
+        iLoader.displayImage(url,image);
 
-
-        if (markNew.size() > position) {
+        if (markNew.size()+1 > position) {
             if (markNew.get(position)) {
                 newtag.setImageResource(R.drawable.newtag);
             }
