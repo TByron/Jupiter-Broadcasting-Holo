@@ -15,44 +15,26 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.GridView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
-import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
-import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.PauseOnScrollListener;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.decode.BaseImageDecoder;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
-import com.nostra13.universalimageloader.utils.StorageUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -67,7 +49,7 @@ public class EpisodeListFragment extends SherlockFragment {
     String afeed, vfeed, name;
     Hashtable<String, String[]> arssLinkTable;
     Hashtable<String, String[]> vrssLinkTable;
-    ListView asyncResultView;
+    GridView asyncResultView;
     SharedPreferences history;
     View v;
     com.actionbarsherlock.view.ActionMode mMode;
@@ -75,19 +57,16 @@ public class EpisodeListFragment extends SherlockFragment {
     String vurls[];
     LazyAdapter lAdapter;
     boolean first;
-    ImageLoader imageLoader;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
+
         v = inflater.inflate(R.layout.episodelist_fragment, null);
-        CreateImageLoaderConfig();
-        asyncResultView = (ListView) v.findViewById(R.id.episodelist);
-        boolean pauseOnScroll = false; // or true
-        boolean pauseOnFling = true; // or false
-        PauseOnScrollListener complexListener = new PauseOnScrollListener(imageLoader, pauseOnScroll, pauseOnFling, new EndlessScrollListener());
-        asyncResultView.setOnScrollListener(complexListener);
+//        CreateImageLoaderConfig();
+        asyncResultView = (GridView) v.findViewById(R.id.episodelist);
+        asyncResultView.setOnScrollListener(new EndlessScrollListener());
         asyncResultView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 aurls = arssLinkTable.get(parent.getAdapter().getItem(position));
@@ -96,7 +75,7 @@ public class EpisodeListFragment extends SherlockFragment {
             }
         });
         View footerView = inflater.inflate(R.layout.loadingline, null, false);
-        asyncResultView.addFooterView(footerView);
+        //asyncResultView.addFooterView(footerView);
         Bundle b = getArguments();
         afeed = b.getString("SHOW_AUDIO");
         vfeed = b.getString("SHOW_VIDEO");
@@ -104,18 +83,19 @@ public class EpisodeListFragment extends SherlockFragment {
 
         first = true;
         history = getActivity().getSharedPreferences(name, 0);
+        getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
         RSS_parse newparse = new RSS_parse();  //do networking in async task SDK>9
         newparse.execute(afeed, vfeed, "0");
 
         return v;
     }
 
-    private void CreateImageLoaderConfig() {
+    /*private void CreateImageLoaderConfig() {
 
         Context c = getSherlockActivity().getApplicationContext();
         Point size = new Point();
         WindowManager w = getSherlockActivity().getWindowManager();
-        File cacheDir = StorageUtils.getCacheDirectory(c);
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             w.getDefaultDisplay().getSize(size);
@@ -153,7 +133,7 @@ public class EpisodeListFragment extends SherlockFragment {
 
         imageLoader = ImageLoader.getInstance();
         imageLoader.init(iConfig);
-    }
+    }*/
 
     public class EndlessScrollListener implements AbsListView.OnScrollListener {
 
@@ -187,6 +167,7 @@ public class EpisodeListFragment extends SherlockFragment {
                 // load the next page of shows using a background task
                 //getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
                 currentPage++;
+                getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
                 RSS_parse scrollparse = new RSS_parse();
                 scrollparse.execute(afeed, vfeed, String.valueOf(currentPage));
                 loading = true;
@@ -229,15 +210,16 @@ public class EpisodeListFragment extends SherlockFragment {
             try {
                 if (first) {
                     //adapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_list_item_1, android.R.id.text1, titleList);
-                    lAdapter = new LazyAdapter(getSherlockActivity(), imageLoader, titleList, vrssLinkTable, checkNew());
+                    lAdapter = new LazyAdapter(getSherlockActivity(), titleList, vrssLinkTable, checkNew());
                     asyncResultView.setAdapter(lAdapter);
-                    getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
+
                 } else {
                     lAdapter.add(titleList, vrssLinkTable);
                 }
             } catch (Exception e) {
                 Log.e("image catch: ", e.toString());
             }
+            getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
         }
 
         private ArrayList<Boolean> checkNew() {
@@ -359,18 +341,5 @@ public class EpisodeListFragment extends SherlockFragment {
         public void onDestroyActionMode(ActionMode mode) {
 
         }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        //do not cache images in the background
-        imageLoader.pause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        imageLoader.resume();
     }
 }

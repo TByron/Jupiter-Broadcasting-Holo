@@ -10,11 +10,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
+
+import jupiter.broadcasting.live.holo.list.ImageLoader;
 
 
 public class LazyAdapter extends BaseAdapter {
@@ -24,17 +24,16 @@ public class LazyAdapter extends BaseAdapter {
     private List<String> titles;
     private ArrayList<Boolean> markNew;
     private static LayoutInflater inflater = null;
-    private ImageLoader iLoader;
+    ImageLoader imageLoader;
 
 
-    public LazyAdapter(Activity a, ImageLoader imageLoader, List<String> t, Hashtable<String, String[]> table, ArrayList<Boolean> aNew) {
+    public LazyAdapter(Activity a, List<String> t, Hashtable<String, String[]> table, ArrayList<Boolean> aNew) {
         activity = a;
         data = table;
         titles = t;
         markNew = aNew;
-        iLoader = imageLoader;
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+        imageLoader = new ImageLoader(activity.getApplicationContext());
     }
 
     public int getCount() {
@@ -67,7 +66,7 @@ public class LazyAdapter extends BaseAdapter {
             eHolder.newtag = (ImageView) vi.findViewById(R.id.newtag);
 
             vi.setTag(eHolder);
-        }else {
+        } else {
             eHolder = (ElementHolder) vi.getTag();
         }
 
@@ -90,7 +89,7 @@ public class LazyAdapter extends BaseAdapter {
             eHolder.dura.setText("11:11");
         }
         eHolder.text.setText(title);
-        iLoader.displayImage(url, eHolder.image);
+        imageLoader.DisplayImage(url, eHolder.image);
 
         if (markNew.size() > position) {
             if (markNew.get(position)) {
@@ -103,7 +102,7 @@ public class LazyAdapter extends BaseAdapter {
         return vi;
     }
 
-    static class ElementHolder{
+    static class ElementHolder {
         ImageView image;
         ImageView newtag;
         TextView text;
