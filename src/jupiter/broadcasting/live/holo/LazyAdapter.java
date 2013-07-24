@@ -89,7 +89,11 @@ public class LazyAdapter extends BaseAdapter {
             eHolder.dura.setText("11:11");
         }
         eHolder.text.setText(title);
-        imageLoader.DisplayImage(url, eHolder.image);
+        if (url != null) {
+            imageLoader.DisplayImage(url, eHolder.image);
+        } else {
+            eHolder.image.setImageResource(R.drawable.logo2);
+        }
 
         if (markNew.size() > position) {
             if (markNew.get(position)) {

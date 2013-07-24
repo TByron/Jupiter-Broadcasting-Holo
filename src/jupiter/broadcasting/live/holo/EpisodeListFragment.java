@@ -58,7 +58,6 @@ public class EpisodeListFragment extends SherlockFragment {
     LazyAdapter lAdapter;
     boolean first;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -89,51 +88,6 @@ public class EpisodeListFragment extends SherlockFragment {
 
         return v;
     }
-
-    /*private void CreateImageLoaderConfig() {
-
-        Context c = getSherlockActivity().getApplicationContext();
-        Point size = new Point();
-        WindowManager w = getSherlockActivity().getWindowManager();
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            w.getDefaultDisplay().getSize(size);
-        } else {
-            Display d = w.getDefaultDisplay();
-            size.x = d.getWidth();
-            size.y = d.getHeight();
-        }
-
-        DisplayImageOptions dio = new DisplayImageOptions.Builder()
-                .showStubImage(R.drawable.logo2)
-                .showImageForEmptyUri(R.drawable.logo2)
-                .showImageOnFail(R.drawable.logo2)
-                .resetViewBeforeLoading(false)  // default
-                .displayer(new FadeInBitmapDisplayer(200))
-                .cacheInMemory(true)
-                .cacheOnDisc(true)
-                .build();
-
-        ImageLoaderConfiguration iConfig = new ImageLoaderConfiguration.Builder(c)
-                .memoryCacheExtraOptions(size.x / 3, size.y / 5)
-                .discCacheExtraOptions(size.x / 3, size.y / 5, Bitmap.CompressFormat.JPEG, 75, null)
-                .threadPoolSize(6) // default
-                .threadPriority(Thread.NORM_PRIORITY - 1) // default
-                .tasksProcessingOrder(QueueProcessingType.FIFO) // default
-                .denyCacheImageMultipleSizesInMemory()
-                .memoryCache(new LruMemoryCache(5 * 1024 * 1024)) //5 Megs
-                .discCache(new UnlimitedDiscCache(cacheDir)) // default
-                .discCacheFileNameGenerator(new HashCodeFileNameGenerator()) // default
-                .imageDownloader(new BaseImageDownloader(c)) // default
-                .imageDecoder(new BaseImageDecoder(false)) // default
-                .defaultDisplayImageOptions(dio)
-                .writeDebugLogs()
-                .build();
-
-        imageLoader = ImageLoader.getInstance();
-        imageLoader.init(iConfig);
-    }*/
 
     public class EndlessScrollListener implements AbsListView.OnScrollListener {
 
@@ -209,7 +163,6 @@ public class EpisodeListFragment extends SherlockFragment {
             titleList = args;
             try {
                 if (first) {
-                    //adapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_list_item_1, android.R.id.text1, titleList);
                     lAdapter = new LazyAdapter(getSherlockActivity(), titleList, vrssLinkTable, checkNew());
                     asyncResultView.setAdapter(lAdapter);
 
