@@ -57,47 +57,57 @@ public class LazyAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi = convertView;
-
+        ElementHolder eHolder;
         if (convertView == null) {
             vi = inflater.inflate(R.layout.episodelist_item, null);
+            eHolder = new ElementHolder();
+            eHolder.text = (TextView) vi.findViewById(R.id.title);
+            eHolder.dura = (TextView) vi.findViewById(R.id.dur);
+            eHolder.image = (ImageView) vi.findViewById(R.id.thumb);
+            eHolder.newtag = (ImageView) vi.findViewById(R.id.newtag);
+
+            vi.setTag(eHolder);
+        }else {
+            eHolder = (ElementHolder) vi.getTag();
         }
-        TextView text = (TextView) vi.findViewById(R.id.title);
-        ImageView image = (ImageView) vi.findViewById(R.id.thumb);
-        TextView dura = (TextView) vi.findViewById(R.id.dur);
-        ImageView newtag = (ImageView) vi.findViewById(R.id.newtag);
 
         String duration = null;
         String url = null;
         String title = null;
         // inconsistent rss formats, so making sure...
         try {
-            if (data.get(titles.get(position))[3] != null) {
-                title = titles.get(position);
-                url = data.get(titles.get(position))[2];
-                duration = data.get(titles.get(position))[3];
-
-            }
+            title = titles.get(position);
+            url = data.get(titles.get(position))[2];
+            duration = data.get(titles.get(position))[3];
         } catch (Exception e) {
             String err = (e.getMessage() == null) ? "Something wrong" : e.getMessage();
             Log.e("rss error: ", err);
         }
+
         if (null != duration) {
-            dura.setText(duration);
+            eHolder.dura.setText(duration);
         } else {
-            dura.setText("11:11");
+            eHolder.dura.setText("11:11");
         }
-        text.setText(title);
-        iLoader.displayImage(url, image);
+        eHolder.text.setText(title);
+        iLoader.displayImage(url, eHolder.image);
 
         if (markNew.size() > position) {
             if (markNew.get(position)) {
-                newtag.setImageResource(R.drawable.newtag);
+                eHolder.newtag.setImageResource(R.drawable.newtag);
             }
         } else {
-            newtag.setImageResource(R.drawable.nonewtag);
+            eHolder.newtag.setImageResource(R.drawable.nonewtag);
         }
 
         return vi;
+    }
+
+    static class ElementHolder{
+        ImageView image;
+        ImageView newtag;
+        TextView text;
+        TextView dura;
     }
 }
 
