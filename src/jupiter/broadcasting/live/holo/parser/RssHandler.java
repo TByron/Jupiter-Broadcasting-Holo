@@ -110,9 +110,9 @@ public class RssHandler extends DefaultHandler {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         if (isLink && !donethis) {
             rssLinks.addElement(toAdd.toString());
-        }else if (isTitle && !donethis) {
+        } else if (isTitle && !donethis) {
             rssTitles.addElement(toAdd.toString());
-        }else if (isDur && !donethis) {
+        } else if (isDur && !donethis) {
             duration.addElement(toAdd.toString());
         }
         toAdd = new StringBuffer();
@@ -120,7 +120,7 @@ public class RssHandler extends DefaultHandler {
 
     public void characters(char ch[], int start, int length) throws SAXException {
         if ((isLink || isTitle || isDur) && !donethis) {
-            toAdd.append(new String(ch,start,length));
+            toAdd.append(new String(ch, start, length));
         }
     }
 
@@ -128,16 +128,15 @@ public class RssHandler extends DefaultHandler {
         Hashtable<String, String[]> output = new Hashtable<String, String[]>();
         for (int i = 0; i < rssTitles.size(); i++) {
             try {
-                if (thumbnails.size()>0) {
-                    if (duration.size()>0){
+                if (thumbnails.size() > 0) {
+                    if (duration.size() > 0) {
                         output.put(rssTitles.elementAt(i), new String[]{rssLinks.elementAt(i), rssEnclosures.elementAt(i), thumbnails.elementAt(i), duration.elementAt(i)});
-                    }
-                    else {
+                    } else {
                         output.put(rssTitles.elementAt(i), new String[]{rssLinks.elementAt(i), rssEnclosures.elementAt(i), thumbnails.elementAt(i)});
                     }
-                } else if (duration.size()>0){
+                } else if (duration.size() > 0) {
                     output.put(rssTitles.elementAt(i), new String[]{rssLinks.elementAt(i), rssEnclosures.elementAt(i), duration.elementAt(i)});
-                }else{
+                } else {
                     output.put(rssTitles.elementAt(i), new String[]{rssLinks.elementAt(i), rssEnclosures.elementAt(i)});
                 }
 

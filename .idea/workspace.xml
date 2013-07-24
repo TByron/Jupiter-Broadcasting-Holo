@@ -44,17 +44,17 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="jb" />
   </component>
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/EpisodeListFragment.java" line="225" />
+    <bookmark url="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/EpisodeListFragment.java" line="243" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2122cc7f-c518-4f06-a572-e718ca3a9adb" name="Default" comment="">
-      <change type="DELETED" beforePath="D:\androidgit\Github\Jupiter-Broadcasting-Holo\src\jupiter\broadcasting\live\holo\list\FileCache.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\androidgit\Github\Jupiter-Broadcasting-Holo\src\jupiter\broadcasting\live\holo\list\ImageLoader.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\androidgit\Github\Jupiter-Broadcasting-Holo\src\jupiter\broadcasting\live\holo\list\MemoryCache.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\androidgit\Github\Jupiter-Broadcasting-Holo\src\jupiter\broadcasting\live\holo\list\Utils.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable/logo2.png" afterPath="$PROJECT_DIR$/res/drawable/logo2.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/EpisodeListFragment.java" afterPath="$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/EpisodeListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Jupiter-Broadcasting-Holo.iml" afterPath="$PROJECT_DIR$/Jupiter-Broadcasting-Holo.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/Home.java" afterPath="$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/Home.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/LazyAdapter.java" afterPath="$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/LazyAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/parser/RssHandler.java" afterPath="$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/parser/RssHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/ShowActivity.java" afterPath="$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/ShowActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Jupiter-Broadcasting-Holo.iws" />
@@ -76,6 +76,8 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -112,8 +114,6 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -123,63 +123,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Home.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/Home.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="189" column="52" selection-start="8302" selection-end="8302" vertical-scroll-proportion="0.0" vertical-offset="2334" max-vertical-offset="3400">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="17" selection-start="1255" selection-end="1255" vertical-scroll-proportion="-19.615385" vertical-offset="0" max-vertical-offset="765">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="episodelist_fragment.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/episodelist_fragment.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="38" selection-start="353" selection-end="353" vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="357">
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ShowActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/ShowActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="79" column="0" selection-start="3437" selection-end="3437" vertical-scroll-proportion="0.0" vertical-offset="1020" max-vertical-offset="3196">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="EpisodeListFragment.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/EpisodeListFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="112" column="25" selection-start="4467" selection-end="4467" vertical-scroll-proportion="-0.7473525" vertical-offset="2398" max-vertical-offset="5899">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state line="152" column="0" selection-start="6393" selection-end="6393" vertical-scroll-proportion="3.380117" vertical-offset="0" max-vertical-offset="5610">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LazyAdapter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/LazyAdapter.java">
+      <file leaf-file-name="DisplayImageOptions.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/libs/universal-image-loader-1.8.6-with-sources.jar!/com/nostra13/universalimageloader/core/DisplayImageOptions.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="66" column="21" selection-start="1804" selection-end="1804" vertical-scroll-proportion="0.0" vertical-offset="895" max-vertical-offset="1972">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state line="190" column="39" selection-start="6342" selection-end="6342" vertical-scroll-proportion="0.0" vertical-offset="2596" max-vertical-offset="6511">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -213,10 +170,10 @@
         <option value="$PROJECT_DIR$/res/layout/episodelist_item.xml" />
         <option value="$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/ShowActivity.java" />
         <option value="$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/parser/RssHandler.java" />
-        <option value="$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/Home.java" />
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/list/ImageLoader.java" />
+        <option value="$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/Home.java" />
         <option value="$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/LazyAdapter.java" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/EpisodeListFragment.java" />
       </list>
     </option>
@@ -292,6 +249,38 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Jupiter-Broadcasting-Holo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Jupiter-Broadcasting-Holo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Jupiter-Broadcasting-Holo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Jupiter-Broadcasting-Holo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
@@ -304,9 +293,11 @@
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="project.structure.proportion" value="0.15" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="options.lastSelected" value="appearance" />
     <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/universal-image-loader-1.8.6-with-sources.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="DEBUGGABLE_DEVICE" value="0149CBF313015018" />
     <property name="MemberChooser.copyJavadoc" value="false" />
@@ -314,9 +305,11 @@
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="FullScreen" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
+    <property name="FullScreen" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
+    <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -463,6 +456,23 @@
       <AnalysisUIOptions />
     </option>
   </component>
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="all">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <option name="IGNORE_EXTERNALS" value="false" />
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="2122cc7f-c518-4f06-a572-e718ca3a9adb" name="Default" comment="" />
@@ -472,33 +482,33 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-4" width="1928" height="1060" extended-state="1" />
+    <frame x="-4" y="-4" width="1928" height="1060" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32929516" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32932165" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.120064035" sideWeight="0.5936123" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32929516" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40700218" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40638766" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36105034" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.2713348" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.2713348" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24835886" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24779736" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.79431075" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2497332" sideWeight="0.75164115" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2497332" sideWeight="0.5936123" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13676149" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1696905" sideWeight="0.6724891" order="6" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.120064035" sideWeight="0.5929978" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32822758" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
     </layout>
@@ -564,123 +574,113 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/res/layout/main.xml">
+    <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/Home.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="491">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-17/android.jar!/android/content/Intent.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="251" column="37" selection-start="21121" selection-end="21121" vertical-scroll-proportion="0.46719682" vertical-offset="4015" max-vertical-offset="9197" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/episodelist_fragment.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="38" selection-start="353" selection-end="353" vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="357">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="17" selection-start="1255" selection-end="1255" vertical-scroll-proportion="-19.615385" vertical-offset="0" max-vertical-offset="765">
+        <state line="203" column="45" selection-start="9052" selection-end="9052" vertical-scroll-proportion="0.3581081" vertical-offset="2487" max-vertical-offset="3417">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/ShowActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="0" selection-start="3437" selection-end="3437" vertical-scroll-proportion="0.0" vertical-offset="833" max-vertical-offset="3196">
+        <state line="83" column="72" selection-start="3556" selection-end="3556" vertical-scroll-proportion="0.09572072" vertical-offset="1020" max-vertical-offset="3196">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/libs/universal-image-loader-1.8.6-with-sources.jar!/com/nostra13/universalimageloader/utils/StorageUtils.java">
+    <entry file="jar://$PROJECT_DIR$/libs/universal-image-loader-1.8.6-with-sources.jar!/com/nostra13/universalimageloader/core/assist/QueueProcessingType.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="24" selection-start="3841" selection-end="3841" vertical-scroll-proportion="0.46516854" vertical-offset="946" max-vertical-offset="1836">
+        <state line="23" column="12" selection-start="982" selection-end="982" vertical-scroll-proportion="0.23146747" vertical-offset="0" max-vertical-offset="661" />
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-17/android.jar!/java/util/concurrent/atomic/AtomicBoolean.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="22" selection-start="610" selection-end="610" vertical-scroll-proportion="0.5271318" vertical-offset="0" max-vertical-offset="516" />
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/libs/universal-image-loader-1.8.6-with-sources.jar!/com/nostra13/universalimageloader/core/ImageLoaderEngine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="52" column="36" selection-start="2190" selection-end="2190" vertical-scroll-proportion="0.0" vertical-offset="2374" max-vertical-offset="2890" />
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/libs/universal-image-loader-1.8.6-with-sources.jar!/com/nostra13/universalimageloader/core/ImageLoaderConfiguration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="189" column="15" selection-start="8258" selection-end="8258" vertical-scroll-proportion="0.94035786" vertical-offset="2196" max-vertical-offset="9095">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/parser/RssHandler.java">
+    <entry file="jar://$PROJECT_DIR$/libs/universal-image-loader-1.8.6-with-sources.jar!/com/nostra13/universalimageloader/core/assist/PauseOnScrollListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="144" column="45" selection-start="4992" selection-end="5015" vertical-scroll-proportion="0.0" vertical-offset="2431" max-vertical-offset="2720">
+        <state line="61" column="25" selection-start="2774" selection-end="2774" vertical-scroll-proportion="0.0" vertical-offset="644" max-vertical-offset="1445">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-17/android.jar!/android/graphics/Point.class">
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="13" selection-start="159" selection-end="159" vertical-scroll-proportion="0.09550562" vertical-offset="0" max-vertical-offset="890">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-17/android.jar!/android/view/Display.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="43" selection-start="636" selection-end="636" vertical-scroll-proportion="0.0" vertical-offset="44" max-vertical-offset="1139">
+        <state line="16" column="44" selection-start="711" selection-end="711" vertical-scroll-proportion="0.31554523" vertical-offset="0" max-vertical-offset="862">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/libs/universal-image-loader-1.8.6-with-sources.jar!/com/nostra13/universalimageloader/core/ImageLoader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="19" selection-start="3214" selection-end="3214" vertical-scroll-proportion="0.5385779" vertical-offset="375" max-vertical-offset="7140">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-17/android.jar!/android/os/Build.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="24" selection-start="1403" selection-end="1403" vertical-scroll-proportion="0.33282906" vertical-offset="392" max-vertical-offset="1326">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/Home.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="189" column="52" selection-start="8302" selection-end="8302" vertical-scroll-proportion="0.0" vertical-offset="2487" max-vertical-offset="3400">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/libs/universal-image-loader-1.8.6-with-sources.jar!/com/nostra13/universalimageloader/core/DisplayImageOptions.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="89" column="23" selection-start="4191" selection-end="4191" vertical-scroll-proportion="-7.1527987" vertical-offset="5850" max-vertical-offset="6511">
-          <folding />
-        </state>
+        <state line="412" column="12" selection-start="19404" selection-end="19404" vertical-scroll-proportion="12.124031" vertical-offset="306" max-vertical-offset="7140" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/LazyAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="21" selection-start="1804" selection-end="1804" vertical-scroll-proportion="0.0" vertical-offset="895" max-vertical-offset="1972">
+        <state line="29" column="32" selection-start="883" selection-end="883" vertical-scroll-proportion="0.1936937" vertical-offset="321" max-vertical-offset="1989">
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/libs/universal-image-loader-1.8.6-with-sources.jar!/com/nostra13/universalimageloader/core/ImageLoaderConfiguration.java">
+    <entry file="jar://$PROJECT_DIR$/libs/universal-image-loader-1.8.6-with-sources.jar!/com/nostra13/universalimageloader/cache/memory/impl/LruMemoryCache.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="538" column="23" selection-start="22645" selection-end="22648" vertical-scroll-proportion="0.33226323" vertical-offset="8395" max-vertical-offset="9095">
+        <state line="33" column="17" selection-start="1150" selection-end="1150" vertical-scroll-proportion="0.46588695" vertical-offset="220" max-vertical-offset="2397">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/drawable/logo2.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/episodelist_fragment.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="0" selection-start="591" selection-end="591" vertical-scroll-proportion="-5.0" vertical-offset="0" max-vertical-offset="357">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/episodelist_item.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="42" selection-start="550" selection-end="550" vertical-scroll-proportion="-4.6666665" vertical-offset="0" max-vertical-offset="799">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/libs/universal-image-loader-1.8.6-with-sources.jar!/com/nostra13/universalimageloader/core/DisplayImageOptions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="190" column="39" selection-start="6342" selection-end="6342" vertical-scroll-proportion="0.0" vertical-offset="2596" max-vertical-offset="6511">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/jupiter/broadcasting/live/holo/EpisodeListFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="112" column="25" selection-start="4467" selection-end="4467" vertical-scroll-proportion="-0.7473525" vertical-offset="2398" max-vertical-offset="5899">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="152" column="0" selection-start="6393" selection-end="6393" vertical-scroll-proportion="3.380117" vertical-offset="0" max-vertical-offset="5610">
+          <folding />
         </state>
       </provider>
     </entry>

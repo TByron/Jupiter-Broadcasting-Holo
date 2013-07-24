@@ -31,7 +31,6 @@ import com.actionbarsherlock.view.Window;
 import java.util.Hashtable;
 
 
-
 public class ShowActivity extends SherlockFragmentActivity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;

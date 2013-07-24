@@ -8,7 +8,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -172,7 +171,8 @@ public class Home extends Activity {
         }
         mNotificationManager.cancel(NOTIFICATION_ID);//because onPause is called first
     }
-    private void putNotificationUp(boolean play){
+
+    private void putNotificationUp(boolean play) {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
@@ -212,7 +212,7 @@ public class Home extends Activity {
 
     public class NotificationReceiver extends BroadcastReceiver {
 
-       @Override
+        @Override
         public void onReceive(Context context, Intent intent) {
             Bundle answerBundle = intent.getExtras();
             int event = answerBundle.getInt("click");
@@ -220,7 +220,7 @@ public class Home extends Activity {
                 if (mp.isPlaying()) {
                     mp.stop();
                     putNotificationUp(mp.isPlaying());
-               } else {
+                } else {
                     mp.start();
                     putNotificationUp(mp.isPlaying());
                 }

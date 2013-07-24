@@ -17,7 +17,6 @@ import java.util.Hashtable;
 import java.util.List;
 
 
-
 public class LazyAdapter extends BaseAdapter {
 
     private Activity activity;
@@ -53,7 +52,6 @@ public class LazyAdapter extends BaseAdapter {
     public void add(List<String> t, Hashtable<String, String[]> table) {
         data.putAll(table);
         titles.addAll(t);
-
         notifyDataSetChanged();
     }
 
@@ -80,19 +78,18 @@ public class LazyAdapter extends BaseAdapter {
 
             }
         } catch (Exception e) {
-            String err = (e.getMessage()==null)?"Something wrong":e.getMessage();
-            Log.e("rss error: ",err);
+            String err = (e.getMessage() == null) ? "Something wrong" : e.getMessage();
+            Log.e("rss error: ", err);
         }
-        if (null != duration){
+        if (null != duration) {
             dura.setText(duration);
-        }
-        else{
+        } else {
             dura.setText("11:11");
         }
         text.setText(title);
-        iLoader.displayImage(url,image);
+        iLoader.displayImage(url, image);
 
-        if (markNew.size()+1 > position) {
+        if (markNew.size() > position) {
             if (markNew.get(position)) {
                 newtag.setImageResource(R.drawable.newtag);
             }
