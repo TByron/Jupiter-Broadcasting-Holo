@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -31,7 +32,7 @@ import java.io.IOException;
  * @author Shane Quigley
  * @hacked Adam Szabo
  */
-public class Home extends Activity {
+public class Home extends ActionBarActivity {
     /**
      * Called when the activity is first created.
      */

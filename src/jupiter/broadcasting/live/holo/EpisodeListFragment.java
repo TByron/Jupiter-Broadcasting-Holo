@@ -20,20 +20,20 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
-
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -43,7 +43,7 @@ import jupiter.broadcasting.live.holo.parser.RssHandler;
 import jupiter.broadcasting.live.holo.parser.SaxRssParser;
 
 
-public class EpisodeListFragment extends SherlockFragment {
+public class EpisodeListFragment extends Fragment {
 
     List<String> episodes;
     String afeed, vfeed, name;
@@ -52,11 +52,15 @@ public class EpisodeListFragment extends SherlockFragment {
     GridView asyncResultView;
     SharedPreferences history;
     View v;
-    com.actionbarsherlock.view.ActionMode mMode;
+    String title;
     String aurls[];
     String vurls[];
     LazyAdapter lAdapter;
     boolean first;
+    MenuFragment mFragment1;
+    int opId;
+    FragmentTransaction ft;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,13 +68,31 @@ public class EpisodeListFragment extends SherlockFragment {
 
         v = inflater.inflate(R.layout.episodelist_fragment, null);
 //        CreateImageLoaderConfig();
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        ft = fm.beginTransaction();
+        if (mFragment1 == null){
+            mFragment1 = new MenuFragment();
+            ft.add(mFragment1, "mf");
+        }
+        ft.commit();
+        mFragment1.setHasOptionsMenu(true);
+        mFragment1.setMenuVisibility(false);
+
+        opId = 555;
         asyncResultView = (GridView) v.findViewById(R.id.episodelist);
         asyncResultView.setOnScrollListener(new EndlessScrollListener());
         asyncResultView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 aurls = arssLinkTable.get(parent.getAdapter().getItem(position));
                 vurls = vrssLinkTable.get(parent.getAdapter().getItem(position));
-                mMode = getSherlockActivity().startActionMode(new EpisodeActionMode());
+                title = (String) parent.getAdapter().getItem(position);
+
+                if (mFragment1.isMenuVisible() && opId == position) {
+                    mFragment1.setMenuVisibility(false);
+                } else {
+                    mFragment1.setMenuVisibility(true);
+                    opId = position;
+                }
             }
         });
         View footerView = inflater.inflate(R.layout.loadingline, null, false);
@@ -82,11 +104,81 @@ public class EpisodeListFragment extends SherlockFragment {
 
         first = true;
         history = getActivity().getSharedPreferences(name, 0);
-        getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
+        getActivity().setProgressBarIndeterminateVisibility(true);
         RSS_parse newparse = new RSS_parse();  //do networking in async task SDK>9
         newparse.execute(afeed, vfeed, "0");
 
         return v;
+    }
+    public class MenuFragment extends Fragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+        }
+
+        @Override
+        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+            MenuItemCompat.setShowAsAction(menu.add(R.string.audio), MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            MenuItemCompat.setShowAsAction(menu.add(R.string.video), MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            MenuItemCompat.setShowAsAction(menu.add(R.string.notes), MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            super.onCreateOptionsMenu(menu, inflater);
+        }
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+
+            setMenuVisibility(false);
+            //if wifi connected
+            ConnectivityManager connectivity = (ConnectivityManager) getActivity()
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            NetworkInfo wifiInfo = connectivity
+                    .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+            if (item.getTitle().equals(getString(R.string.notes))) {
+
+                String link = aurls[0];
+                Intent i = new Intent(v.getContext(), ShowNotesView.class);
+                i.putExtra("link", link);
+                i.putExtra("name", title);
+                startActivity(i);
+                return true;
+            }
+            if (item.getTitle().equals(getString(R.string.video))) {
+                if (wifiInfo == null || wifiInfo.getState() != NetworkInfo.State.CONNECTED) {
+                    AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(getActivity());
+                    myAlertDialog.setTitle(R.string.alert);
+                    myAlertDialog.setMessage(R.string.areyousure);
+                    myAlertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            // start videostreaming if the user agrees
+                            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(vurls[1]));
+                            i.setDataAndType(Uri.parse(vurls[1]), "video/mp4");
+                            startActivity(i);
+                        }
+                    });
+
+                    myAlertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface arg0, int arg1) {
+                        }
+                    });
+
+                    myAlertDialog.show();
+                } else {
+                    Intent j = new Intent(Intent.ACTION_VIEW, Uri.parse(vurls[1]));
+                    j.setDataAndType(Uri.parse(vurls[1]), "video/mp4");
+                    startActivity(j);
+                }
+                return true;
+            }
+            if (item.getTitle().equals(getString(R.string.audio))) {
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(aurls[1]));
+                i.setDataAndType(Uri.parse(aurls[1]), "audio/mp3");
+                startActivity(i);
+                return true;
+            }
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     public class EndlessScrollListener implements AbsListView.OnScrollListener {
@@ -121,7 +213,7 @@ public class EpisodeListFragment extends SherlockFragment {
                 // load the next page of shows using a background task
                 //getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
                 currentPage++;
-                getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
+                getActivity().setProgressBarIndeterminateVisibility(true);
                 RSS_parse scrollparse = new RSS_parse();
                 scrollparse.execute(afeed, vfeed, String.valueOf(currentPage));
                 loading = true;
@@ -163,7 +255,7 @@ public class EpisodeListFragment extends SherlockFragment {
             titleList = args;
             try {
                 if (first) {
-                    lAdapter = new LazyAdapter(getSherlockActivity(), titleList, vrssLinkTable, checkNew());
+                    lAdapter = new LazyAdapter(getActivity(), titleList, vrssLinkTable, checkNew());
                     asyncResultView.setAdapter(lAdapter);
 
                 } else {
@@ -172,7 +264,7 @@ public class EpisodeListFragment extends SherlockFragment {
             } catch (Exception e) {
                 Log.e("image catch: ", e.toString());
             }
-            getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
+            getActivity().setProgressBarIndeterminateVisibility(false);
         }
 
         private ArrayList<Boolean> checkNew() {
@@ -204,95 +296,6 @@ public class EpisodeListFragment extends SherlockFragment {
         }
     }
 
-    private final class EpisodeActionMode implements com.actionbarsherlock.view.ActionMode.Callback {
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-
-            menu.add(1, 1, 0, R.string.audio)
-                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-
-            menu.add(1, 2, 0, R.string.video)
-                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-
-            menu.add(1, 4, 0, R.string.notes)
-                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-
-            //if wifi connected
-            ConnectivityManager connectivity = (ConnectivityManager) getSherlockActivity()
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
-
-            NetworkInfo wifiInfo = connectivity
-                    .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
 
-            switch (item.getItemId()) {
-                case 1: //audio
-                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(aurls[1]));
-                    i.setDataAndType(Uri.parse(aurls[1]), "audio/mp3");
-                    startActivity(i);
-                    break;
-                case 2: // video
-                    if (wifiInfo == null || wifiInfo.getState() != NetworkInfo.State.CONNECTED) {
-                        AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(getSherlockActivity());
-                        myAlertDialog.setTitle(R.string.alert);
-                        myAlertDialog.setMessage(R.string.areyousure);
-                        myAlertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                // start videostreaming if the user agrees
-                                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(vurls[1]));
-                                i.setDataAndType(Uri.parse(vurls[1]), "video/mp4");
-                                startActivity(i);
-                            }
-                        });
-
-                        myAlertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface arg0, int arg1) {
-                            }
-                        });
-
-                        myAlertDialog.show();
-                    } else {
-                        Intent j = new Intent(Intent.ACTION_VIEW, Uri.parse(vurls[1]));
-                        j.setDataAndType(Uri.parse(vurls[1]), "video/mp4");
-                        startActivity(j);
-                    }
-                    break;
-                case 3: // web
-                    String kep = vurls[2];
-                    Intent k = new Intent(Intent.ACTION_VIEW, Uri.parse(kep));
-                    startActivity(k);
-                    break;
-                case 4: //shownotes
-                    SherlockFragment fragment = new ShowNotesView();
-                    Bundle args = new Bundle();
-                    String link = aurls[0];
-                    args.putString("Notes", link);
-                    fragment.setArguments(args);
-
-                    FragmentManager fragmentManager = getSherlockActivity().getSupportFragmentManager();
-                    FragmentTransaction ft = fragmentManager.beginTransaction();
-                    ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-                    ft.replace(R.id.episodelist, fragment).commit();
-                    break;
-            }
-            mode.finish();
-            return true;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-
-        }
-    }
 }

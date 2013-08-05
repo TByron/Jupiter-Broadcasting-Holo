@@ -13,25 +13,25 @@ package jupiter.broadcasting.live.holo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
 
 import java.util.Hashtable;
 
 
-public class ShowActivity extends SherlockFragmentActivity {
+public class ShowActivity extends ActionBarActivity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -130,7 +130,7 @@ public class ShowActivity extends SherlockFragmentActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.activity_main, menu);
+        getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
     }
 
@@ -158,7 +158,7 @@ public class ShowActivity extends SherlockFragmentActivity {
     private void selectItem(int position) {
         // update the main content by replacing fragments
 
-        SherlockFragment fragment = new EpisodeListFragment();
+        Fragment fragment = new EpisodeListFragment();
         Bundle args = new Bundle();
         String afeed = audioFeedTable.get(shows[position]);
         String vfeed = videoFeedTable.get(shows[position]);
