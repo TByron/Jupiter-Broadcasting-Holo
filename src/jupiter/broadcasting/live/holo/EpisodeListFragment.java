@@ -43,6 +43,9 @@ import jupiter.broadcasting.live.holo.parser.RssHandler;
 import jupiter.broadcasting.live.holo.parser.SaxRssParser;
 
 
+
+
+
 public class EpisodeListFragment extends Fragment {
 
     List<String> episodes;
@@ -118,9 +121,11 @@ public class EpisodeListFragment extends Fragment {
 
         @Override
         public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-            MenuItemCompat.setShowAsAction(menu.add(R.string.audio), MenuItem.SHOW_AS_ACTION_IF_ROOM);
-            MenuItemCompat.setShowAsAction(menu.add(R.string.video), MenuItem.SHOW_AS_ACTION_IF_ROOM);
-            MenuItemCompat.setShowAsAction(menu.add(R.string.notes), MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            MenuItemCompat.setShowAsAction(menu.add(R.string.audio), MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+            MenuItemCompat.setShowAsAction(menu.add(R.string.video), MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+            MenuItemCompat.setShowAsAction(menu.add(R.string.notes), MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+            MenuItemCompat.setShowAsAction(menu.add(""),MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            menu.getItem(3).setIcon(android.support.v7.mediarouter.R.drawable.mr_ic_media_route_holo_dark);
             super.onCreateOptionsMenu(menu, inflater);
         }
 
@@ -176,6 +181,9 @@ public class EpisodeListFragment extends Fragment {
                 i.setDataAndType(Uri.parse(aurls[1]), "audio/mp3");
                 startActivity(i);
                 return true;
+            }
+            if (item.getItemId() == 3){
+
             }
             return super.onOptionsItemSelected(item);
         }
