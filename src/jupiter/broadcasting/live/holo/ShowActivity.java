@@ -27,7 +27,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-
 import java.util.Hashtable;
 
 
@@ -43,7 +42,7 @@ public class ShowActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        super.onCreate(savedInstanceState);
         shows = new String[]{getString(R.string.allshows),
                 "Coder Radio",
                 "Faux Show",
@@ -73,8 +72,8 @@ public class ShowActivity extends ActionBarActivity {
         videoFeedTable.put("Unfilter", "http://www.jupiterbroadcasting.com/feeds/unfilterMob.xml");
         videoFeedTable.put("Plan B", "http://feeds.feedburner.com/PlanBVideo");
 
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
+        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.main);
 
 

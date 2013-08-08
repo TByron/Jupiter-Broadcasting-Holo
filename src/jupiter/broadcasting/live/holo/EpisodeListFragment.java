@@ -43,9 +43,6 @@ import jupiter.broadcasting.live.holo.parser.RssHandler;
 import jupiter.broadcasting.live.holo.parser.SaxRssParser;
 
 
-
-
-
 public class EpisodeListFragment extends Fragment {
 
     List<String> episodes;
@@ -60,9 +57,8 @@ public class EpisodeListFragment extends Fragment {
     String vurls[];
     LazyAdapter lAdapter;
     boolean first;
-    MenuFragment mFragment1;
+    Fragment mFragment1;
     int opId;
-    FragmentTransaction ft;
 
 
     @Override
@@ -70,14 +66,8 @@ public class EpisodeListFragment extends Fragment {
 
 
         v = inflater.inflate(R.layout.episodelist_fragment, null);
-//        CreateImageLoaderConfig();
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        ft = fm.beginTransaction();
-        if (mFragment1 == null){
-            mFragment1 = new MenuFragment();
-            ft.add(mFragment1, "mf");
-        }
-        ft.commit();
+
+        mFragment1 = this;
         mFragment1.setHasOptionsMenu(true);
         mFragment1.setMenuVisibility(false);
 
@@ -98,7 +88,7 @@ public class EpisodeListFragment extends Fragment {
                 }
             }
         });
-        View footerView = inflater.inflate(R.layout.loadingline, null, false);
+        //View footerView = inflater.inflate(R.layout.loadingline, null, false);
         //asyncResultView.addFooterView(footerView);
         Bundle b = getArguments();
         afeed = b.getString("SHOW_AUDIO");
@@ -113,81 +103,80 @@ public class EpisodeListFragment extends Fragment {
 
         return v;
     }
-    public class MenuFragment extends Fragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-        }
 
-        @Override
-        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-            MenuItemCompat.setShowAsAction(menu.add(R.string.audio), MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-            MenuItemCompat.setShowAsAction(menu.add(R.string.video), MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-            MenuItemCompat.setShowAsAction(menu.add(R.string.notes), MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-            MenuItemCompat.setShowAsAction(menu.add(""),MenuItem.SHOW_AS_ACTION_IF_ROOM);
-            menu.getItem(3).setIcon(android.support.v7.mediarouter.R.drawable.mr_ic_media_route_holo_dark);
-            super.onCreateOptionsMenu(menu, inflater);
-        }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-
-            setMenuVisibility(false);
-            //if wifi connected
-            ConnectivityManager connectivity = (ConnectivityManager) getActivity()
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
-
-            NetworkInfo wifiInfo = connectivity
-                    .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-            if (item.getTitle().equals(getString(R.string.notes))) {
-
-                String link = aurls[0];
-                Intent i = new Intent(v.getContext(), ShowNotesView.class);
-                i.putExtra("link", link);
-                i.putExtra("name", title);
-                startActivity(i);
-                return true;
-            }
-            if (item.getTitle().equals(getString(R.string.video))) {
-                if (wifiInfo == null || wifiInfo.getState() != NetworkInfo.State.CONNECTED) {
-                    AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(getActivity());
-                    myAlertDialog.setTitle(R.string.alert);
-                    myAlertDialog.setMessage(R.string.areyousure);
-                    myAlertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface arg0, int arg1) {
-                            // start videostreaming if the user agrees
-                            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(vurls[1]));
-                            i.setDataAndType(Uri.parse(vurls[1]), "video/mp4");
-                            startActivity(i);
-                        }
-                    });
-
-                    myAlertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface arg0, int arg1) {
-                        }
-                    });
-
-                    myAlertDialog.show();
-                } else {
-                    Intent j = new Intent(Intent.ACTION_VIEW, Uri.parse(vurls[1]));
-                    j.setDataAndType(Uri.parse(vurls[1]), "video/mp4");
-                    startActivity(j);
-                }
-                return true;
-            }
-            if (item.getTitle().equals(getString(R.string.audio))) {
-                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(aurls[1]));
-                i.setDataAndType(Uri.parse(aurls[1]), "audio/mp3");
-                startActivity(i);
-                return true;
-            }
-            if (item.getItemId() == 3){
-
-            }
-            return super.onOptionsItemSelected(item);
-        }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        MenuItemCompat.setShowAsAction(menu.add(R.string.audio), MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        MenuItemCompat.setShowAsAction(menu.add(R.string.video), MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        MenuItemCompat.setShowAsAction(menu.add(R.string.notes), MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        super.onCreateOptionsMenu(menu, inflater);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        setMenuVisibility(false);
+        //if wifi connected
+        ConnectivityManager connectivity = (ConnectivityManager) getActivity()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo wifiInfo = connectivity
+                .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+        if (item.getTitle().equals(getString(R.string.notes))) {
+            Fragment fragment = new ShowNotesView();
+            Bundle args = new Bundle();
+            String link = aurls[0];
+            args.putString("Notes", link);
+            fragment.setArguments(args);
+
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+            ft.addToBackStack(null);
+            ft.replace(R.id.episodelist, fragment).commit();
+
+            return true;
+        }
+        if (item.getTitle().equals(getString(R.string.video))) {
+            if (wifiInfo == null || wifiInfo.getState() != NetworkInfo.State.CONNECTED) {
+                AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(getActivity());
+                myAlertDialog.setTitle(R.string.alert);
+                myAlertDialog.setMessage(R.string.areyousure);
+                myAlertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        // start videostreaming if the user agrees
+                        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(vurls[1]));
+                        i.setDataAndType(Uri.parse(vurls[1]), "video/mp4");
+                        startActivity(i);
+                    }
+                });
+
+                myAlertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                    }
+                });
+
+                myAlertDialog.show();
+            } else {
+                Intent j = new Intent(Intent.ACTION_VIEW, Uri.parse(vurls[1]));
+                j.setDataAndType(Uri.parse(vurls[1]), "video/mp4");
+                startActivity(j);
+            }
+            return true;
+        }
+        if (item.getTitle().equals(getString(R.string.audio))) {
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(aurls[1]));
+            i.setDataAndType(Uri.parse(aurls[1]), "audio/mp3");
+            startActivity(i);
+            return true;
+        }
+        if (item.getItemId() == 3) {
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     public class EndlessScrollListener implements AbsListView.OnScrollListener {
 
@@ -299,11 +288,7 @@ public class EpisodeListFragment extends Fragment {
             SharedPreferences.Editor editor = history.edit();
             editor.putString("X", titleList.get(0));
             editor.commit();
-
             return newList;
         }
     }
-
-
-
 }

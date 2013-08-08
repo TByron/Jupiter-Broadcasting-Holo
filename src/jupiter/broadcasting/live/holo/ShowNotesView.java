@@ -1,14 +1,17 @@
+
 package jupiter.broadcasting.live.holo;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+
 
 /*
  * Copyright (c) 2013 Adam Szabo
@@ -21,7 +24,7 @@ import android.widget.ProgressBar;
  */
 
 
-public class ShowNotesView extends ActionBarActivity {
+public class ShowNotesView extends Fragment {
 
     View v;
     WebView wv;
@@ -29,15 +32,11 @@ public class ShowNotesView extends ActionBarActivity {
     ProgressBar loadingProgressBar;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.shownotes_fragment);
-        link = this.getIntent().getStringExtra("link");
-        v = getLayoutInflater().inflate(R.layout.shownotes_fragment, null);
-        final ActionBar bar = getSupportActionBar();
-        String name =this.getIntent().getStringExtra("name");
-        bar.setTitle(name);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        Bundle b = getArguments();
+        link = b.getString("Notes");
+        v = inflater.inflate(R.layout.shownotes_fragment, null);
         wv = (WebView) v.findViewById(R.id.notesview);
         loadingProgressBar = (ProgressBar) v.findViewById(R.id.progressbar_Horizontal);
         wv.getSettings().setJavaScriptEnabled(true);
@@ -81,19 +80,19 @@ public class ShowNotesView extends ActionBarActivity {
         wv.addJavascriptInterface(new myJavaScriptInterface(), "CallToAnAndroidFunction");
         wv.loadUrl(link);
 
+
+        return v;
     }
 
     public class myJavaScriptInterface {
         @JavascriptInterface
         public void setVisible() {
-            runOnUiThread(new Runnable() {
-
+            getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     wv.setVisibility(View.VISIBLE);
                 }
             });
         }
-
     }
 }

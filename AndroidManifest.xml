@@ -34,7 +34,8 @@
                 <action android:name="DO_NOTIFICATION_ACTION"/>
             </intent-filter>
         </receiver>
-        <activity android:name=".ShowActivity">
+        <activity android:name=".ShowActivity"
+                  >
         </activity>
 
         <activity android:name=".ShowNotesView">
