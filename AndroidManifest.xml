@@ -35,10 +35,7 @@
             </intent-filter>
         </receiver>
         <activity android:name=".ShowActivity"
-                  >
-        </activity>
-
-        <activity android:name=".ShowNotesView">
+            android:configChanges="orientation|screenSize|keyboardHidden">
         </activity>
     </application>
 </manifest>

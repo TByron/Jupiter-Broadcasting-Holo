@@ -231,9 +231,7 @@ public class EpisodeListFragment extends Fragment {
             RssHandler vcustomhandler = new RssHandler("title", "link", page);
             aparser.setRssHadler(acustomhandler);
             vparser.setRssHadler(vcustomhandler);
-            if (page > 0) {
-                first = false;
-            }
+
             if (first) {
                 arssLinkTable = aparser.parse(link[0]);
                 vrssLinkTable = vparser.parse(link[1]);
@@ -254,6 +252,7 @@ public class EpisodeListFragment extends Fragment {
                 if (first) {
                     lAdapter = new LazyAdapter(getActivity(), titleList, vrssLinkTable, checkNew());
                     asyncResultView.setAdapter(lAdapter);
+                    first=false;
 
                 } else {
                     lAdapter.add(titleList, vrssLinkTable);
