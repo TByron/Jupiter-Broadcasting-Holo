@@ -5,13 +5,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-    <ImageView
-            android:id="@+id/thumb"
+    <jupiter.broadcasting.live.holo.list.FadeImageView
+        android:id="@+id/thumb"
             android:layout_width="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="10dip"
-            android:layout_marginLeft="5dip"
-            android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        />
+    <!--android:layout_marginTop="10dip"
+        android:layout_marginLeft="5dip"-->
+
 
     <TextView
             android:id="@+id/title"
@@ -19,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@id/thumb"
-            android:layout_marginTop="1dip"
+
             android:textSize="18dip"
             android:textColor="#000000"/>
 
@@ -28,8 +30,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingRight="1dip"
-            android:layout_above="@id/title"
-            android:layout_alignParentRight="true"/>
+            android:layout_toLeftOf="@id/title"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/thumb"/>
 
     <ImageView
             android:id="@+id/newtag"

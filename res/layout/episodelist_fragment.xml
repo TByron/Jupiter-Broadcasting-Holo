@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:stretchMode="columnWidth"
-            android:columnWidth="240dip"
+            android:columnWidth="280dip"
             android:numColumns="auto_fit">
     </GridView>
 </LinearLayout>

@@ -6,25 +6,34 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.Volley;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
-import jupiter.broadcasting.live.holo.list.ImageLoader;
+import jupiter.broadcasting.live.holo.list.BitmapLruCache;
+import jupiter.broadcasting.live.holo.list.FadeImageView;
 
 
 public class LazyAdapter extends BaseAdapter {
 
+    private static LayoutInflater inflater = null;
     private Activity activity;
     private Hashtable<String, String[]> data;
     private List<String> titles;
     private ArrayList<Boolean> markNew;
-    private static LayoutInflater inflater = null;
-    ImageLoader imageLoader;
+    //ImageLoader imageLoader;
+    private ImageLoader mImageLoader;
+    private RequestQueue mReqQue;
+    private Animation anim;
 
 
     public LazyAdapter(Activity a, List<String> t, Hashtable<String, String[]> table, ArrayList<Boolean> aNew) {
@@ -33,7 +42,11 @@ public class LazyAdapter extends BaseAdapter {
         titles = t;
         markNew = aNew;
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        imageLoader = new ImageLoader(activity.getApplicationContext());
+        //imageLoader = new ImageLoader(activity.getApplicationContext());
+        mReqQue = Volley.newRequestQueue(activity.getApplicationContext());
+        mImageLoader = new ImageLoader(mReqQue, new BitmapLruCache());
+        //anim
+
     }
 
     public int getCount() {
@@ -62,13 +75,14 @@ public class LazyAdapter extends BaseAdapter {
             eHolder = new ElementHolder();
             eHolder.text = (TextView) vi.findViewById(R.id.title);
             eHolder.dura = (TextView) vi.findViewById(R.id.dur);
-            eHolder.image = (ImageView) vi.findViewById(R.id.thumb);
+            eHolder.image = (FadeImageView) vi.findViewById(R.id.thumb);
             eHolder.newtag = (ImageView) vi.findViewById(R.id.newtag);
 
             vi.setTag(eHolder);
         } else {
             eHolder = (ElementHolder) vi.getTag();
         }
+
 
         String duration = null;
         String url = null;
@@ -82,6 +96,8 @@ public class LazyAdapter extends BaseAdapter {
             String err = (e.getMessage() == null) ? "Something wrong" : e.getMessage();
             Log.e("rss error: ", err);
         }
+        eHolder.image.setErrorImageResId(R.drawable.logo2);
+        eHolder.image.setImageUrl(url, mImageLoader);
 
         if (null != duration) {
             eHolder.dura.setText(duration);
@@ -89,11 +105,7 @@ public class LazyAdapter extends BaseAdapter {
             eHolder.dura.setText("11:11");
         }
         eHolder.text.setText(title);
-        if (url != null) {
-            imageLoader.DisplayImage(url, eHolder.image);
-        } else {
-            eHolder.image.setImageResource(R.drawable.logo2);
-        }
+
 
         if (markNew.size() > position) {
             if (markNew.get(position)) {
@@ -107,7 +119,7 @@ public class LazyAdapter extends BaseAdapter {
     }
 
     static class ElementHolder {
-        ImageView image;
+        FadeImageView image;
         ImageView newtag;
         TextView text;
         TextView dura;
