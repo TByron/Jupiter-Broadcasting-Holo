@@ -44,6 +44,7 @@ public class ShowActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         shows = new String[]{getString(R.string.allshows),
+                "BSD Now",
                 "Coder Radio",
                 "Faux Show",
                 "Linux Action Show",
@@ -63,6 +64,7 @@ public class ShowActivity extends ActionBarActivity {
         audioFeedTable.put("Techsnap", "http://feeds.feedburner.com/techsnapmp3");
         audioFeedTable.put("Unfilter", "http://www.jupiterbroadcasting.com/feeds/unfilterMP3.xml");
         audioFeedTable.put("Plan B", "http://feeds.feedburner.com/planbmp3");
+        audioFeedTable.put("BSD Now", "http://feeds.feedburner.com/BsdNowMp3");
 
         videoFeedTable = new Hashtable<String, String>();
         videoFeedTable.put(getString(R.string.allshows), "http://feeds2.feedburner.com/AllJupiterVideos");
@@ -74,6 +76,7 @@ public class ShowActivity extends ActionBarActivity {
         videoFeedTable.put("Techsnap", "http://feeds.feedburner.com/techsnapmobile");
         videoFeedTable.put("Unfilter", "http://www.jupiterbroadcasting.com/feeds/unfilterMob.xml");
         videoFeedTable.put("Plan B", "http://feeds.feedburner.com/PlanBVideo");
+        videoFeedTable.put("BSD Now", "http://feeds.feedburner.com/BsdNowMobile");
 
 
         supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
