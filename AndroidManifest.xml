@@ -37,5 +37,8 @@
         <activity android:name=".ShowActivity"
             android:configChanges="orientation|screenSize|keyboardHidden">
         </activity>
+        <activity android:name=".JBPlayer"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+        </activity>
     </application>
 </manifest>

@@ -59,7 +59,13 @@ public class EpisodeListFragment extends Fragment {
     boolean first;
     Fragment mFragment1;
     int opId;
+    private List<String> titleList;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -88,8 +94,6 @@ public class EpisodeListFragment extends Fragment {
                 }
             }
         });
-        //View footerView = inflater.inflate(R.layout.loadingline, null, false);
-        //asyncResultView.addFooterView(footerView);
         Bundle b = getArguments();
         afeed = b.getString("SHOW_AUDIO");
         vfeed = b.getString("SHOW_VIDEO");
@@ -145,7 +149,7 @@ public class EpisodeListFragment extends Fragment {
                 myAlertDialog.setMessage(R.string.areyousure);
                 myAlertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
-                        // start videostreaming if the user agrees
+                        // start video streaming if the user agrees
                         Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(vurls[1]));
                         i.setDataAndType(Uri.parse(vurls[1]), "video/mp4");
                         startActivity(i);
@@ -159,9 +163,14 @@ public class EpisodeListFragment extends Fragment {
 
                 myAlertDialog.show();
             } else {
-                Intent j = new Intent(Intent.ACTION_VIEW, Uri.parse(vurls[1]));
-                j.setDataAndType(Uri.parse(vurls[1]), "video/mp4");
+                //Intent j = new Intent(Intent.ACTION_VIEW, Uri.parse(vurls[1]));
+                //j.setDataAndType(Uri.parse(vurls[1]), "video/mp4");
+                //startActivity(j);
+                Intent j = new Intent(getActivity(),JBPlayer.class);
+                j.putExtra("Title",title);
+                j.putExtra("Link", vurls[1]);
                 startActivity(j);
+
             }
             return true;
         }
@@ -176,7 +185,6 @@ public class EpisodeListFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     public class EndlessScrollListener implements AbsListView.OnScrollListener {
 
@@ -219,8 +227,6 @@ public class EpisodeListFragment extends Fragment {
         }
     }
 
-    private List<String> titleList;
-
     public class RSS_parse extends AsyncTask<String, Integer, List<String>> {
         @Override
         protected List<String> doInBackground(String... link) {
@@ -252,7 +258,7 @@ public class EpisodeListFragment extends Fragment {
                 if (first) {
                     lAdapter = new LazyAdapter(getActivity(), titleList, vrssLinkTable, checkNew());
                     asyncResultView.setAdapter(lAdapter);
-                    first=false;
+                    first = false;
 
                 } else {
                     lAdapter.add(titleList, vrssLinkTable);
