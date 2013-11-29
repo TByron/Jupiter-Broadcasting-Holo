@@ -2,7 +2,9 @@ package jupiter.broadcasting.live.holo.list;
 
 /**
  * Created by b on 2013.09.06..
- */import android.graphics.Bitmap;
+ */
+
+import android.graphics.Bitmap;
 import android.support.v4.util.LruCache;
 
 import com.android.volley.toolbox.ImageLoader;

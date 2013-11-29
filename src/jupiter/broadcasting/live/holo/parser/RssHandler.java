@@ -14,7 +14,7 @@ import java.util.Vector;
  *
  * This software is MIT licensed see link for details
  * http://www.opensource.org/licenses/MIT
- * 
+ *
  * @author Shane Quigley
  * @hacked Adam Szabo
  */
@@ -28,16 +28,21 @@ public class RssHandler extends DefaultHandler {
     private Vector<String> rssEnclosures;
     private Vector<String> thumbnails;
     private Vector<String> duration;
+    private Vector<String> times;
+    private Vector<String> sum;
     private String linkString;
     private String titleString;
     private int counter = 0;
-    private int maxRecords = 12;
+    private int lineC = 0;
+    private int titleC = 0;
     private int page = 0;
     private boolean isLink = false;
     private boolean isTitle = false;
+    private boolean isTime = false;
+    private boolean isDur = false;
+    private boolean isSum = false;
     private boolean ifInsideItem = false;
     private boolean donethis = false;
-    private boolean isDur = false;
     private StringBuffer toAdd;
 
     /**
@@ -51,7 +56,10 @@ public class RssHandler extends DefaultHandler {
         rssEnclosures = new Vector<String>();
         thumbnails = new Vector<String>();
         duration = new Vector<String>();
+        times = new Vector<String>();
+        sum = new Vector<String>();
         toAdd = new StringBuffer();
+
     }
 
     /*
@@ -69,19 +77,20 @@ public class RssHandler extends DefaultHandler {
         rssEnclosures = new Vector<String>();
         thumbnails = new Vector<String>();
         duration = new Vector<String>();
+        times = new Vector<String>();
+        sum = new Vector<String>();
         toAdd = new StringBuffer();
-
 
     }
 
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 
         if (ifInsideItem) {
-
             isLink = qName.equalsIgnoreCase(linkString);
             isTitle = qName.equalsIgnoreCase(titleString);
+            isTime = qName.equalsIgnoreCase("pubDate");
             isDur = qName.equalsIgnoreCase("itunes:duration");
-            boolean enclosure = true;
+            isSum = qName.equalsIgnoreCase("itunes:summary");
             if (!donethis) {
                 if (qName.equalsIgnoreCase("enclosure")) {
                     rssEnclosures.addElement(attributes.getValue("url"));
@@ -92,8 +101,10 @@ public class RssHandler extends DefaultHandler {
             }
         } else {
             ifInsideItem = qName.equalsIgnoreCase("item");
+
         }
         if (isTitle) {
+            int maxRecords = 20;
             if (counter < (maxRecords * page + 1) && page > 0) {
                 donethis = true;
             } else {
@@ -102,24 +113,51 @@ public class RssHandler extends DefaultHandler {
             if (counter > maxRecords * (page + 1)) {
                 throw new SAXException("Parsing limit reached");
             }
-            Log.e("Counting", "checked this much:" + counter + "on page " + page);
+            //Log.e("Counting", "checked this much:" + counter + "on page " + page);
             counter++;
         }
     }
 
     public void endElement(String uri, String localName, String qName) throws SAXException {
-        if (isLink && !donethis) {
-            rssLinks.addElement(toAdd.toString());
-        } else if (isTitle && !donethis) {
-            rssTitles.addElement(toAdd.toString());
-        } else if (isDur && !donethis) {
-            duration.addElement(toAdd.toString());
+        if (!donethis) {
+            if (isLink) {
+                rssLinks.addElement(toAdd.toString());
+            } else if (isTitle) {
+                rssTitles.addElement(toAdd.toString());
+                titleC++;
+            } else if (isDur) {
+                duration.addElement(toAdd.toString());
+            } else if (isTime) {
+                times.addElement(toAdd.toString());
+            } else if (isSum) {
+                sum.addElement(toAdd.toString());
+            }
+        }
+        isLink = isDur = isTitle = isTime = isSum = false;
+        //if we start to store the data of a new episode (titleCount = finished + 1), we check for missing fields
+        //this way we will have consistent data format, no matter what is in the rss
+        if (titleC - lineC == 2) {
+
+            if (titleC - thumbnails.size() == 2) {
+                thumbnails.addElement("X");
+            }
+            if (titleC - duration.size() == 2) {
+                duration.addElement("11:11");
+            }
+            if (titleC - times.size() == 2) {
+                times.addElement("X");
+            }
+            if (titleC - sum.size() == 2) {
+                times.addElement("Content");
+            }
+
+            lineC++;
         }
         toAdd = new StringBuffer();
     }
 
     public void characters(char ch[], int start, int length) throws SAXException {
-        if ((isLink || isTitle || isDur) && !donethis) {
+        if ((isLink || isTitle || isDur || isTime || isSum) && !donethis) {
             toAdd.append(new String(ch, start, length));
         }
     }
@@ -128,20 +166,13 @@ public class RssHandler extends DefaultHandler {
         Hashtable<String, String[]> output = new Hashtable<String, String[]>();
         for (int i = 0; i < rssTitles.size(); i++) {
             try {
-                if (thumbnails.size() > 0) {
-                    if (duration.size() > 0) {
-                        output.put(rssTitles.elementAt(i), new String[]{rssLinks.elementAt(i), rssEnclosures.elementAt(i), thumbnails.elementAt(i), duration.elementAt(i)});
-                    } else {
-                        output.put(rssTitles.elementAt(i), new String[]{rssLinks.elementAt(i), rssEnclosures.elementAt(i), thumbnails.elementAt(i)});
-                    }
-                } else if (duration.size() > 0) {
-                    output.put(rssTitles.elementAt(i), new String[]{rssLinks.elementAt(i), rssEnclosures.elementAt(i), duration.elementAt(i)});
-                } else {
-                    output.put(rssTitles.elementAt(i), new String[]{rssLinks.elementAt(i), rssEnclosures.elementAt(i)});
-                }
-
+                output.put(rssTitles.elementAt(i), new String[]{rssLinks.elementAt(i),
+                        rssEnclosures.elementAt(i), times.elementAt(i), thumbnails.elementAt(i),
+                        duration.elementAt(i), sum.elementAt(i)});
             } catch (Exception e) {
                 Log.e("Woops", e.getMessage());
+                //if something is wrong, pop the title too
+                rssTitles.remove(i);
             }
         }
         return output;

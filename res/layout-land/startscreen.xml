@@ -1,64 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
 
     <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_gravity="center"
-                android:columnCount="2"
-                android:rowCount="1"
-                android:alignmentMode="alignMargins"
-                android:clickable="false">
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:alignmentMode="alignMargins"
+            android:clickable="false"
+            android:columnCount="2"
+            android:orientation="horizontal"
+            android:rowCount="1">
 
             <ImageView
-                    android:src="@drawable/jb_icon"
-                    android:contentDescription="@string/app_name"
-                    android:layout_gravity="left"
-                    android:scaleType="centerInside"
-                    android:gravity="left"
-                    android:id="@+id/imageView1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="244dp"
-                    />
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="244dp"
+                android:layout_gravity="left"
+                android:contentDescription="@string/app_name"
+                android:gravity="left"
+                android:scaleType="centerInside"
+                android:src="@drawable/jb_icon" />
 
             <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="202dp"
+                android:layout_width="202dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/button1"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical">
+                    android:layout_gravity="right"
+                    android:singleLine="false"
+                    android:text="@string/play"
+                    android:textStyle="bold" />
 
                 <Button
-                        android:layout_width="fill_parent"
-                        android:id="@+id/button1"
-                        android:text="@string/play"
-                        android:layout_gravity="right"
-                        android:singleLine="false"
-                        android:textStyle="bold"
-                        android:layout_height="wrap_content"/>
+                    android:id="@+id/button2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:singleLine="false"
+                    android:text="@string/rss" />
 
                 <Button
-                        android:id="@+id/button2"
-                        android:text="@string/rss"
-                        android:layout_width="fill_parent"
-                        android:layout_gravity="right"
-                        android:singleLine="false"
-                        android:layout_height="wrap_content"/>
+                    android:id="@+id/button4"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:singleLine="false"
+                    android:text="@string/cat" />
 
                 <Button
-                        android:layout_width="fill_parent"
-                        android:id="@+id/button3"
-                        android:text="@string/donate"
-                        android:layout_gravity="right"
-                        android:singleLine="false"
-                        android:layout_height="wrap_content"/>
+                    android:id="@+id/button3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:singleLine="false"
+                    android:text="@string/donate" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

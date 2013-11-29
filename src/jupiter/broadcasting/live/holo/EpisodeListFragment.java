@@ -10,38 +10,28 @@ package jupiter.broadcasting.live.holo;
  * @hacked Adam Szabo
  */
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MenuItemCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.GridView;
+import android.widget.ListView;
 
-import java.util.ArrayList;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Locale;
 
 import jupiter.broadcasting.live.holo.parser.RssHandler;
 import jupiter.broadcasting.live.holo.parser.SaxRssParser;
-
 
 public class EpisodeListFragment extends Fragment {
 
@@ -49,16 +39,14 @@ public class EpisodeListFragment extends Fragment {
     String afeed, vfeed, name;
     Hashtable<String, String[]> arssLinkTable;
     Hashtable<String, String[]> vrssLinkTable;
-    GridView asyncResultView;
+    ListView asyncResultView;
     SharedPreferences history;
     View v;
     String title;
     String aurls[];
     String vurls[];
-    LazyAdapter lAdapter;
+    EpisodeAdapter lAdapter;
     boolean first;
-    Fragment mFragment1;
-    int opId;
     private List<String> titleList;
 
     @Override
@@ -69,16 +57,9 @@ public class EpisodeListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-
         v = inflater.inflate(R.layout.episodelist_fragment, null);
 
-        mFragment1 = this;
-        mFragment1.setHasOptionsMenu(true);
-        mFragment1.setMenuVisibility(false);
-
-        opId = 555;
-        asyncResultView = (GridView) v.findViewById(R.id.episodelist);
+        asyncResultView = (ListView) v.findViewById(R.id.episodelist);
         asyncResultView.setOnScrollListener(new EndlessScrollListener());
         asyncResultView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -86,12 +67,17 @@ public class EpisodeListFragment extends Fragment {
                 vurls = vrssLinkTable.get(parent.getAdapter().getItem(position));
                 title = (String) parent.getAdapter().getItem(position);
 
-                if (mFragment1.isMenuVisible() && opId == position) {
-                    mFragment1.setMenuVisibility(false);
+                Intent p = new Intent(getActivity(), JBPlayer.class);
+                p.putExtra("aLink", aurls[1]);
+                p.putExtra("vLink", vurls[1]);
+                if (!aurls[3].equalsIgnoreCase("X")) {
+                    p.putExtra("pic", aurls[3]);
                 } else {
-                    mFragment1.setMenuVisibility(true);
-                    opId = position;
+                    p.putExtra("pic", vurls[3]);
                 }
+                p.putExtra("title", title);
+                p.putExtra("sum", aurls[5]);
+                startActivity(p);
             }
         });
         Bundle b = getArguments();
@@ -108,87 +94,56 @@ public class EpisodeListFragment extends Fragment {
         return v;
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        MenuItemCompat.setShowAsAction(menu.add(R.string.audio), MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        MenuItemCompat.setShowAsAction(menu.add(R.string.video), MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        MenuItemCompat.setShowAsAction(menu.add(R.string.notes), MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
+    /*
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+            setMenuVisibility(false);
 
-        setMenuVisibility(false);
-        //if wifi connected
-        ConnectivityManager connectivity = (ConnectivityManager) getActivity()
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        NetworkInfo wifiInfo = connectivity
-                .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            if (item.getTitle().equals(getString(R.string.notes))) {
+                Fragment fragment = new ShowNotesView();
+                Bundle args = new Bundle();
+                String link = aurls[0];
+                args.putString("Notes", link);
+                fragment.setArguments(args);
 
-        if (item.getTitle().equals(getString(R.string.notes))) {
-            Fragment fragment = new ShowNotesView();
-            Bundle args = new Bundle();
-            String link = aurls[0];
-            args.putString("Notes", link);
-            fragment.setArguments(args);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+                ft.addToBackStack(null);
+                ft.replace(R.id.episodelist, fragment).commit();
 
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-            ft.addToBackStack(null);
-            ft.replace(R.id.episodelist, fragment).commit();
-
-            return true;
-        }
-        if (item.getTitle().equals(getString(R.string.video))) {
-            if (wifiInfo == null || wifiInfo.getState() != NetworkInfo.State.CONNECTED) {
-                AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(getActivity());
-                myAlertDialog.setTitle(R.string.alert);
-                myAlertDialog.setMessage(R.string.areyousure);
-                myAlertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        // start video streaming if the user agrees
-                        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(vurls[1]));
-                        i.setDataAndType(Uri.parse(vurls[1]), "video/mp4");
-                        startActivity(i);
-                    }
-                });
-
-                myAlertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                    }
-                });
-
-                myAlertDialog.show();
-            } else {
-                //Intent j = new Intent(Intent.ACTION_VIEW, Uri.parse(vurls[1]));
-                //j.setDataAndType(Uri.parse(vurls[1]), "video/mp4");
-                //startActivity(j);
-                Intent j = new Intent(getActivity(),JBPlayer.class);
-                j.putExtra("Title",title);
-                j.putExtra("Link", vurls[1]);
-                startActivity(j);
-
+                return true;
             }
-            return true;
-        }
-        if (item.getTitle().equals(getString(R.string.audio))) {
-            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(aurls[1]));
-            i.setDataAndType(Uri.parse(aurls[1]), "audio/mp3");
-            startActivity(i);
-            return true;
-        }
-        if (item.getItemId() == 3) {
+            if (item.getTitle().equals(getString(R.string.video))) {
+                            // start video streaming if the user agrees
+                            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(vurls[1]));
+                            i.setDataAndType(Uri.parse(vurls[1]), "video/mp4");
+                            startActivity(i);
 
-        }
-        return super.onOptionsItemSelected(item);
-    }
+                } else {
+                    Intent j = new Intent(getActivity(), JBPlayer.class);
+                    j.putExtra("Title", title);
+                    j.putExtra("Link", vurls[1]);
+                    startActivity(j);
 
+                }
+                return true;
+            }
+            if (item.getTitle().equals(getString(R.string.audio))) {
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(aurls[1]));
+                i.setDataAndType(Uri.parse(aurls[1]), "audio/mp3");
+                startActivity(i);
+                return true;
+            }
+
+            return super.onOptionsItemSelected(item);
+        }
+    */
     public class EndlessScrollListener implements AbsListView.OnScrollListener {
 
-        private int visibleThreshold = 5;
+        private int visibleThreshold = 4;
         private int currentPage = 0;
         private int previousTotal = 0;
         private boolean loading = true;
@@ -216,7 +171,6 @@ public class EpisodeListFragment extends Fragment {
             }
             if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
                 // load the next page of shows using a background task
-                //getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
                 currentPage++;
                 getActivity().setProgressBarIndeterminateVisibility(true);
                 RSS_parse scrollparse = new RSS_parse();
@@ -235,8 +189,8 @@ public class EpisodeListFragment extends Fragment {
             SaxRssParser vparser = new SaxRssParser();
             RssHandler acustomhandler = new RssHandler("title", "link", page);
             RssHandler vcustomhandler = new RssHandler("title", "link", page);
-            aparser.setRssHadler(acustomhandler);
-            vparser.setRssHadler(vcustomhandler);
+            aparser.setRssHandler(acustomhandler);
+            vparser.setRssHandler(vcustomhandler);
 
             if (first) {
                 arssLinkTable = aparser.parse(link[0]);
@@ -256,10 +210,9 @@ public class EpisodeListFragment extends Fragment {
             titleList = args;
             try {
                 if (first) {
-                    lAdapter = new LazyAdapter(getActivity(), titleList, vrssLinkTable, checkNew());
+                    lAdapter = new EpisodeAdapter(getActivity(), titleList, vrssLinkTable, checkNew());
                     asyncResultView.setAdapter(lAdapter);
                     first = false;
-
                 } else {
                     lAdapter.add(titleList, vrssLinkTable);
                 }
@@ -269,31 +222,39 @@ public class EpisodeListFragment extends Fragment {
             getActivity().setProgressBarIndeterminateVisibility(false);
         }
 
-        private ArrayList<Boolean> checkNew() {
-            ArrayList<Boolean> newList = new ArrayList<Boolean>();
-            String s = name;
+        private boolean[] checkNew() throws ParseException {
 
-            String lastTitle = history.getString("X", "0");
+            boolean[] newCount = new boolean[titleList.size()];
+            SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US);
+            try {
+                String lastTitle = history.getString("Y", formatter.format(new Date(0)));
+                //testing
+                //lastTitle = formatter.format(new Date(0));
 
-            boolean finished = false;
-            for (int i = 0; i < titleList.size(); i++) {
-                if (lastTitle.equalsIgnoreCase(titleList.get(0)) || finished) {
-                    //nothing new, fill the array with zeroes
-                    newList.add(false);
-                } else {
-                    //something new, find and mark the new
-                    newList.add(true);
-                    if (lastTitle.equalsIgnoreCase(titleList.get(i))) {
-                        newList.remove(i);
-                        newList.add(false);
-                        finished = true;
+                Date olddate = formatter.parse(lastTitle);
+
+
+                for (int i = 0; i < titleList.size(); i++) {
+                    Date newdate = formatter.parse(vrssLinkTable.get(titleList.get(i))[2]);
+                    if (newdate.after(olddate)) {
+                        //something new
+                        newCount[i] = true;
+                    } else {
+                        //found the newest we saw last time
+                        break;
                     }
                 }
+            } catch (Exception ignored) {
+
             }
+
             SharedPreferences.Editor editor = history.edit();
-            editor.putString("X", titleList.get(0));
+            //saving the latest episode as publication date
+            editor.putString("Y", vrssLinkTable.get(titleList.get(0))[2]);
             editor.commit();
-            return newList;
+            return newCount;
         }
+
+
     }
 }

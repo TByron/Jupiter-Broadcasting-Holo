@@ -5,11 +5,14 @@ package jupiter.broadcasting.live.holo.list;
  */
 
 import android.content.Context;
-        import android.graphics.Bitmap;
-        import android.graphics.drawable.*;
-        import android.util.AttributeSet;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
+import android.util.AttributeSet;
 
-        import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.NetworkImageView;
 
 public class FadeImageView extends NetworkImageView {
 

@@ -74,6 +74,15 @@ public class Home extends Activity {
             }
         });
 
+        Button cat = (Button) this.findViewById(R.id.button4);
+        cat.setOnClickListener(new OnClickListener() {
+
+            public void onClick(View v) {
+                Intent myIntent2 = new Intent(v.getContext(), Catalogue.class);
+                startActivityForResult(myIntent2, 0);
+            }
+        });
+
         final AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
         play.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {

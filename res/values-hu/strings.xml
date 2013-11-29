@@ -15,4 +15,10 @@
     <string name="drawer_close">close drawer</string>
     <string name="alert">Nincs Wi-fi kapcsolat!</string>
     <string name="areyousure">Biztosan elindítod a videót?</string>
+    <string name="down">Letöltés</string>
+    <string name="cat">Katalógus</string>
+    <string name="ok">Igen</string>
+    <string name="cancel">Nem</string>
+    <string name="progress">Letöltés folyamatban </string>
+    <string name="delete">Törlés</string>
 </resources>

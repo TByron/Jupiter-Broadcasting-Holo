@@ -1,15 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="#000000"
-    >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <VideoView
-        android:layout_width="fill_parent"
+    <Spinner android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/videoView"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
+        android:id="@+id/AV"/>
+    <RelativeLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/player"
+            android:text="@string/play"
+            android:drawableLeft="@drawable/ic_action_play"/>
+        <Button android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:id="@+id/downer"
+            android:text="@string/down"
+            android:drawableLeft="@drawable/ic_action_download"/>
+    </RelativeLayout>
+        <VideoView android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:id="@+id/videoView"
+            />
+    <jupiter.broadcasting.live.holo.list.FadeImageView
+        android:id="@+id/thumb"
+        android:layout_width="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_height="wrap_content"
         />
-</RelativeLayout>
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/summary"/>
+
+</LinearLayout>

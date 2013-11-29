@@ -2,7 +2,6 @@ package jupiter.broadcasting.live.holo.parser;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import java.io.IOException;
 import java.util.Hashtable;
@@ -40,7 +39,7 @@ public class SaxRssParser {
     public Hashtable<String, String[]> parse(String rssfeed) {
         try {
             InputSource feedSource = new InputSource(rssfeed);
-            saxParser.parse(feedSource, (DefaultHandler) handler);
+            saxParser.parse(feedSource, handler);
         } catch (IOException ex) {
             ex.printStackTrace();
         } catch (SAXException ex) {
@@ -57,7 +56,7 @@ public class SaxRssParser {
     /**
      * Method to allow people to use custom handlers
      */
-    public void setRssHadler(RssHandler h) {
+    public void setRssHandler(RssHandler h) {
         handler = h;
     }
 
