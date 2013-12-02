@@ -185,7 +185,7 @@ public class Home extends Activity {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.jb_icon)
+                        .setSmallIcon(R.drawable.jb_icon2)
                         .setContentTitle("Jupiter Broadcasting")
                         .setContentText(getString(R.string.plaiyinglivestream))
                         .setAutoCancel(true);
@@ -202,7 +202,7 @@ public class Home extends Activity {
             Bundle playPauseBundle = new Bundle();
             playPauseBundle.putInt("click", 1);//This is the value I want to pass
             playPause.putExtras(playPauseBundle);
-            PendingIntent pendingPlayPause = PendingIntent.getActivity(this, 12345, playPause, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingPlayPause = PendingIntent.getActivity(this, (int)(System.currentTimeMillis()/1000), playPause, PendingIntent.FLAG_UPDATE_CURRENT);
 
             String text = play ? getString(R.string.pause) : getString(R.string.play);
             mBuilder.addAction(android.R.drawable.ic_media_pause, text, pendingPlayPause);
@@ -212,7 +212,7 @@ public class Home extends Activity {
             Bundle stopBundle = new Bundle();
             stopBundle.putInt("click", 3);//This is the value I want to pass
             stop.putExtras(stopBundle);
-            PendingIntent pendingStop = PendingIntent.getActivity(this, 12345, stop, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingStop = PendingIntent.getActivity(this, (int)(System.currentTimeMillis()/1000), stop, PendingIntent.FLAG_UPDATE_CURRENT);
             mBuilder.addAction(android.R.drawable.ic_menu_close_clear_cancel, "Exit", pendingStop);
 
         }

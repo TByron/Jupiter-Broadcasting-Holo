@@ -2,12 +2,13 @@ package jupiter.broadcasting.live.holo;
 
 import android.app.AlertDialog;
 import android.app.DownloadManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ConfigurationInfo;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.media.MediaPlayer;
@@ -18,9 +19,10 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.SystemClock;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.text.method.ScrollingMovementMethod;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -58,7 +60,12 @@ import jupiter.broadcasting.live.holo.list.FadeImageView;
  */
 
 public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSelectedListener,
-        View.OnSystemUiVisibilityChangeListener {
+        View.OnSystemUiVisibilityChangeListener, MediaController.MediaPlayerControl{
+    private final int NOTIFICATION_ID = 3435;
+    MediaPlayer mp;
+    MediaController mediaController;
+    NotificationManager mNotificationManager;
+
     int av = 0;
     VideoView videoView;
     FadeImageView iView;
@@ -82,6 +89,8 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final Context ct = this;
+        String ns = NOTIFICATION_SERVICE;
+        mNotificationManager = (NotificationManager) getSystemService(ns);
 
         this.requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.mediaplayer);
@@ -91,7 +100,8 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
         hasit = HasIt(title, av);
         getSupportActionBar().setTitle(title);
         mDecorView = getWindow().getDecorView();
-        mDecorView.setOnSystemUiVisibilityChangeListener(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+            mDecorView.setOnSystemUiVisibilityChangeListener(this);
 
         // going on different routes if coming from Catalogue
         offline = getIntent().getBooleanExtra("offline", false);
@@ -141,7 +151,14 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
         play.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                StartPlay(theLink);
+                if (av == 1) //video
+                    StartPlay(theLink);
+                else //audio
+                    try {
+                        StartPlayBackground(theLink);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
             }
         });
 
@@ -177,6 +194,47 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        mp.stop();
+        super.onBackPressed();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mp.isPlaying()) {
+            putNotificationUp(mp.isPlaying());
+        } else {
+            mNotificationManager.cancel(NOTIFICATION_ID);
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mp.isPlaying()) {
+            mp.stop();
+            mp.release();
+        }
+        mNotificationManager.cancel(NOTIFICATION_ID);//because onPause is called first
+
+    }
+
+    @Override
+    protected void onResume() {
+        mNotificationManager.cancel(NOTIFICATION_ID);//For good measure because app pauses before it quits aswell as on pause
+        super.onResume();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        //the MediaController will hide after 3 seconds - tap the screen to make it appear again
+        mediaController.show();
+        return false;
+    }
 
     public boolean HasIt(String mTitle, int AV) {
         String ext = (AV == 0) ? ".mp3" : ".mp4";
@@ -266,8 +324,6 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
     }
 
     public void StartPlay(String path) {
-
-
         videoView = (VideoView) findViewById(R.id.videoView);
         videoView.setVideoPath(path);
         MediaController mediaController = new MediaController(this);
@@ -277,7 +333,8 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
 
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
-            public void onPrepared(MediaPlayer mp) {
+            public void onPrepared(MediaPlayer player) {
+
                 Toast.makeText(getBaseContext(), "Started", Toast.LENGTH_LONG).show();
                 Progress();
                 iView.setVisibility(View.GONE);
@@ -286,6 +343,23 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
             }
         });
         videoView.start();
+    }
+
+    public void StartPlayBackground(String path) throws IOException {
+        mediaController = new MediaController(this);
+        mp = new MediaPlayer();
+        mp.setDataSource(path);
+        mp.prepare();
+        mp.start();
+
+        mediaController.setMediaPlayer(this);
+        mediaController.setAnchorView(findViewById(R.id.jbplayer));
+        mediaController.setEnabled(true);
+        mediaController.show();
+
+        Toast.makeText(getBaseContext(), "Started", Toast.LENGTH_LONG).show();
+        Progress();
+        iView.setVisibility(View.GONE);
     }
 
     public class GetSize extends AsyncTask<String, Integer, String[]> {
@@ -368,10 +442,123 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
     public void onSystemUiVisibilityChange(int visibility) {
         // Detect when we touch the screen on landscape video (which brings back the sysUI)
         // to make it go away again
-        if (getResources().getConfiguration().orientation == 2 && visibility == 0){
+        if (getResources().getConfiguration().orientation == 2 && visibility == 0) {
             hideSystemUI();
         }
-
     }
 
+    private void putNotificationUp(boolean play) {
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.jb_icon2)
+                        .setContentTitle("Jupiter Broadcasting")
+                        .setContentText(title)
+                        .setAutoCancel(true);
+
+        Intent resultIntent = new Intent(this, JBPlayer.class);
+        // pending intent to call back the already running resultIntent
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, 0);
+        mBuilder.setContentIntent(resultPendingIntent);
+
+        //display action buttons if 4.1+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            //Play-Pause button
+            Intent playPause = new Intent("DO_NOTIFICATION_ACTION");
+            Bundle playPauseBundle = new Bundle();
+            playPauseBundle.putInt("click", 1);//This is the value I want to pass
+            playPause.putExtras(playPauseBundle);
+            PendingIntent pendingPlayPause = PendingIntent.getActivity(this, 0, playPause, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            String text = play ? getString(R.string.pause) : getString(R.string.play);
+            mBuilder.addAction(android.R.drawable.ic_media_pause, text, pendingPlayPause);
+
+            //Exit button
+            Intent stop = new Intent("DO_NOTIFICATION_ACTION");
+            Bundle stopBundle = new Bundle();
+            stopBundle.putInt("click", 3);//This is the value I want to pass
+            stop.putExtras(stopBundle);
+            PendingIntent pendingStop = PendingIntent.getActivity(this, 0, stop, PendingIntent.FLAG_UPDATE_CURRENT);
+            mBuilder.addAction(android.R.drawable.ic_menu_close_clear_cancel, "Exit", pendingStop);
+
+        }
+        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+    }
+
+    //mediacontroller methods
+    @Override
+    public void start() {
+        mp.start();
+    }
+
+    @Override
+    public void pause() {
+        mp.pause();
+    }
+
+    @Override
+    public int getDuration() {
+        return mp.getDuration();
+    }
+
+    @Override
+    public int getCurrentPosition() {
+        return mp.getCurrentPosition();
+    }
+
+    @Override
+    public void seekTo(int pos) {
+        mp.seekTo(pos);
+    }
+
+    @Override
+    public boolean isPlaying() {
+        return mp.isPlaying();
+    }
+
+    @Override
+    public int getBufferPercentage() {
+        return 0;
+    }
+
+    @Override
+    public boolean canPause() {
+        return true;
+    }
+
+    @Override
+    public boolean canSeekBackward() {
+        return true;
+    }
+
+    @Override
+    public boolean canSeekForward() {
+        return true;
+    }
+
+    @Override
+    public int getAudioSessionId() {
+        return 0;
+    }
+
+    public class NotificationReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle answerBundle = intent.getExtras();
+            int event = answerBundle.getInt("click");
+            if (event == 1) {
+                if (mp.isPlaying()) {
+                    mp.stop();
+                    putNotificationUp(mp.isPlaying());
+                } else {
+                    mp.start();
+                    putNotificationUp(mp.isPlaying());
+                }
+            } else if (event == 3) {
+                mNotificationManager.cancel(NOTIFICATION_ID);
+                getParent().finish();
+            }
+        }
+    }
 }
