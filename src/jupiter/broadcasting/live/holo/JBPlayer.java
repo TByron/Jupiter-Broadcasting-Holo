@@ -561,7 +561,8 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
                         .setSmallIcon(R.drawable.jb_icon2)
                         .setContentTitle("Jupiter Broadcasting")
                         .setContentText(title)
-                        .setAutoCancel(true);
+                        .setAutoCancel(true)
+                        .setOngoing(true);
 
         Intent resultIntent = new Intent(this, JBPlayer.class);
         // pending intent to call back the already running resultIntent
