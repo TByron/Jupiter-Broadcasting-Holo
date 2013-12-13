@@ -33,7 +33,7 @@ I developed this as a fork of [Shane's](https://github.com/ShaneQful/Jupiter-Bro
 ### Todo:
 
 * ~~Audio in the background~~
-* Rich notification with play/pause for audio
+* ~~Rich notification with play/pause for audio~~
 * Cataloge deletion (currently only stub for longpress)
 
 ### License
