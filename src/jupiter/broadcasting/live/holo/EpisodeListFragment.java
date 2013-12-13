@@ -87,60 +87,13 @@ public class EpisodeListFragment extends Fragment {
 
         first = true;
         history = getActivity().getSharedPreferences(name, 0);
-        getActivity().setProgressBarIndeterminateVisibility(true);
+        Progress(true);
         RSS_parse newparse = new RSS_parse();  //do networking in async task SDK>9
         newparse.execute(afeed, vfeed, "0");
 
         return v;
     }
 
-    /*
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-
-            setMenuVisibility(false);
-
-
-            if (item.getTitle().equals(getString(R.string.notes))) {
-                Fragment fragment = new ShowNotesView();
-                Bundle args = new Bundle();
-                String link = aurls[0];
-                args.putString("Notes", link);
-                fragment.setArguments(args);
-
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-                ft.addToBackStack(null);
-                ft.replace(R.id.episodelist, fragment).commit();
-
-                return true;
-            }
-            if (item.getTitle().equals(getString(R.string.video))) {
-                            // start video streaming if the user agrees
-                            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(vurls[1]));
-                            i.setDataAndType(Uri.parse(vurls[1]), "video/mp4");
-                            startActivity(i);
-
-                } else {
-                    Intent j = new Intent(getActivity(), JBPlayer.class);
-                    j.putExtra("Title", title);
-                    j.putExtra("Link", vurls[1]);
-                    startActivity(j);
-
-                }
-                return true;
-            }
-            if (item.getTitle().equals(getString(R.string.audio))) {
-                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(aurls[1]));
-                i.setDataAndType(Uri.parse(aurls[1]), "audio/mp3");
-                startActivity(i);
-                return true;
-            }
-
-            return super.onOptionsItemSelected(item);
-        }
-    */
     public class EndlessScrollListener implements AbsListView.OnScrollListener {
 
         private int visibleThreshold = 4;
@@ -172,13 +125,17 @@ public class EpisodeListFragment extends Fragment {
             if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
                 // load the next page of shows using a background task
                 currentPage++;
-                getActivity().setProgressBarIndeterminateVisibility(true);
+                Progress(true);
                 RSS_parse scrollparse = new RSS_parse();
                 scrollparse.execute(afeed, vfeed, String.valueOf(currentPage));
                 loading = true;
 
             }
         }
+    }
+
+    public void Progress(boolean set) {
+        getActivity().setProgressBarIndeterminateVisibility(set);
     }
 
     public class RSS_parse extends AsyncTask<String, Integer, List<String>> {
@@ -219,7 +176,7 @@ public class EpisodeListFragment extends Fragment {
             } catch (Exception e) {
                 Log.e("image catch: ", e.toString());
             }
-            getActivity().setProgressBarIndeterminateVisibility(false);
+            Progress(false);
         }
 
         private boolean[] checkNew() throws ParseException {

@@ -10,12 +10,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.io.File;
 import java.util.Vector;
@@ -61,13 +58,13 @@ public class Catalogue extends ActionBarActivity {
                     String curName = tmpf.toString().split("/")[tmpf.toString().split("/").length - 1];
                     fileArray.add(curName.split(".mp3")[0]);
                     type.add(getString(R.string.audio));
-                    cadapter.add(curName.split(".mp3")[0],0);
+                    cadapter.add(curName.split(".mp3")[0], 0);
                 } else if (tmpf.toString().contains(".mp4")) {
                     path.add(tmpf.toString());
                     String curName = tmpf.toString().split("/")[tmpf.toString().split("/").length - 1];
                     fileArray.add(curName.split(".mp4")[0]);
                     type.add(getString(R.string.video));
-                    cadapter.add(curName.split(".mp4")[0],1);
+                    cadapter.add(curName.split(".mp4")[0], 1);
                 }
             }
         }
@@ -85,8 +82,7 @@ public class Catalogue extends ActionBarActivity {
                     int t = type.get(position).equalsIgnoreCase(getString(R.string.audio)) ? 0 : 1;
                     p.putExtra("type", t);
                     startActivity(p);
-                }
-                else {
+                } else {
                     cadapter.change(position, true);
                 }
             }
@@ -113,7 +109,7 @@ public class Catalogue extends ActionBarActivity {
             }
             catList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
             startSupportActionMode(mActionModeCallback);
-            cadapter.change(position,true);
+            cadapter.change(position, true);
 
             return true; // so this action does not consume the event!!!
         }

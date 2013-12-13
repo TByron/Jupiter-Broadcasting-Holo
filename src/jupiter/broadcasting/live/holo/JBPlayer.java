@@ -60,11 +60,12 @@ import jupiter.broadcasting.live.holo.list.FadeImageView;
  */
 
 public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSelectedListener,
-        View.OnSystemUiVisibilityChangeListener, MediaController.MediaPlayerControl{
-    private final int NOTIFICATION_ID = 3435;
+        View.OnSystemUiVisibilityChangeListener, MediaController.MediaPlayerControl {
+    private static int NOTIFICATION_ID = 3435;
     MediaPlayer mp;
     MediaController mediaController;
     NotificationManager mNotificationManager;
+    BroadcastReceiver nReceiver;
 
     int av = 0;
     VideoView videoView;
@@ -82,6 +83,7 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
     Spinner spinner;
     boolean hasit;
     boolean offline;
+    boolean live;
     int type;
     private View mDecorView;
 
@@ -91,8 +93,31 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
         final Context ct = this;
         String ns = NOTIFICATION_SERVICE;
         mNotificationManager = (NotificationManager) getSystemService(ns);
+        nReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+                if (action != null) {
+                    if (action.equalsIgnoreCase("PLAY_PAUSE")) {
+                        if (mp.isPlaying()) {
+                            mp.pause();
+                            unregisterReceiver(nReceiver);
+                            putNotificationUp(mp.isPlaying());
+                        } else {
+                            mp.start();
+                            unregisterReceiver(nReceiver);
+                            putNotificationUp(mp.isPlaying());
+                        }
+                    } else if (action.equalsIgnoreCase("STOP")) {
+                        unregisterReceiver(nReceiver);
+                        mNotificationManager.cancel(NOTIFICATION_ID);
+                        mp.stop();
+                    }
+                }
+            }
+        };
 
-        this.requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.mediaplayer);
         String pic = null;
         type = getIntent().getIntExtra("type", 3);
@@ -103,8 +128,10 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
             mDecorView.setOnSystemUiVisibilityChangeListener(this);
 
-        // going on different routes if coming from Catalogue
+        // going on different routes if coming from Catalogue/Home/EpisodeList
         offline = getIntent().getBooleanExtra("offline", false);
+        String help = getIntent().getStringExtra("loc");
+        live = ((help != null) && help.equalsIgnoreCase("-1"));
         if (!offline && !hasit) {
             pic = getIntent().getStringExtra("pic");
             aLink = getIntent().getStringExtra("aLink");
@@ -112,8 +139,12 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
             theLink = aLink;
             GetSize newSize = new GetSize();
             newSize.execute();
-        } else {
+        } else if (!live) {
             theLink = getIntent().getStringExtra("loc");
+        } else {
+            aLink = getIntent().getStringExtra("aLink");
+            vLink = getIntent().getStringExtra("vLink");
+            theLink = aLink;
         }
 
         iView = (FadeImageView) findViewById(R.id.thumb);
@@ -123,7 +154,7 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
         if ((null != pic) && !pic.equalsIgnoreCase("X")) {
             iView.setImageUrl(pic, mImageLoader);
         }
-        if (offline) {
+        if (offline && !live) {
             switch (type) {
                 case 0:
                     SpinnerArray.add(getString(R.string.audio));
@@ -151,14 +182,40 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
         play.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                if (av == 1) //video
-                    StartPlay(theLink);
-                else //audio
-                    try {
-                        StartPlayBackground(theLink);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                ConnectivityManager connectivity = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                wifiInfo = connectivity.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                if (wifiInfo == null || wifiInfo.getState() != NetworkInfo.State.CONNECTED) {
+                    AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(ct);
+                    myAlertDialog.setTitle(R.string.alert);
+                    myAlertDialog.setMessage(R.string.areyousure2);
+                    myAlertDialog.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            if (av == 1) //video
+                                StartPlay(theLink);
+                            else //audio
+                                try {
+                                    StartPlayBackground(theLink);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                        }
+                    });
+                    myAlertDialog.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface arg0, int arg1) {
+                        }
+                    });
+                    myAlertDialog.show();
+                } else {
+                    if (av == 1) //video
+                        StartPlay(theLink);
+                    else //audio
+                        try {
+                            StartPlayBackground(theLink);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                }
+
             }
         });
 
@@ -190,21 +247,23 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
                 } else {
                     DownLoad(url);
                 }
+
             }
         });
     }
 
     @Override
     public void onBackPressed() {
-        mp.stop();
-        super.onBackPressed();
+        if (mp != null && mp.isPlaying())//audio
+            mp.stop();
 
+        super.onBackPressed();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (mp.isPlaying()) {
+        if (mp != null && mp.isPlaying()) {
             putNotificationUp(mp.isPlaying());
         } else {
             mNotificationManager.cancel(NOTIFICATION_ID);
@@ -215,9 +274,9 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mp.isPlaying()) {
+        if (mp != null && mp.isPlaying()) {
             mp.stop();
-            mp.release();
+            mp.reset();
         }
         mNotificationManager.cancel(NOTIFICATION_ID);//because onPause is called first
 
@@ -232,7 +291,9 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         //the MediaController will hide after 3 seconds - tap the screen to make it appear again
-        mediaController.show();
+        //audio only
+        if ((av != 1) && mp.isPlaying())
+            mediaController.show();
         return false;
     }
 
@@ -255,6 +316,10 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
         String ver = (av == 0) ? getString(R.string.audio) : getString(R.string.video);
         request.setDescription(getString(R.string.progress) + "(" + ver + ")...");
         request.setTitle(getIntent().getStringExtra("title"));
+
+        down.setClickable(false);
+
+
         // in order for this if to run, you must use the android 3.2 to compile your app
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             request.allowScanningByMediaScanner();
@@ -284,6 +349,7 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
                                     .getInt(columnIndex)) {
                                 Toast.makeText(getBaseContext(), "Finished", Toast.LENGTH_LONG).show();
                                 hasit = true;
+                                down.setClickable(true);
                             }
                         }
                     }
@@ -295,25 +361,39 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
                 DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
-    public void Progress() {
-        this.setProgressBarIndeterminateVisibility(false);
+    public void Progress(boolean set) {
+        this.setSupportProgressBarIndeterminateVisibility(set);
     }
 
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (!offline) {
-            av = position;
-            hasit = HasIt(title, av);
+        //if nothing is selected (system calls this), do nothing
+        if (av != position) {
+            //if change occurs to AV spinner, reset the previous player
+            if (mp != null && mp.isPlaying())
+                mp.stop();
+            if (videoView != null && videoView.isPlaying()) {
+                videoView.suspend();
+                videoView.setVisibility(View.GONE);
+            }
+
+            play.setEnabled(true);
+            //play.setClickable(true);
             if (position != 0) {
                 theLink = vLink;
             } else theLink = aLink;
-            if (!hasit)
-                down.setVisibility(View.VISIBLE);
-            else {
-                down.setVisibility(View.INVISIBLE);
-                String ext = (av == 0) ? ".mp3" : ".mp4";
-                theLink = Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_PODCASTS + "/JB/" + title + ext;
+            av = position;
+
+            if (!offline) {
+                hasit = HasIt(title, av);
+                if (!hasit)
+                    down.setVisibility(View.VISIBLE);
+                else {
+                    down.setVisibility(View.INVISIBLE);
+                    String ext = (av == 0) ? ".mp3" : ".mp4";
+                    theLink = Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_PODCASTS + "/JB/" + title + ext;
+                }
             }
         }
     }
@@ -329,37 +409,48 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
         MediaController mediaController = new MediaController(this);
         mediaController.setAnchorView(videoView);
         videoView.setMediaController(mediaController);
-        this.setProgressBarIndeterminateVisibility(true);
+        Progress(true);
 
+        //play.setClickable(false);
+        play.setEnabled(false);
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer player) {
 
                 Toast.makeText(getBaseContext(), "Started", Toast.LENGTH_LONG).show();
-                Progress();
+                Progress(false);
                 iView.setVisibility(View.GONE);
                 videoView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT));
             }
         });
         videoView.start();
+
     }
 
     public void StartPlayBackground(String path) throws IOException {
+        Progress(true);
+        //play.setClickable(false);
+        play.setEnabled(false);
+
         mediaController = new MediaController(this);
         mp = new MediaPlayer();
         mp.setDataSource(path);
-        mp.prepare();
-        mp.start();
-
+        mp.prepareAsync();
+        mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer player) {
+                mp.start();
+                Toast.makeText(getBaseContext(), "Started", Toast.LENGTH_LONG).show();
+                Progress(false);
+                iView.setVisibility(View.GONE);
+            }
+        });
         mediaController.setMediaPlayer(this);
         mediaController.setAnchorView(findViewById(R.id.jbplayer));
         mediaController.setEnabled(true);
         mediaController.show();
 
-        Toast.makeText(getBaseContext(), "Started", Toast.LENGTH_LONG).show();
-        Progress();
-        iView.setVisibility(View.GONE);
     }
 
     public class GetSize extends AsyncTask<String, Integer, String[]> {
@@ -371,7 +462,10 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
                 URL url = new URL(aLink);
                 URLConnection urlConnection = url.openConnection();
                 size[0] = urlConnection.getHeaderField("content-length");
-                size[0] = String.valueOf(Integer.parseInt(size[0]) / 1024 / 1024) + " MB";
+                if (size[0] != null)
+                    size[0] = String.valueOf(Integer.parseInt(size[0]) / 1024 / 1024) + " MB";
+                else
+                    size[0] = "?";
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -380,7 +474,10 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
                 URL url = new URL(vLink);
                 URLConnection urlConnection = url.openConnection();
                 size[1] = urlConnection.getHeaderField("content-length");
-                size[1] = String.valueOf(Integer.parseInt(size[1]) / 1024 / 1024) + " MB";
+                if (size[1] != null)
+                    size[1] = String.valueOf(Integer.parseInt(size[1]) / 1024 / 1024) + " MB";
+                else
+                    size[1] = "?";
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -407,7 +504,7 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
 
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             spinner.setVisibility(View.VISIBLE);
-            if (!offline || !hasit)
+            if ((!offline || !hasit) && (!live))
                 down.setVisibility(View.VISIBLE);
             play.setVisibility(View.VISIBLE);
             tw.setVisibility(View.VISIBLE);
@@ -426,16 +523,26 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
     }
 
     private void hideSystemUI() {
-        mDecorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LOW_PROFILE
-                | View.SYSTEM_UI_FLAG_IMMERSIVE);
+        int visibility = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            visibility |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LOW_PROFILE;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            visibility |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            visibility |= View.SYSTEM_UI_FLAG_IMMERSIVE;
+        }
+        mDecorView.setSystemUiVisibility(visibility);
+
     }
 
     private void showSystemUI() {
-        mDecorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            mDecorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+        }
     }
 
     @Override
@@ -464,22 +571,30 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
         //display action buttons if 4.1+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             //Play-Pause button
-            Intent playPause = new Intent("DO_NOTIFICATION_ACTION");
-            Bundle playPauseBundle = new Bundle();
-            playPauseBundle.putInt("click", 1);//This is the value I want to pass
-            playPause.putExtras(playPauseBundle);
-            PendingIntent pendingPlayPause = PendingIntent.getActivity(this, 0, playPause, PendingIntent.FLAG_UPDATE_CURRENT);
+            Intent playPause = new Intent();
+            playPause.setAction("PLAY_PAUSE");
+            PendingIntent pendingPlayPause = PendingIntent.getBroadcast(this, 0, playPause, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            String text = play ? getString(R.string.pause) : getString(R.string.play);
-            mBuilder.addAction(android.R.drawable.ic_media_pause, text, pendingPlayPause);
+            String text;
+            int icon;
+            if (play) {
+                text = getString(R.string.pause);
+                icon = android.R.drawable.ic_media_pause;
+            } else {
+                text = getString(R.string.play);
+                icon = android.R.drawable.ic_media_play;
+            }
+            mBuilder.addAction(icon, text, pendingPlayPause);
 
             //Exit button
-            Intent stop = new Intent("DO_NOTIFICATION_ACTION");
-            Bundle stopBundle = new Bundle();
-            stopBundle.putInt("click", 3);//This is the value I want to pass
-            stop.putExtras(stopBundle);
-            PendingIntent pendingStop = PendingIntent.getActivity(this, 0, stop, PendingIntent.FLAG_UPDATE_CURRENT);
+            Intent stop = new Intent();
+            stop.setAction("STOP");
+            PendingIntent pendingStop = PendingIntent.getBroadcast(this, 0, stop, PendingIntent.FLAG_UPDATE_CURRENT);
             mBuilder.addAction(android.R.drawable.ic_menu_close_clear_cancel, "Exit", pendingStop);
+
+            registerReceiver(nReceiver, new IntentFilter("PLAY_PAUSE"));
+            registerReceiver(nReceiver, new IntentFilter("STOP"));
+
 
         }
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
@@ -503,6 +618,7 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
 
     @Override
     public int getCurrentPosition() {
+
         return mp.getCurrentPosition();
     }
 
@@ -539,26 +655,5 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
     @Override
     public int getAudioSessionId() {
         return 0;
-    }
-
-    public class NotificationReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Bundle answerBundle = intent.getExtras();
-            int event = answerBundle.getInt("click");
-            if (event == 1) {
-                if (mp.isPlaying()) {
-                    mp.stop();
-                    putNotificationUp(mp.isPlaying());
-                } else {
-                    mp.start();
-                    putNotificationUp(mp.isPlaying());
-                }
-            } else if (event == 3) {
-                mNotificationManager.cancel(NOTIFICATION_ID);
-                getParent().finish();
-            }
-        }
     }
 }

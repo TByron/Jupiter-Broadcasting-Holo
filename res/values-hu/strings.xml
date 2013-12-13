@@ -14,7 +14,8 @@
     <string name="drawer_open">open drawer</string>
     <string name="drawer_close">close drawer</string>
     <string name="alert">Nincs Wi-fi kapcsolat!</string>
-    <string name="areyousure">Biztosan elindítod a videót?</string>
+    <string name="areyousure">Biztosan elindítod az adást?</string>
+    <string name="areyousure2">Biztosan elindítod a letöltést?</string>
     <string name="down">Letöltés</string>
     <string name="cat">Katalógus</string>
     <string name="ok">Igen</string>

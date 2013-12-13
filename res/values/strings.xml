@@ -14,7 +14,7 @@
     <string name="drawer_open">open drawer</string>
     <string name="drawer_close">close drawer</string>
     <string name="alert">No Wi-fi connection!</string>
-    <string name="areyousure">Are you sure to start the video feed?</string>
+    <string name="areyousure">Are you sure to start the stream?</string>
     <string name="areyousure2">Are you sure to start downloading?</string>
     <string name="down">Download</string>
     <string name="cat">Catalogue</string>
