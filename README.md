@@ -27,8 +27,8 @@ I developed this as a fork of [Shane's](https://github.com/ShaneQful/Jupiter-Bro
 * TByron
 
 ### Screenshots:
-<img src=http://i.imgur.com/ebTxyE8.png> <img src=http://i.imgur.com/o5fI406.png> <img src=http://i.imgur.com/xAODTfg.png> 
-<img src=http://i.imgur.com/Xww4wGZ.png> <img src=http://i.imgur.com/8S5pgVp.png> <img src=http://i.imgur.com/YfFGPbO.png>
+<img src=http://i.imgur.com/n0SmEdH.png> <img src=http://i.imgur.com/I60FZyC.png> <img src=http://i.imgur.com/kZkVUhN.png> 
+<img src=http://i.imgur.com/WS6dqoA.png> <img src=http://i.imgur.com/WoDxTin.png> <img src=http://i.imgur.com/G6v3wrX.png>
 
 ### Todo:
 
