@@ -22,4 +22,11 @@
     <string name="cancel">No</string>
     <string name="progress">Downloading episode </string>
     <string name="delete">Delete</string>
+    <string name="settings">Settings</string>
+    <string name="audioq">High Quality Audio</string>
+    <string name="audioq_exp">Uses a little more bandwidth, only for live stream</string>
+    <string name="videoq">High Quality Video</string>
+    <string name="videoq_exp">Uses more bandwidth, can cause problems with older devices, only for the back catalogue</string>
+    <string name="sense_net">Sense network connection type</string>
+    <string name="sense_net_exp">Notifies you if trying to access big data on mobile connections</string>
 </resources>

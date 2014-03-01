@@ -1,5 +1,6 @@
 package jupiter.broadcasting.live.holo;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.NotificationManager;
@@ -9,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.media.MediaPlayer;
@@ -19,9 +21,13 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.text.method.ScrollingMovementMethod;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -38,6 +44,11 @@ import android.widget.VideoView;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.cast.MediaInfo;
+import com.google.android.gms.cast.MediaMetadata;
+import com.google.android.gms.common.images.WebImage;
+import com.google.sample.castcompanionlibrary.cast.VideoCastManager;
+import com.google.sample.castcompanionlibrary.cast.player.VideoCastControllerActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -66,6 +77,7 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
     MediaController mediaController;
     NotificationManager mNotificationManager;
     BroadcastReceiver nReceiver;
+    VideoCastManager mVideoCastManager;
 
     int av = 0;
     VideoView videoView;
@@ -78,12 +90,16 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
     String vLink;
     String theLink;
     String title;
+    String pic = null;
     NetworkInfo wifiInfo;
     List<String> SpinnerArray = new ArrayList<String>();
     Spinner spinner;
     boolean hasit;
     boolean offline;
     boolean live;
+    boolean notify;
+    boolean start = false;
+
     int type;
     private View mDecorView;
 
@@ -112,16 +128,25 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
                         unregisterReceiver(nReceiver);
                         mNotificationManager.cancel(NOTIFICATION_ID);
                         mp.stop();
+                        start = false;
                     }
                 }
             }
         };
 
+        //check if network notification is disabled in settings
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        notify = sharedPref.getBoolean("pref_sync_audio", false);
+
+        mVideoCastManager = JBApplication.getVideoCastManager(this);
+        mVideoCastManager.reconnectSessionIfPossible(this, true);
+
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.mediaplayer);
-        String pic = null;
+
         type = getIntent().getIntExtra("type", 3);
         title = getIntent().getStringExtra("title");
+        pic = "http://jb4.cdn.scaleengine.net/wp-content/themes/jb2014/images/logo.png";
         hasit = HasIt(title, av);
         getSupportActionBar().setTitle(title);
         mDecorView = getWindow().getDecorView();
@@ -151,9 +176,9 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
         RequestQueue mReqQue = Volley.newRequestQueue(getApplicationContext());
         ImageLoader mImageLoader = new ImageLoader(mReqQue, new BitmapLruCache());
 
-        if ((null != pic) && !pic.equalsIgnoreCase("X")) {
+       if (!offline) {
             iView.setImageUrl(pic, mImageLoader);
-        }
+       }
         if (offline && !live) {
             switch (type) {
                 case 0:
@@ -184,7 +209,7 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
             public void onClick(View v) {
                 ConnectivityManager connectivity = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
                 wifiInfo = connectivity.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-                if (wifiInfo == null || wifiInfo.getState() != NetworkInfo.State.CONNECTED) {
+                if ((wifiInfo == null || wifiInfo.getState() != NetworkInfo.State.CONNECTED) && !hasit && notify) {
                     AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(ct);
                     myAlertDialog.setTitle(R.string.alert);
                     myAlertDialog.setMessage(R.string.areyousure2);
@@ -230,7 +255,7 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
                 //if wifi not connected, ask to make sure
                 ConnectivityManager connectivity = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
                 wifiInfo = connectivity.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-                if (wifiInfo == null || wifiInfo.getState() != NetworkInfo.State.CONNECTED) {
+                if ((wifiInfo == null || wifiInfo.getState() != NetworkInfo.State.CONNECTED) && notify) {
                     AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(ct);
                     myAlertDialog.setTitle(R.string.alert);
                     myAlertDialog.setMessage(R.string.areyousure2);
@@ -253,18 +278,42 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
     }
 
     @Override
-    public void onBackPressed() {
-        if (mp != null && mp.isPlaying())//audio
-            mp.stop();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.settings, menu);
+        mVideoCastManager.addMediaRouterButton(menu,
+                R.id.media_route_menu_item);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mp != null && start) {//audio
+            mp.stop();
+            start = false;
+        }
         super.onBackPressed();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (mp != null && mp.isPlaying()) {
-            putNotificationUp(mp.isPlaying());
+        if (mp != null && start) {
+            putNotificationUp(true);
         } else {
             mNotificationManager.cancel(NOTIFICATION_ID);
         }
@@ -274,9 +323,10 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mp != null && mp.isPlaying()) {
+        if (mp != null && start) {
             mp.stop();
             mp.reset();
+            start = false;
         }
         mNotificationManager.cancel(NOTIFICATION_ID);//because onPause is called first
 
@@ -292,7 +342,7 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
     public boolean onTouchEvent(MotionEvent event) {
         //the MediaController will hide after 3 seconds - tap the screen to make it appear again
         //audio only
-        if ((av != 1) && mp.isPlaying())
+        if ((av != 1) && start)
             mediaController.show();
         return false;
     }
@@ -318,7 +368,6 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
         request.setTitle(getIntent().getStringExtra("title"));
 
         down.setClickable(false);
-
 
         // in order for this if to run, you must use the android 3.2 to compile your app
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -404,53 +453,86 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
     }
 
     public void StartPlay(String path) {
-        videoView = (VideoView) findViewById(R.id.videoView);
-        videoView.setVideoPath(path);
-        MediaController mediaController = new MediaController(this);
-        mediaController.setAnchorView(videoView);
-        videoView.setMediaController(mediaController);
         Progress(true);
+        if (mVideoCastManager.isConnected()) {
+            //casting
+            MediaMetadata mMediaMetadata = new MediaMetadata(MediaMetadata.MEDIA_TYPE_MOVIE);
+            mMediaMetadata.putString(MediaMetadata.KEY_TITLE, title);
+            mMediaMetadata.putString(MediaMetadata.KEY_SUBTITLE, "sub");
+            mMediaMetadata.putString(MediaMetadata.KEY_STUDIO, "Jupiter Broadcasting");
+            mMediaMetadata.addImage(new WebImage(Uri.parse("http://jb4.cdn.scaleengine.net/wp-content/themes/jb2014/images/logo.png")));
+            mMediaMetadata.addImage(new WebImage(Uri.parse(pic)));
+            MediaInfo mSelectedMedia = new MediaInfo.Builder(path)
+                    .setContentType("video/mp4")
+                    .setStreamType(live ? MediaInfo.STREAM_TYPE_LIVE : MediaInfo.STREAM_TYPE_BUFFERED)
+                    .setMetadata(mMediaMetadata)
+                    .build();
+            Progress(false);
+            mVideoCastManager.startCastControllerActivity(this, mSelectedMedia, 0, true);
+        } else {
+            //local playback
+            videoView = (VideoView) findViewById(R.id.videoView);
+            videoView.setVideoPath(path);
+            MediaController mediaController = new MediaController(this);
+            mediaController.setAnchorView(videoView);
+            videoView.setMediaController(mediaController);
+            start = true;
 
-        //play.setClickable(false);
-        play.setEnabled(false);
-        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer player) {
+            play.setEnabled(false);
+            videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer player) {
 
-                Toast.makeText(getBaseContext(), "Started", Toast.LENGTH_LONG).show();
-                Progress(false);
-                iView.setVisibility(View.GONE);
-                videoView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT));
-            }
-        });
-        videoView.start();
-
+                    Toast.makeText(getBaseContext(), "Started", Toast.LENGTH_LONG).show();
+                    Progress(false);
+                    iView.setVisibility(View.GONE);
+                    videoView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT));
+                }
+            });
+            videoView.start();
+        }
     }
 
     public void StartPlayBackground(String path) throws IOException {
         Progress(true);
-        //play.setClickable(false);
-        play.setEnabled(false);
-
-        mediaController = new MediaController(this);
-        mp = new MediaPlayer();
-        mp.setDataSource(path);
-        mp.prepareAsync();
-        mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer player) {
-                mp.start();
-                Toast.makeText(getBaseContext(), "Started", Toast.LENGTH_LONG).show();
-                Progress(false);
-                iView.setVisibility(View.GONE);
-            }
-        });
-        mediaController.setMediaPlayer(this);
-        mediaController.setAnchorView(findViewById(R.id.jbplayer));
-        mediaController.setEnabled(true);
-        mediaController.show();
-
+        if (mVideoCastManager.isConnected()) {
+            //casting
+            MediaMetadata mMediaMetadata = new MediaMetadata(MediaMetadata.MEDIA_TYPE_MUSIC_TRACK);
+            mMediaMetadata.putString(MediaMetadata.KEY_TITLE, title);
+            mMediaMetadata.putString(MediaMetadata.KEY_SUBTITLE, "sub");
+            mMediaMetadata.putString(MediaMetadata.KEY_STUDIO, "Jupiter Broadcasting");
+            mMediaMetadata.addImage(new WebImage(Uri.parse("http://jb4.cdn.scaleengine.net/wp-content/themes/jb2014/images/logo.png")));
+            mMediaMetadata.addImage(new WebImage(Uri.parse(null!=pic ? "http://jb4.cdn.scaleengine.net/wp-content/themes/jb2014/images/logo.png" : pic)));
+            MediaInfo mSelectedMedia = new MediaInfo.Builder(path)
+                    .setContentType("video/mp4")
+                    .setStreamType(live ? MediaInfo.STREAM_TYPE_LIVE : MediaInfo.STREAM_TYPE_BUFFERED)
+                    .setMetadata(mMediaMetadata)
+                    .build();
+            Progress(false);
+            mVideoCastManager.startCastControllerActivity(this, mSelectedMedia, 0, true);
+        } else {
+            //local playback
+            play.setEnabled(false);
+            start = true;
+            mediaController = new MediaController(this);
+            mp = new MediaPlayer();
+            mp.setDataSource(path);
+            mp.prepareAsync();
+            mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer player) {
+                    mp.start();
+                    Toast.makeText(getBaseContext(), "Started", Toast.LENGTH_LONG).show();
+                    Progress(false);
+                    iView.setVisibility(View.GONE);
+                }
+            });
+            mediaController.setMediaPlayer(this);
+            mediaController.setAnchorView(findViewById(R.id.jbplayer));
+            mediaController.setEnabled(true);
+            mediaController.show();
+        }
     }
 
     public class GetSize extends AsyncTask<String, Integer, String[]> {
@@ -511,7 +593,7 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
             showSystemUI();
             getSupportActionBar().show();
         } else {
-            if (videoView.isPlaying()) {
+            if (start && av == 1) {
                 spinner.setVisibility(View.GONE);
                 down.setVisibility(View.GONE);
                 play.setVisibility(View.GONE);
@@ -535,10 +617,13 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             visibility |= View.SYSTEM_UI_FLAG_IMMERSIVE;
         }
-        mDecorView.setSystemUiVisibility(visibility);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            mDecorView.setSystemUiVisibility(visibility);
+        }
 
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void showSystemUI() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             mDecorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
@@ -558,7 +643,7 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.jb_icon2)
+                        .setSmallIcon(R.drawable.newlogo_not)
                         .setContentTitle("Jupiter Broadcasting")
                         .setContentText(title)
                         .setAutoCancel(true)

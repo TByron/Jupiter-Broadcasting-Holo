@@ -4,6 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <CheckedTextView
         android:id="@+id/type"
         style="?android:attr/spinnerDropDownItemStyle"
@@ -12,7 +13,8 @@
         android:textSize="20sp"
         android:minHeight="30dp"
         android:layout_margin="1dp"
-        android:textColor="#000000"/>
+        android:textColor="#000000" />
+
     <CheckedTextView
         android:id="@+id/size"
         style="?android:attr/spinnerDropDownItemStyle"
@@ -22,6 +24,6 @@
         android:layout_alignParentRight="true"
         android:textSize="18sp"
         android:layout_margin="1dp"
-        android:textColor="#000000"/>
+        android:textColor="#000000" />
 
 </RelativeLayout>

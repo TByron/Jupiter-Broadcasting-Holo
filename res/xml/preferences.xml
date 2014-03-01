@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:key="pref_sync_audio"
+        android:title="@string/audioq"
+        android:summary="@string/audioq_exp"
+        android:defaultValue="false" />
+    <CheckBoxPreference
+        android:key="pref_sync_video"
+        android:title="@string/videoq"
+        android:summary="@string/videoq_exp"
+        android:defaultValue="false" />
+    <CheckBoxPreference
+        android:key="pref_sync_alert"
+        android:title="@string/sense_net"
+        android:summary="@string/sense_net_exp"
+        android:defaultValue="false" />
+</PreferenceScreen>

@@ -6,36 +6,45 @@
     android:layout_height="match_parent"
     android:id="@+id/jbplayer">
 
-    <Spinner android:layout_width="match_parent"
+    <Spinner
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/AV"/>
-    <RelativeLayout android:layout_width="match_parent"
+        android:id="@+id/AV" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <Button android:layout_width="wrap_content"
+
+        <Button
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/player"
             android:text="@string/play"
-            android:drawableLeft="@drawable/ic_action_play"/>
-        <Button android:layout_width="wrap_content"
+            android:drawableLeft="@drawable/ic_action_play" />
+
+        <Button
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:id="@+id/downer"
             android:text="@string/down"
-            android:drawableLeft="@drawable/ic_action_download"/>
+            android:drawableLeft="@drawable/ic_action_download" />
     </RelativeLayout>
-        <VideoView android:layout_width="1dp"
-            android:layout_height="1dp"
-            android:id="@+id/videoView"
-            />
+
+    <VideoView
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:id="@+id/videoView" />
+
     <jupiter.broadcasting.live.holo.list.FadeImageView
         android:id="@+id/thumb"
         android:layout_width="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="wrap_content" />
+
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:id="@+id/summary"/>
+        android:id="@+id/summary" />
 
 </LinearLayout>

@@ -1,16 +1,22 @@
 package jupiter.broadcasting.live.holo;
 
-import android.app.Activity;
-import android.app.NotificationManager;
-import android.content.Context;
+import android.app.Application;
 import android.content.Intent;
-import android.media.MediaPlayer;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import com.google.sample.castcompanionlibrary.cast.BaseCastManager;
+import com.google.sample.castcompanionlibrary.cast.VideoCastManager;
 
 /*
  * Copyright (c) 2012 Shane Quigley
@@ -21,22 +27,34 @@ import android.widget.ImageView;
  * @author Shane Quigley
  * @hacked Adam Szabo
  */
-public class Home extends Activity {
-    /**
-     * Called when the activity is first created.
-     */
-    private final int NOTIFICATION_ID = 3434;
-    MediaPlayer mp = new MediaPlayer();
-    NotificationManager mNotificationManager;
+public class Home extends ActionBarActivity {
+
+    VideoCastManager mVideoCastManager;
+    boolean[] av_quality;
+    static String[] audio;
+    static String video;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String ns = Context.NOTIFICATION_SERVICE;
-        mNotificationManager = (NotificationManager) getSystemService(ns);
         setContentView(R.layout.startscreen);
 
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
-        mNotificationManager.cancel(NOTIFICATION_ID);
+        BaseCastManager.checkGooglePlaySevices(this);
+        mVideoCastManager = JBApplication.getVideoCastManager(this);
+        mVideoCastManager.reconnectSessionIfPossible(this, true);
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        av_quality = new boolean[2];
+        //audio quality
+        av_quality[0] = sharedPref.getBoolean("pref_sync_audio", false);
+        //video quality
+        av_quality[1] = sharedPref.getBoolean("pref_sync_video", false);
+
+        audio = new String[2];
+        audio[0] = "http://jblive.fm/";
+        audio[1] = "http://jblive.am/";
+        video = "http://jblive.videocdn.scaleengine.net/jb-live/play/jblive.stream/playlist.m3u8";
+
+
         final Button play = (Button) this.findViewById(R.id.button1);
         ImageView pic = (ImageView) this.findViewById(R.id.imageView1);
         pic.setOnClickListener(new OnClickListener() {
@@ -60,6 +78,8 @@ public class Home extends Activity {
 
             public void onClick(View v) {
                 Intent myIntent = new Intent(v.getContext(), ShowActivity.class);
+                myIntent.putExtra("aQ", av_quality[0]);
+                myIntent.putExtra("vQ", av_quality[1]);
                 startActivityForResult(myIntent, 0);
             }
         });
@@ -80,10 +100,40 @@ public class Home extends Activity {
                 p.putExtra("title", "JB Live");
                 p.putExtra("offline", true);
                 p.putExtra("loc", "-1");
-                p.putExtra("aLink", "http://jblive.fm/");
-                p.putExtra("vLink", "rtsp://videocdn-us.geocdn.scaleengine.net/jblive/jblive.stream");
+                p.putExtra("aLink", audio[av_quality[0] ? 0 : 1]);
+                p.putExtra("vLink", video);
                 startActivity(p);
             }
         });
+
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        mVideoCastManager = JBApplication.getVideoCastManager(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.settings, menu);
+        mVideoCastManager.addMediaRouterButton(menu,
+                R.id.media_route_menu_item);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

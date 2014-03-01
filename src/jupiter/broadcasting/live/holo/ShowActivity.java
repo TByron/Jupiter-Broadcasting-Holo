@@ -10,8 +10,10 @@ package jupiter.broadcasting.live.holo;
  * @hacked Adam Szabo
  */
 
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -43,6 +45,11 @@ public class ShowActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
+
+        sharedPref.getBoolean("pref_sync_audio", false);
         shows = new String[]{getString(R.string.allshows),
                 "BSD Now",
                 "Coder Radio",
@@ -69,15 +76,27 @@ public class ShowActivity extends ActionBarActivity {
         videoFeedTable = new Hashtable<String, String>();
         videoFeedTable.put(getString(R.string.allshows), "http://feeds2.feedburner.com/AllJupiterVideos");
         videoFeedTable.put("Coder Radio", "http://feeds.feedburner.com/coderradiovideo");
-        videoFeedTable.put("Faux Show", "http://www.jupiterbroadcasting.com/feeds/FauxShowMobile.xml");
-        videoFeedTable.put("Linux Action Show", "http://feeds.feedburner.com/linuxactionshowipodvid");
         videoFeedTable.put("LINUX Unplugged", "http://feeds.feedburner.com/linuxunvid");
         videoFeedTable.put("SciByte", "http://feeds.feedburner.com/scibytelarge");
-        videoFeedTable.put("Techsnap", "http://feeds.feedburner.com/techsnapmobile");
-        videoFeedTable.put("Unfilter", "http://www.jupiterbroadcasting.com/feeds/unfilterMob.xml");
         videoFeedTable.put("Plan B", "http://feeds.feedburner.com/PlanBVideo");
-        videoFeedTable.put("BSD Now", "http://feeds.feedburner.com/BsdNowMobile");
 
+
+        if (sharedPref.getBoolean("pref_sync_video", false)) {
+            //load low quality video feeds
+            videoFeedTable.put("Techsnap", "http://feeds.feedburner.com/techsnapmobile");
+            videoFeedTable.put("Linux Action Show", "http://feeds.feedburner.com/linuxactionshowipodvid");
+            videoFeedTable.put("Faux Show", "http://www.jupiterbroadcasting.com/feeds/FauxShowMobile.xml");
+            videoFeedTable.put("BSD Now", "http://feeds.feedburner.com/BsdNowMobile");
+            videoFeedTable.put("Unfilter", "http://www.jupiterbroadcasting.com/feeds/unfilterMob.xml");
+
+        } else {
+            //if set, load high quality videos
+            videoFeedTable.put("Techsnap", "http://feeds.feedburner.com/techsnaphd");
+            videoFeedTable.put("Linux Action Show", "http://feeds.feedburner.com/linuxashd");
+            videoFeedTable.put("Faux Show", "http://www.jupiterbroadcasting.com/feeds/FauxShowHD.xml");
+            videoFeedTable.put("BSD Now", "http://feeds.feedburner.com/BsdNowHd");
+            videoFeedTable.put("Unfilter", "http://www.jupiterbroadcasting.com/feeds/unfilterHD.xml");
+        }
 
         supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.main);
