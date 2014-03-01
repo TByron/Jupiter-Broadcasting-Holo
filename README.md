@@ -13,6 +13,8 @@ I developed this as a fork of [Shane's](https://github.com/ShaneQful/Jupiter-Bro
 
 * Watch or listen previous shows online
 
+* Cast video and audio to ChromeCast (live video not working yet)
+
 * Download for later
 
 * Has its own player built-in
@@ -34,8 +36,10 @@ I developed this as a fork of [Shane's](https://github.com/ShaneQful/Jupiter-Bro
 
 * ~~Audio in the background~~
 * ~~Rich notification with play/pause for audio~~
+* ~~ChromeCast support~~
+* Fix live video on ChromeCast
 * Cataloge deletion (currently only stub for longpress)
-* ChromeCast support
+
 
 ### License
 
