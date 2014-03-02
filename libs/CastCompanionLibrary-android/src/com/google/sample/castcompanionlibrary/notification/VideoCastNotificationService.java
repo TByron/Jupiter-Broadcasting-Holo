@@ -310,7 +310,7 @@ public class VideoCastNotificationService extends Service {
                 mCastManager.getDeviceName());
         rv.setTextViewText(R.id.subTitleView, castingTo);
         mNotification = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_stat_action_notification)
+                .setSmallIcon(R.drawable.newlogo_not)
                 .setContentIntent(resultPendingIntent)
                 .setContent(rv)
                 .setAutoCancel(false)

@@ -48,7 +48,6 @@ import com.google.android.gms.cast.MediaInfo;
 import com.google.android.gms.cast.MediaMetadata;
 import com.google.android.gms.common.images.WebImage;
 import com.google.sample.castcompanionlibrary.cast.VideoCastManager;
-import com.google.sample.castcompanionlibrary.cast.player.VideoCastControllerActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -176,9 +175,9 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
         RequestQueue mReqQue = Volley.newRequestQueue(getApplicationContext());
         ImageLoader mImageLoader = new ImageLoader(mReqQue, new BitmapLruCache());
 
-       if (!offline) {
+        if (!offline) {
             iView.setImageUrl(pic, mImageLoader);
-       }
+        }
         if (offline && !live) {
             switch (type) {
                 case 0:
@@ -335,6 +334,8 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
     @Override
     protected void onResume() {
         mNotificationManager.cancel(NOTIFICATION_ID);//For good measure because app pauses before it quits aswell as on pause
+        mVideoCastManager = JBApplication.getVideoCastManager(this);
+        mVideoCastManager.reconnectSessionIfPossible(this, true);
         super.onResume();
     }
 
@@ -456,9 +457,11 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
         Progress(true);
         if (mVideoCastManager.isConnected()) {
             //casting
+            String[] tit_ep;
+            tit_ep = title.split("[|]");
             MediaMetadata mMediaMetadata = new MediaMetadata(MediaMetadata.MEDIA_TYPE_MOVIE);
-            mMediaMetadata.putString(MediaMetadata.KEY_TITLE, title);
-            mMediaMetadata.putString(MediaMetadata.KEY_SUBTITLE, "sub");
+            mMediaMetadata.putString(MediaMetadata.KEY_TITLE, tit_ep[0]);
+            mMediaMetadata.putString(MediaMetadata.KEY_SUBTITLE, tit_ep[1]);
             mMediaMetadata.putString(MediaMetadata.KEY_STUDIO, "Jupiter Broadcasting");
             mMediaMetadata.addImage(new WebImage(Uri.parse("http://jb4.cdn.scaleengine.net/wp-content/themes/jb2014/images/logo.png")));
             mMediaMetadata.addImage(new WebImage(Uri.parse(pic)));
@@ -498,14 +501,16 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
         Progress(true);
         if (mVideoCastManager.isConnected()) {
             //casting
+            String[] tit_ep;
+            tit_ep = title.split("[|]");
             MediaMetadata mMediaMetadata = new MediaMetadata(MediaMetadata.MEDIA_TYPE_MUSIC_TRACK);
-            mMediaMetadata.putString(MediaMetadata.KEY_TITLE, title);
-            mMediaMetadata.putString(MediaMetadata.KEY_SUBTITLE, "sub");
+            mMediaMetadata.putString(MediaMetadata.KEY_TITLE, tit_ep[0]);
+            mMediaMetadata.putString(MediaMetadata.KEY_SUBTITLE, tit_ep[1]);
             mMediaMetadata.putString(MediaMetadata.KEY_STUDIO, "Jupiter Broadcasting");
-            mMediaMetadata.addImage(new WebImage(Uri.parse("http://jb4.cdn.scaleengine.net/wp-content/themes/jb2014/images/logo.png")));
-            mMediaMetadata.addImage(new WebImage(Uri.parse(null!=pic ? "http://jb4.cdn.scaleengine.net/wp-content/themes/jb2014/images/logo.png" : pic)));
+            mMediaMetadata.addImage(new WebImage(Uri.parse(null == pic ? "http://jb4.cdn.scaleengine.net/wp-content/themes/jb2014/images/logo.png" : pic)));
+            mMediaMetadata.addImage(new WebImage(Uri.parse(null == pic ? "http://jb4.cdn.scaleengine.net/wp-content/themes/jb2014/images/logo.png" : pic)));
             MediaInfo mSelectedMedia = new MediaInfo.Builder(path)
-                    .setContentType("video/mp4")
+                    .setContentType("audio/mp3")
                     .setStreamType(live ? MediaInfo.STREAM_TYPE_LIVE : MediaInfo.STREAM_TYPE_BUFFERED)
                     .setMetadata(mMediaMetadata)
                     .build();
