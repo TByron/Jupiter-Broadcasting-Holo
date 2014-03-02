@@ -460,8 +460,8 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
             String[] tit_ep;
             tit_ep = title.split("[|]");
             MediaMetadata mMediaMetadata = new MediaMetadata(MediaMetadata.MEDIA_TYPE_MOVIE);
-            mMediaMetadata.putString(MediaMetadata.KEY_TITLE, tit_ep[0]);
-            mMediaMetadata.putString(MediaMetadata.KEY_SUBTITLE, tit_ep[1]);
+            mMediaMetadata.putString(MediaMetadata.KEY_TITLE, live ? title :tit_ep[0]);
+            mMediaMetadata.putString(MediaMetadata.KEY_SUBTITLE, live ? "streaming" : tit_ep[1]);
             mMediaMetadata.putString(MediaMetadata.KEY_STUDIO, "Jupiter Broadcasting");
             mMediaMetadata.addImage(new WebImage(Uri.parse("http://jb4.cdn.scaleengine.net/wp-content/themes/jb2014/images/logo.png")));
             mMediaMetadata.addImage(new WebImage(Uri.parse(pic)));
@@ -504,10 +504,11 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
             String[] tit_ep;
             tit_ep = title.split("[|]");
             MediaMetadata mMediaMetadata = new MediaMetadata(MediaMetadata.MEDIA_TYPE_MUSIC_TRACK);
-            mMediaMetadata.putString(MediaMetadata.KEY_TITLE, tit_ep[0]);
-            mMediaMetadata.putString(MediaMetadata.KEY_SUBTITLE, tit_ep[1]);
+            mMediaMetadata.putString(MediaMetadata.KEY_TITLE, live ? title :tit_ep[0]);
+            mMediaMetadata.putString(MediaMetadata.KEY_SUBTITLE, live ? "streaming" : tit_ep[1]);
             mMediaMetadata.putString(MediaMetadata.KEY_STUDIO, "Jupiter Broadcasting");
             mMediaMetadata.addImage(new WebImage(Uri.parse(null == pic ? "http://jb4.cdn.scaleengine.net/wp-content/themes/jb2014/images/logo.png" : pic)));
+            //the second only for the controller page
             mMediaMetadata.addImage(new WebImage(Uri.parse(null == pic ? "http://jb4.cdn.scaleengine.net/wp-content/themes/jb2014/images/logo.png" : pic)));
             MediaInfo mSelectedMedia = new MediaInfo.Builder(path)
                     .setContentType("audio/mp3")
