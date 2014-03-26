@@ -156,7 +156,7 @@ public class VideoMediaRouteControllerDialog extends MediaRouteControllerDialog 
         MediaMetadata mm = info.getMetadata();
         mTitle.setText(mm.getString(MediaMetadata.KEY_TITLE));
         mSubTitle.setText(mm.getString(MediaMetadata.KEY_SUBTITLE));
-        setIcon(mm.getImages().get(0).getUrl());
+        setIcon(mm.hasImages() ? mm.getImages().get(0).getUrl() : null);
     }
 
     public void setIcon(Uri uri) {
@@ -164,6 +164,12 @@ public class VideoMediaRouteControllerDialog extends MediaRouteControllerDialog 
             return;
         }
         mIconUri = uri;
+        if (null == uri) {
+            Bitmap bm = BitmapFactory.decodeResource(
+                    mContext.getResources(), R.drawable.video_placeholder_200x200);
+            mIcon.setImageBitmap(bm);
+            return;
+        }
         new Thread(new Runnable() {
             Bitmap bm = null;
 

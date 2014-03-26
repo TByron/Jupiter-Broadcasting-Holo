@@ -32,7 +32,7 @@ public class Home extends ActionBarActivity {
     VideoCastManager mVideoCastManager;
     boolean[] av_quality;
     static String[] audio;
-    static String video;
+    static String[] video;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,9 +50,11 @@ public class Home extends ActionBarActivity {
         av_quality[1] = sharedPref.getBoolean("pref_sync_video", false);
 
         audio = new String[2];
+        video = new String[2];
         audio[0] = "http://jblive.fm/";
         audio[1] = "http://jblive.am/";
-        video = "http://jblive.videocdn.scaleengine.net/jb-live/play/jblive.stream/playlist.m3u8";
+        video[0] = "http://jblive.videocdn.scaleengine.net/jb-live/play/jblive.stream/playlist.m3u8";
+        video[1] = video[0];
 
 
         final Button play = (Button) this.findViewById(R.id.button1);
@@ -97,11 +99,11 @@ public class Home extends ActionBarActivity {
             public void onClick(View v) {
                 Intent p = new Intent(getBaseContext(), JBPlayer.class);
 
-                p.putExtra("title", "JB Live");
+                p.putExtra("title", "JB Live | Streaming");
                 p.putExtra("offline", true);
                 p.putExtra("loc", "-1");
                 p.putExtra("aLink", audio[av_quality[0] ? 0 : 1]);
-                p.putExtra("vLink", video);
+                p.putExtra("vLink", video[av_quality[1] ? 0 : 1]);
                 startActivity(p);
             }
         });

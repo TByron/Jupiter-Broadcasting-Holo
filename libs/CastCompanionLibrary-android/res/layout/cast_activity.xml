@@ -27,6 +27,18 @@
                 android:src="@drawable/ic_av_pause_dark" />
 
             <TextView
+                android:id="@+id/liveText"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/imageView1"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:text="@string/live"
+                android:visibility="invisible"/>
+
+            <TextView
                 android:id="@+id/startText"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"

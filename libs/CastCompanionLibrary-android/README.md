@@ -1,9 +1,9 @@
 # CastCompanionLibrary-android
 
-CastCompanionLibrary-android is a library project to enable developers integrate Cast capabilities into their applications faster and easier. 
+CastCompanionLibrary-android is a library project to enable developers integrate Cast capabilities into their applications faster and easier.
 
 ## Dependencies
-* google-play-services_lib library from the Android SDK (at least version 4.2)
+* google-play-services_lib library from the Android SDK (at least version 4.3)
 * android-support-v7-appcompat (version 19.0.1 or above)
 * android-support-v7-mediarouter (version 19.0.1 or above)
 
@@ -11,7 +11,7 @@ CastCompanionLibrary-android is a library project to enable developers integrate
 * Set up the project dependencies
 
 ## Documentation
-See the "CastCompanionLibray.pdf" inside the project for a more extensive documentation. 
+See the "CastCompanionLibray.pdf" inside the project for a more extensive documentation.
 
 ## References and How to report bugs
 * [Cast Developer Documentation](http://developers.google.com/cast/)
@@ -29,6 +29,12 @@ See LICENSE
 Google Cast Developers Community on Google+ [http://goo.gl/TPLDxj](http://goo.gl/TPLDxj)
 
 ## Change List
+1.1 -> 1.2
+ * Improving thread-safety in calling various ConsumerImpl callbacks
+ * (backward incompatible) Changing the signature of IMediaAuthListener.onResult
+ * Adding an API to BaseCastManager so clients can clear the "context" to avoid any leaks
+ * Various bug fixes
+
 1.0 -> 1.1
  * Added gradle build scripts (make sure you have Android Support Repository)
  * For live media, the "pause" button at various places is replaced with a "stop" button

@@ -304,6 +304,7 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
         if (mp != null && start) {//audio
             mp.stop();
             start = false;
+            mp.release();
         }
         super.onBackPressed();
     }
@@ -460,13 +461,13 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
             String[] tit_ep;
             tit_ep = title.split("[|]");
             MediaMetadata mMediaMetadata = new MediaMetadata(MediaMetadata.MEDIA_TYPE_MOVIE);
-            mMediaMetadata.putString(MediaMetadata.KEY_TITLE, live ? title :tit_ep[0]);
+            mMediaMetadata.putString(MediaMetadata.KEY_TITLE, live ? title : tit_ep[0]);
             mMediaMetadata.putString(MediaMetadata.KEY_SUBTITLE, live ? "streaming" : tit_ep[1]);
             mMediaMetadata.putString(MediaMetadata.KEY_STUDIO, "Jupiter Broadcasting");
             mMediaMetadata.addImage(new WebImage(Uri.parse("http://jb4.cdn.scaleengine.net/wp-content/themes/jb2014/images/logo.png")));
             mMediaMetadata.addImage(new WebImage(Uri.parse(pic)));
             MediaInfo mSelectedMedia = new MediaInfo.Builder(path)
-                    .setContentType("video/mp4")
+                    .setContentType(live ? "application/x-mpegURL" : "video")
                     .setStreamType(live ? MediaInfo.STREAM_TYPE_LIVE : MediaInfo.STREAM_TYPE_BUFFERED)
                     .setMetadata(mMediaMetadata)
                     .build();
@@ -504,7 +505,7 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
             String[] tit_ep;
             tit_ep = title.split("[|]");
             MediaMetadata mMediaMetadata = new MediaMetadata(MediaMetadata.MEDIA_TYPE_MUSIC_TRACK);
-            mMediaMetadata.putString(MediaMetadata.KEY_TITLE, live ? title :tit_ep[0]);
+            mMediaMetadata.putString(MediaMetadata.KEY_TITLE, live ? title : tit_ep[0]);
             mMediaMetadata.putString(MediaMetadata.KEY_SUBTITLE, live ? "streaming" : tit_ep[1]);
             mMediaMetadata.putString(MediaMetadata.KEY_STUDIO, "Jupiter Broadcasting");
             mMediaMetadata.addImage(new WebImage(Uri.parse(null == pic ? "http://jb4.cdn.scaleengine.net/wp-content/themes/jb2014/images/logo.png" : pic)));

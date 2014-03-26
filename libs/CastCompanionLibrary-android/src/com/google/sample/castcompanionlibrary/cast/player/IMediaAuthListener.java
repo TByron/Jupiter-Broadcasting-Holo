@@ -18,6 +18,8 @@ package com.google.sample.castcompanionlibrary.cast.player;
 
 import com.google.android.gms.cast.MediaInfo;
 
+import org.json.JSONObject;
+
 /**
  * A public interface that provides callbacks for the {@link IMediaAuthService} to communicate with
  * the framework
@@ -27,22 +29,28 @@ public interface IMediaAuthListener {
     /**
      * Called when IMediaAuthService has successfully obtained a result.
      *
-     * @param status Provides the status of result, will be one of
-     *            {@link MediaAusthStatus#RESULT_AUTHORIZED} or
-     *            {@link MediaAusthStatus#RESULT_NOT_AUTHORIZED}
-     * @param info The fully populated {@link MediaInfo} that is obtained through authorization.
-     * @param message If authorization was not granted, then an optional message can be provided to
-     *            be presented to the user. If no message is provided, it will be silently ignored.
-     *            Implementors have to make sure the message is localized.
+     * @param status     Provides the status of result, will be one of
+     *                   {@link MediaAusthStatus#RESULT_AUTHORIZED} or
+     *                   {@link MediaAusthStatus#RESULT_NOT_AUTHORIZED}
+     * @param info       The fully populated {@link MediaInfo} that is obtained through
+     *                   authorization.
+     * @param message    If authorization was not granted, then an optional message can be provided
+     *                   to
+     *                   be presented to the user. If no message is provided, it will be silently
+     *                   ignored.
+     *                   Implementers have to make sure the message is localized.
+     * @param startPoint The position in video to start the playback at (in milliseconds)
+     * @param customData Optional {@link org.json.JSONObject}
      */
-    public void onResult(MediaAuthStatus status, MediaInfo info, String message);
+    public void onResult(MediaAuthStatus status, MediaInfo info, String message,
+            int startPoint, JSONObject customData);
 
     /**
      * Called when IMediaAuthService returns with a failure message due to some issues such as
      * network, backend issues, etc.
      *
      * @param failureMessage The message stating the reason for failure. This message should be
-     *            localized.
+     *                       localized.
      */
     public void onFailure(String failureMessage);
 

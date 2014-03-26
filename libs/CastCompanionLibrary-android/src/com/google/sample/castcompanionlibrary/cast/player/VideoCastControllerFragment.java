@@ -30,6 +30,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.SeekBar;
 
@@ -44,6 +45,9 @@ import com.google.sample.castcompanionlibrary.cast.exceptions.NoConnectionExcept
 import com.google.sample.castcompanionlibrary.cast.exceptions.TransientNetworkDisconnectionException;
 import com.google.sample.castcompanionlibrary.utils.LogUtils;
 import com.google.sample.castcompanionlibrary.utils.Utils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.Timer;
@@ -122,9 +126,19 @@ public class VideoCastControllerFragment extends Fragment implements OnVideoCast
         } else if (null != mediaWrapper) {
             mOverallState = OverallState.PLAYBACK;
             boolean shouldStartPlayback = extras.getBoolean(VideoCastManager.EXTRA_SHOULD_START);
+            String customDataStr = extras.getString(VideoCastManager.EXTRA_CUSTOM_DATA);
+            JSONObject customData = null;
+            if (!TextUtils.isEmpty(customDataStr)) {
+                try {
+                    customData = new JSONObject(customDataStr);
+                } catch (JSONException e) {
+                    LOGE(TAG, "Failed to unmarshalize custom data string: customData="
+                            + customDataStr, e);
+                }
+            }
             MediaInfo info = Utils.toMediaInfo(mediaWrapper);
             int startPoint = extras.getInt(VideoCastManager.EXTRA_START_POINT, 0);
-            onReady(info, shouldStartPlayback, startPoint);
+            onReady(info, shouldStartPlayback, startPoint, customData);
         }
     }
 
@@ -161,6 +175,7 @@ public class VideoCastControllerFragment extends Fragment implements OnVideoCast
      * A TimerTask that will be called when the timeout timer expires
      */
     class MediaAuthServiceTimerTask extends TimerTask {
+
         private final Thread mThread;
 
         public MediaAuthServiceTimerTask(Thread thread) {
@@ -254,7 +269,7 @@ public class VideoCastControllerFragment extends Fragment implements OnVideoCast
                                 currentPos = (int) mCastManager.getCurrentMediaPosition();
                                 mCastController.updateSeekbar(currentPos, (int) duration);
                             } catch (Exception e) {
-                                LOGE(TAG, "Failed to get current media position");
+                                LOGE(TAG, "Failed to get current media position", e);
                             }
                         }
                     } catch (TransientNetworkDisconnectionException e) {
@@ -268,7 +283,8 @@ public class VideoCastControllerFragment extends Fragment implements OnVideoCast
         }
     }
 
-    public void onReady(MediaInfo mediaInfo, boolean shouldStartPlayback, int startPoint) {
+    private void onReady(MediaInfo mediaInfo, boolean shouldStartPlayback, int startPoint,
+            JSONObject customData) {
         mSelectedMedia = mediaInfo;
         try {
             mCastController.setStreamType(mSelectedMedia.getStreamType());
@@ -276,7 +292,7 @@ public class VideoCastControllerFragment extends Fragment implements OnVideoCast
                 // need to start remote playback
                 mPlaybackState = MediaStatus.PLAYER_STATE_BUFFERING;
                 mCastController.setPlaybackStatus(mPlaybackState);
-                mCastManager.loadMedia(mSelectedMedia, true, startPoint);
+                mCastManager.loadMedia(mSelectedMedia, true, startPoint, customData);
             } else {
                 // we don't change the status of remote playback
                 if (mCastManager.isRemoteMoviePlaying()) {
@@ -425,8 +441,8 @@ public class VideoCastControllerFragment extends Fragment implements OnVideoCast
             mCastManager = VideoCastManager.getInstance(getActivity());
             boolean shouldFinish = !mCastManager.isConnected()
                     || (mCastManager.getPlaybackStatus() == MediaStatus.PLAYER_STATE_IDLE
-                            && mCastManager.getIdleReason() == MediaStatus.IDLE_REASON_FINISHED
-                            && !mIsFresh);
+                    && mCastManager.getIdleReason() == MediaStatus.IDLE_REASON_FINISHED
+                    && !mIsFresh);
             if (shouldFinish) {
                 mCastController.closeActivity();
             }
@@ -633,7 +649,8 @@ public class VideoCastControllerFragment extends Fragment implements OnVideoCast
 
     // ------- Implementation of IMediaAuthListener interface --------------------------- //
     @Override
-    public void onResult(MediaAuthStatus status, final MediaInfo info, final String message) {
+    public void onResult(MediaAuthStatus status, final MediaInfo info, final String message,
+            final int startPoint, final JSONObject customData) {
         if (status == MediaAuthStatus.RESULT_AUTHORIZED && mAuthSuccess) {
             // successful authorization
             mMediaAuthService = null;
@@ -646,7 +663,7 @@ public class VideoCastControllerFragment extends Fragment implements OnVideoCast
                 @Override
                 public void run() {
                     mOverallState = OverallState.PLAYBACK;
-                    onReady(info, true, 0);
+                    onReady(info, true, startPoint, customData);
                 }
             });
         } else {
@@ -686,6 +703,7 @@ public class VideoCastControllerFragment extends Fragment implements OnVideoCast
      * A simple class that holds a URL and a bitmap, mainly used to cache the fetched image
      */
     private class UrlAndBitmap {
+
         private Bitmap mBitmap;
         private String mUrl;
 

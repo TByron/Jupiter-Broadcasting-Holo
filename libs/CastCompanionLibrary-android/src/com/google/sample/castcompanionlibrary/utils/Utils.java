@@ -16,6 +16,8 @@
 
 package com.google.sample.castcompanionlibrary.utils;
 
+import static com.google.sample.castcompanionlibrary.utils.LogUtils.LOGE;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -26,6 +28,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 
 import com.google.android.gms.cast.MediaInfo;
 import com.google.android.gms.cast.MediaMetadata;
@@ -33,6 +36,9 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.images.WebImage;
 import com.google.sample.castcompanionlibrary.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -46,6 +52,7 @@ public class Utils {
     private static final String KEY_URL = "movie-urls";
     private static final String KEY_CONTENT_TYPE = "content-type";
     private static final String KEY_STREAM_TYPE = "stream-type";
+    private static final String KEY_CUSTOM_DATA = "custom-data";
 
     /**
      * Formats time in milliseconds to hh:mm:ss string format.
@@ -262,6 +269,10 @@ public class Utils {
             }
             wrapper.putStringArrayList(KEY_IMAGES, urls);
         }
+        JSONObject customData = info.getCustomData();
+        if (null != customData) {
+            wrapper.putString(KEY_CUSTOM_DATA, customData.toString());
+        }
 
         return wrapper;
     }
@@ -292,10 +303,20 @@ public class Utils {
                 metaData.addImage(new WebImage(uri));
             }
         }
+        String customDataStr = wrapper.getString(KEY_CUSTOM_DATA);
+        JSONObject customData = null;
+        if (!TextUtils.isEmpty(customDataStr)) {
+            try {
+                customData = new JSONObject(customDataStr);
+            } catch (JSONException e) {
+                LOGE(TAG, "Failed to deserialize the custom data string: custom data= " + customDataStr);
+            }
+        }
         return new MediaInfo.Builder(wrapper.getString(KEY_URL))
                 .setStreamType(wrapper.getInt(KEY_STREAM_TYPE))
                 .setContentType(wrapper.getString(KEY_CONTENT_TYPE))
                 .setMetadata(metaData)
+                .setCustomData(customData)
                 .build();
     }
 }

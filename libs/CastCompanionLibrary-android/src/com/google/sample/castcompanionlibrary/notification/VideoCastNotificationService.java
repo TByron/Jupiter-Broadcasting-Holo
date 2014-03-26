@@ -139,7 +139,7 @@ public class VideoCastNotificationService extends Service {
             LOGD(TAG, "onStartCommand(): Intent was null");
         }
 
-        return Service.START_FLAG_REDELIVERY;
+        return Service.START_REDELIVER_INTENT;
     }
 
     private void setupNotification(final MediaInfo info, final boolean visible)
@@ -290,7 +290,9 @@ public class VideoCastNotificationService extends Service {
         stackBuilder.addParentStack(mTargetActivity);
 
         stackBuilder.addNextIntent(contentIntent);
-        stackBuilder.editIntentAt(1).putExtra("media", mediaWrapper);
+        if (stackBuilder.getIntentCount() > 1) {
+            stackBuilder.editIntentAt(1).putExtra("media", mediaWrapper);
+        }
 
         // Gets a PendingIntent containing the entire back stack
         PendingIntent resultPendingIntent =

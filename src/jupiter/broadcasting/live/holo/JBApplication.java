@@ -18,7 +18,7 @@ import com.google.sample.castcompanionlibrary.cast.VideoCastManager;
 public class JBApplication extends Application {
     static VideoCastManager mCastMgr;
     static String APPLICATION_ID = "7BF7A86F";
-
+    //static String APPLICATION_ID = "E0DA6287";
     //Base class to display the Cast menu everywhere
 
     public static VideoCastManager getVideoCastManager(Context ctx) {

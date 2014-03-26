@@ -68,6 +68,7 @@ public class VideoCastControllerActivity extends ActionBarActivity implements IV
     private VideoCastManager mCastManager;
     private View mPageView;
     private ImageView mPlayPause;
+    private TextView mLiveText;
     private TextView mStart;
     private TextView mEnd;
     private SeekBar mSeekbar;
@@ -82,6 +83,7 @@ public class VideoCastControllerActivity extends ActionBarActivity implements IV
     private VideoCastControllerFragment mediaAuthFragment;
     private OnVideoCastControllerListener mListener;
     private int mStreamType;
+    public static final float DEFAULT_VOLUME_INCREMENT = 0.05f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +92,9 @@ public class VideoCastControllerActivity extends ActionBarActivity implements IV
         loadAndSetupViews();
         mVolumeIncrement = Utils.getFloatFromPreference(
                 this, VideoCastManager.PREFS_KEY_VOLUME_INCREMENT);
+        if (mVolumeIncrement == Float.MIN_VALUE) {
+            mVolumeIncrement = DEFAULT_VOLUME_INCREMENT;
+        }
         try {
             mCastManager = VideoCastManager.getInstance(this);
         } catch (CastException e) {
@@ -136,11 +141,8 @@ public class VideoCastControllerActivity extends ActionBarActivity implements IV
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (mVolumeIncrement == Float.MIN_VALUE) {
-            return false;
-        }
         if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-            onVolumeChange(mVolumeIncrement);
+            onVolumeChange((double) mVolumeIncrement);
         } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
             onVolumeChange(-(double) mVolumeIncrement);
         } else {
@@ -180,6 +182,7 @@ public class VideoCastControllerActivity extends ActionBarActivity implements IV
         mStopDrawable = getResources().getDrawable(R.drawable.ic_av_stop_dark);
         mPageView = findViewById(R.id.pageView);
         mPlayPause = (ImageView) findViewById(R.id.imageView1);
+        mLiveText = (TextView) findViewById(R.id.liveText);
         mStart = (TextView) findViewById(R.id.startText);
         mEnd = (TextView) findViewById(R.id.endText);
         mSeekbar = (SeekBar) findViewById(R.id.seekBar1);
@@ -270,6 +273,8 @@ public class VideoCastControllerActivity extends ActionBarActivity implements IV
     @Override
     public void adjustControllersForLiveStream(boolean isLive) {
         int visibility = isLive ? View.INVISIBLE : View.VISIBLE;
+        mLiveText.setVisibility(isLive ? View.VISIBLE : View.INVISIBLE);
+        mStart.setVisibility(visibility);
         mEnd.setVisibility(visibility);
         mSeekbar.setVisibility(visibility);
     }
