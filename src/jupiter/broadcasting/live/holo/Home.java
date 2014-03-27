@@ -115,6 +115,13 @@ public class Home extends ActionBarActivity {
         super.onResume();
         mVideoCastManager = JBApplication.getVideoCastManager(this);
         mVideoCastManager.reconnectSessionIfPossible(this, true);
+        mVideoCastManager.incrementUiCounter();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mVideoCastManager.decrementUiCounter();
     }
 
     @Override

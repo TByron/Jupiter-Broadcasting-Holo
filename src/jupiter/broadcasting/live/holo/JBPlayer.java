@@ -140,6 +140,7 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
         mVideoCastManager = JBApplication.getVideoCastManager(this);
         mVideoCastManager.reconnectSessionIfPossible(this, true);
 
+
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.mediaplayer);
 
@@ -293,7 +294,6 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -317,6 +317,7 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
         } else {
             mNotificationManager.cancel(NOTIFICATION_ID);
         }
+        mVideoCastManager.decrementUiCounter();
 
     }
 
@@ -337,6 +338,7 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
         mNotificationManager.cancel(NOTIFICATION_ID);//For good measure because app pauses before it quits aswell as on pause
         mVideoCastManager = JBApplication.getVideoCastManager(this);
         mVideoCastManager.reconnectSessionIfPossible(this, true);
+        mVideoCastManager.incrementUiCounter();
         super.onResume();
     }
 
