@@ -38,9 +38,8 @@
 
     <jupiter.broadcasting.live.holo.list.FadeImageView
         android:id="@+id/thumb"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"/>
 
     <TextView

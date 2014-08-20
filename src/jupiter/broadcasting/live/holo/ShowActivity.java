@@ -58,6 +58,7 @@ public class ShowActivity extends ActionBarActivity {
                 "LINUX Unplugged",
                 "Plan B",
                 "SciByte",
+                "Tech Talk Today",
                 "Techsnap",
                 "Unfilter"};
 
@@ -72,6 +73,7 @@ public class ShowActivity extends ActionBarActivity {
         audioFeedTable.put("Unfilter", "http://www.jupiterbroadcasting.com/feeds/unfilterMP3.xml");
         audioFeedTable.put("Plan B", "http://feeds.feedburner.com/planbmp3");
         audioFeedTable.put("BSD Now", "http://feeds.feedburner.com/BsdNowMp3");
+        audioFeedTable.put("Tech Talk Today", "http://feedpress.me/t3mp3");
 
         videoFeedTable = new Hashtable<String, String>();
         videoFeedTable.put(getString(R.string.allshows), "http://feeds2.feedburner.com/AllJupiterVideos");
@@ -79,6 +81,7 @@ public class ShowActivity extends ActionBarActivity {
         videoFeedTable.put("LINUX Unplugged", "http://feeds.feedburner.com/linuxunvid");
         videoFeedTable.put("SciByte", "http://feeds.feedburner.com/scibytelarge");
         videoFeedTable.put("Plan B", "http://feeds.feedburner.com/PlanBVideo");
+        videoFeedTable.put("Tech Talk Today", "http://feedpress.me/t3mob");
 
 
         if (sharedPref.getBoolean("pref_sync_video", false)) {

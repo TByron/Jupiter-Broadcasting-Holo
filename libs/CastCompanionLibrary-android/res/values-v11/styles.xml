@@ -15,7 +15,7 @@
 
     <style name="CastDialogWindowTitle">
         <item name="android:textSize">22sp</item>
-        <item name="android:textColor">#eeff41</item>
+        <item name="android:textColor">@color/mr_custom_title</item>
     </style>
 
 </resources>

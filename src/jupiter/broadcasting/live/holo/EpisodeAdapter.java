@@ -42,6 +42,8 @@ public class EpisodeAdapter extends BaseAdapter {
     public void add(List<String> t, Hashtable<String, String[]> table) {
         data.putAll(table);
         titles.addAll(t);
+        boolean[] g = new boolean[50];
+        //markNew = g;
         notifyDataSetChanged();
     }
 
@@ -70,9 +72,6 @@ public class EpisodeAdapter extends BaseAdapter {
             int z = 0;
         }
 
-        eHolder.dura.setText(duration);
-        eHolder.text.setText(title);
-
         if (markNew.length - 1 > position) {
             if (markNew[position]) {
                 eHolder.newtag.setImageResource(R.drawable.newtag);
@@ -80,7 +79,8 @@ public class EpisodeAdapter extends BaseAdapter {
                 eHolder.newtag.setImageResource(R.drawable.nonewtag);
             }
         }
-
+        eHolder.dura.setText(duration);
+        eHolder.text.setText(title);
 
         return view;
     }

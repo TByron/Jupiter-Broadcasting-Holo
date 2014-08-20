@@ -60,7 +60,7 @@ import java.util.Set;
  * <li>FEATURE_DEBUGGING: to enable GMS level logging</li>
  * </ul>
  * Beyond managing the connectivity to a cast device, this class provides easy-to-use methods to
- * send and receive messages using one or more namspaces. These namespaces can be configured during
+ * send and receive messages using one or more namespaces. These namespaces can be configured during
  * the initialization as part of the call to <code>initialize()</code> or can be added later on.
  * Clients can subclass this class to extend the features and functionality beyond what this class
  * provides. This class manages various states of the remote cast device. Client applications,
@@ -71,7 +71,7 @@ import java.util.Set;
  * those methods that they are interested in. Since this library depends on the cast functionalities
  * provided by the Google Play services, the library checks to ensure that the right version of that
  * service is installed. It also provides a simple static method
- * <code>checkGooglePlaySevices()</code> that clients can call at an early stage of their
+ * <code>checkGooglePlayServices()</code> that clients can call at an early stage of their
  * applications to provide a dialog for users if they need to update/activate their GMS library. To
  * learn more about this library, please read the documentation that is distributed as part of this
  * library.
@@ -101,7 +101,7 @@ public class DataCastManager extends BaseCastManager
             LOGD(TAG, "New instance of DataCastManager is created");
             if (ConnectionResult.SUCCESS != GooglePlayServicesUtil
                     .isGooglePlayServicesAvailable(context)) {
-                String msg = "Couldn't find the appropriate version of Goolge Play Services";
+                String msg = "Couldn't find the appropriate version of Google Play Services";
                 LOGE(TAG, msg);
                 throw new RuntimeException(msg);
             }
@@ -357,6 +357,7 @@ public class DataCastManager extends BaseCastManager
         // registering namespaces, if any
         try {
             attachDataChannels();
+            mSessionId = sessionId;
             synchronized (mDataConsumers) {
                 for (IDataCastConsumer consumer : mDataConsumers) {
                     try {

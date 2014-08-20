@@ -30,6 +30,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.MediaRouteActionProvider;
+import android.support.v7.app.MediaRouteButton;
 import android.support.v7.app.MediaRouteDialogFactory;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
@@ -84,10 +85,13 @@ public abstract class BaseCastManager implements DeviceSelectionListener, Connec
     public static final String PREFS_KEY_SESSION_ID = "session-id";
     public static final String PREFS_KEY_APPLICATION_ID = "application-id";
     public static final String PREFS_KEY_CAST_ACTIVITY_NAME = "cast-activity-name";
+    public static final String PREFS_KEY_CAST_CUSTOM_DATA_NAMESPACE = "cast-custom-data-namespace";
     public static final String PREFS_KEY_VOLUME_INCREMENT = "volume-increment";
     public static final String PREFS_KEY_ROUTE_ID = "route-id";
 
     public static final int NO_STATUS_CODE = -1;
+
+    private static String CCL_VERSION;
 
     private static final String TAG = LogUtils.makeLogTag(BaseCastManager.class);
     private static final int SESSION_RECOVERY_TIMEOUT = 5; // in seconds
@@ -108,11 +112,11 @@ public abstract class BaseCastManager implements DeviceSelectionListener, Connec
     protected boolean mUiVisible;
     protected GoogleApiClient mApiClient;
     protected AsyncTask<Void, Integer, Integer> mReconnectionTask;
-    protected boolean mDebuggingEnabled;
     protected int mCapabilities;
     protected boolean mConnectionSuspened;
     private boolean mWifiConnectivity = true;
     protected static BaseCastManager mCastManager;
+    protected String mSessionId;
 
     /*************************************************************************/
     /************** Abstract Methods *****************************************/
@@ -173,6 +177,7 @@ public abstract class BaseCastManager implements DeviceSelectionListener, Connec
     /************************************************************************/
 
     protected BaseCastManager(Context context, String applicationId) {
+        CCL_VERSION = context.getString(R.string.ccl_version);
         LOGD(TAG, "BaseCastManager is instantiated");
         mContext = context;
         mHandler = new Handler(Looper.getMainLooper());
@@ -225,6 +230,26 @@ public abstract class BaseCastManager implements DeviceSelectionListener, Connec
         setDevice(device, mDestroyOnDisconnect);
     }
 
+    /**
+     * This is called from {@link com.google.sample.castcompanionlibrary.cast.CastMediaRouterCallback}
+     * to signal the change in presence of cast devices on network.
+     *
+     * @param castPresent
+     */
+    public void onCastAvailabilityChanged(boolean castPresent) {
+        if (null != mBaseCastConsumers) {
+            synchronized (mBaseCastConsumers) {
+                for (IBaseCastConsumer consumer : mBaseCastConsumers) {
+                    try {
+                        consumer.onCastAvailabilityChanged(castPresent);
+                    } catch (Exception e) {
+                        LOGE(TAG, "onCastAvailabilityChanged(): Failed to inform " + consumer, e);
+                    }
+                }
+            }
+        }
+    }
+
     public void setDevice(CastDevice device, boolean stopAppOnExit) {
         mSelectedCastDevice = device;
         mDeviceName = mSelectedCastDevice != null ? mSelectedCastDevice.getFriendlyName() : null;
@@ -243,13 +268,13 @@ public abstract class BaseCastManager implements DeviceSelectionListener, Connec
                     }
                 }
             } catch (IllegalStateException e) {
-                LOGE(TAG, "Failed to stop the application after disconecting route", e);
+                LOGE(TAG, "Failed to stop the application after disconnecting route", e);
             } catch (IOException e) {
-                LOGE(TAG, "Failed to stop the application after disconecting route", e);
+                LOGE(TAG, "Failed to stop the application after disconnecting route", e);
             } catch (TransientNetworkDisconnectionException e) {
-                LOGE(TAG, "Failed to stop the application after disconecting route", e);
+                LOGE(TAG, "Failed to stop the application after disconnecting route", e);
             } catch (NoConnectionException e) {
-                LOGE(TAG, "Failed to stop the application after disconecting route", e);
+                LOGE(TAG, "Failed to stop the application after disconnecting route", e);
             }
             onDisconnected();
             onDeviceUnselected();
@@ -261,8 +286,9 @@ public abstract class BaseCastManager implements DeviceSelectionListener, Connec
                 }
                 mApiClient = null;
             }
+            mSessionId = null;
         } else if (null == mApiClient) {
-            LOGD(TAG, "acquiring a conenction to Google Play services for " + mSelectedCastDevice);
+            LOGD(TAG, "acquiring a connection to Google Play services for " + mSelectedCastDevice);
             Cast.CastOptions.Builder apiOptionsBuilder = getCastOptionBuilder(mSelectedCastDevice);
             mApiClient = new GoogleApiClient.Builder(mContext)
                     .addApi(Cast.API, apiOptionsBuilder.build())
@@ -292,13 +318,14 @@ public abstract class BaseCastManager implements DeviceSelectionListener, Connec
 
     /**
      * Adds and wires up the Media Router cast button. It returns a pointer to the Media Router menu
-     * item if the caller needs such reference.
+     * item if the caller needs such reference. It is assumed that the enclosing
+     * {@link android.app.Activity} inherits (directly or indirectly) from
+     * {@link android.support.v7.app.ActionBarActivity}.
      *
      * @param menu
      * @param menuResourceId The resource id of the cast button in the xml menu descriptor file
      * @return
      */
-
     public MenuItem addMediaRouterButton(Menu menu, int menuResourceId) {
         MenuItem mediaRouteMenuItem = menu.findItem(menuResourceId);
         MediaRouteActionProvider mediaRouteActionProvider = (MediaRouteActionProvider)
@@ -308,6 +335,40 @@ public abstract class BaseCastManager implements DeviceSelectionListener, Connec
             mediaRouteActionProvider.setDialogFactory(getMediaRouteDialogFactory());
         }
         return mediaRouteMenuItem;
+    }
+
+    /**
+     * Adds and wires up the {@link android.support.v7.app.MediaRouteButton} instance that is passed
+     * as an argument. This requires that
+     * <ul>
+     *     <li>The enclosing {@link android.app.Activity} inherits (directly or indirectly) from
+     *     {@link android.support.v4.app.FragmentActivity}</li>
+     *     <li>User adds the {@link android.support.v7.app.MediaRouteButton} to the layout and
+     *     pass a reference to that instance to this method</li>
+     *     <li>User is in charge of controlling the visibility of this button. However, this
+     *     library makes it easier to do so: use the callback
+     *     <code>onCastAvailabilityChanged(boolean)</code> to change the visibility of the button in
+     *     your client. For example, extend
+     *     {@link com.google.sample.castcompanionlibrary.cast.callbacks.VideoCastConsumerImpl}
+     *     and override that method:
+     *     <pre>
+{@code
+public void onCastAvailabilityChanged(boolean castPresent) {
+    mMediaRouteButton.setVisibility(castPresent ? View.VISIBLE : View.INVISIBLE);
+}
+    }
+     *     </pre>
+     *     </li>
+     * </ul>
+     * @param button
+     * @return
+     */
+    public MediaRouteButton addMediaRouterButton(MediaRouteButton button) {
+        button.setRouteSelector(mMediaRouteSelector);
+        if (null != getMediaRouteDialogFactory()) {
+            button.setDialogFactory(getMediaRouteDialogFactory());
+        }
+        return button;
     }
 
     /*************************************************************************/
@@ -340,20 +401,15 @@ public abstract class BaseCastManager implements DeviceSelectionListener, Connec
      * {@link onUiVisibilityChanged()} method is called.
      */
     public synchronized void decrementUiCounter() {
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (--mVisibilityCounter == 0) {
-                    LOGD(TAG, "UI is no longer visible");
-                    if (mUiVisible) {
-                        mUiVisible = false;
-                        onUiVisibilityChanged(false);
-                    }
-                } else {
-                    LOGD(TAG, "UI is visible");
-                }
+        if (--mVisibilityCounter == 0) {
+            LOGD(TAG, "UI is no longer visible");
+            if (mUiVisible) {
+                mUiVisible = false;
+                onUiVisibilityChanged(false);
             }
-        }, 300);
+        } else {
+            LOGD(TAG, "UI is visible");
+        }
     }
 
     /**
@@ -390,8 +446,15 @@ public abstract class BaseCastManager implements DeviceSelectionListener, Connec
      * @param activity
      * @return
      */
+    public static boolean checkGooglePlayServices(final Activity activity) {
+        return Utils.checkGooglePlayServices(activity);
+    }
+
+    /**
+     * @deprecated Use <code>checkGooglePlayServices</code>
+     */
     public static boolean checkGooglePlaySevices(final Activity activity) {
-        return Utils.checkGooglePlaySevices(activity);
+        return checkGooglePlayServices(activity);
     }
 
     /**
@@ -408,7 +471,7 @@ public abstract class BaseCastManager implements DeviceSelectionListener, Connec
      */
     public void disconnect() {
         if (isConnected()) {
-            setDevice(null, true);
+            setDevice(null, false);
         }
     }
 
@@ -556,6 +619,20 @@ public abstract class BaseCastManager implements DeviceSelectionListener, Connec
      */
     public void clearContext(){
         this.mContext = null;
+    }
+
+    /**
+     * Clears the {@link android.content.Context} if the current context is the same as the one
+     * provided in the argument <code>context</code>. Should be used when the client application
+     * is being destroyed to avoid context leak.
+     *
+     * @param context
+     */
+    public void clearContext(Context context){
+        if (null != this.mContext && this.mContext == context) {
+            LOGD(TAG, "Cleared context: " + context);
+            this.mContext = null;
+        }
     }
 
     /*************************************************************************/
@@ -830,11 +907,17 @@ public abstract class BaseCastManager implements DeviceSelectionListener, Connec
      * (android.os.Bundle)
      */
     @Override
-    public void onConnected(Bundle arg0) {
+    public void onConnected(Bundle hint) {
         LOGD(TAG, "onConnected() reached with prior suspension: " + mConnectionSuspened);
         if (mConnectionSuspened) {
             mConnectionSuspened = false;
-            onConnectivityRecovered();
+            if (null != hint && hint.getBoolean(Cast.EXTRA_APP_NO_LONGER_RUNNING)) {
+                // the same app is not running any more
+                LOGD(TAG, "onConnected(): App no longer running, so disconnecting");
+                disconnect();
+            } else {
+                onConnectivityRecovered();
+            }
             return;
         }
         if (!isConnected()) {
@@ -1007,7 +1090,7 @@ public abstract class BaseCastManager implements DeviceSelectionListener, Connec
     public void stopApplication() throws IllegalStateException, IOException,
             TransientNetworkDisconnectionException, NoConnectionException {
         checkConnectivity();
-        Cast.CastApi.stopApplication(mApiClient).setResultCallback(new ResultCallback<Status>() {
+        Cast.CastApi.stopApplication(mApiClient, mSessionId).setResultCallback(new ResultCallback<Status>() {
 
             @Override
             public void onResult(Status result) {
@@ -1089,5 +1172,14 @@ public abstract class BaseCastManager implements DeviceSelectionListener, Connec
             }
         }
 
+    }
+
+    /**
+     * Returns the version of this library.
+     *
+     * @return
+     */
+    public final static String getCclVersion() {
+        return CCL_VERSION;
     }
 }

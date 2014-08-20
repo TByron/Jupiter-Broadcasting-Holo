@@ -40,6 +40,7 @@ public class CastMediaRouterCallback extends MediaRouter.Callback {
     private static final String TAG = LogUtils.makeLogTag(CastMediaRouterCallback.class);
     private final DeviceSelectionListener selectDeviceInterface;
     private final Context mContext;
+    private int mRouteCount = 0;
 
     public CastMediaRouterCallback(DeviceSelectionListener callback, Context context) {
         this.selectDeviceInterface = callback;
@@ -71,6 +72,9 @@ public class CastMediaRouterCallback extends MediaRouter.Callback {
     public void onRouteAdded(MediaRouter router, RouteInfo route) {
         super.onRouteAdded(router, route);
         if (!router.getDefaultRoute().equals(route)) {
+            if (++mRouteCount == 1) {
+                BaseCastManager.getCastManager().onCastAvailabilityChanged(true);
+            }
             selectDeviceInterface.onCastDeviceDetected(route);
         }
         if (BaseCastManager.getCastManager().getReconnectionStatus() == ReconnectionStatus.STARTED) {
@@ -87,6 +91,14 @@ public class CastMediaRouterCallback extends MediaRouter.Callback {
                         + device.getFriendlyName());
                 selectDeviceInterface.onDeviceSelected(device);
             }
+        }
+    }
+
+    @Override
+    public void onRouteRemoved(MediaRouter router, RouteInfo route) {
+        super.onRouteRemoved(router, route);
+        if (--mRouteCount == 0) {
+            BaseCastManager.getCastManager().onCastAvailabilityChanged(false);
         }
     }
 

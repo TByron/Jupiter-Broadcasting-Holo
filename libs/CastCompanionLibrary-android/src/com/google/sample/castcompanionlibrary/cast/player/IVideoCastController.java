@@ -25,7 +25,7 @@ import com.google.sample.castcompanionlibrary.widgets.MiniController.OnMiniContr
 public interface IVideoCastController {
 
     /**
-     * Sets the uri for the album art
+     * Sets the bitmap for the album art
      *
      * @param bitmap
      */

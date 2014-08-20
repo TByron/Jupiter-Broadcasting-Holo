@@ -29,6 +29,28 @@ See LICENSE
 Google Cast Developers Community on Google+ [http://goo.gl/TPLDxj](http://goo.gl/TPLDxj)
 
 ## Change List
+1.4 -> 1.5
+ * Fixed the issue where VideoCastNotificationService was not setting up data namespace if one was configured
+ * Fixed issue 50
+ * Added aversion number that will be printed in the log statements for tracking purposes
+ * Correcting the typo in the name of method checkGooglePlaySevices() by introducing a new method and deprecating the old one (issue 48)
+ * Fixing many typos in comments and some resources
+ * Updating documentation to reflect the correct name of callbacks for the custom namespace for VideoCastManager
+
+1.3 -> 1.4
+ * Added support for MediaRouteButton
+ * Added "alias" resources for Mini Controller play/pause/stop buttons so clients can customize them easily
+ * Added a color resource to control thw color of the title of the custom VideoMediaRouteControllerDialog
+ * Fixed some typos in JavaDoc
+
+1.2 -> 1.3
+ * Fixing issue 32
+ * Fixing issue 33
+ * Adding a better BaseCastManager.clearContext() variation
+ * Implementing enhancement 30
+ * Making sure play/pause button is hidden when ProgressBar is shown in VideoMediaRouteControllerDialog
+ * probably some more adjustments and bug fixes
+
 1.1 -> 1.2
  * Improving thread-safety in calling various ConsumerImpl callbacks
  * (backward incompatible) Changing the signature of IMediaAuthListener.onResult

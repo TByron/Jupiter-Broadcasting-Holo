@@ -84,7 +84,7 @@ public class VideoCastControllerFragment extends Fragment implements OnVideoCast
     private OverallState mOverallState = OverallState.UNKNOWN;
     private UrlAndBitmap mUrlAndBitmap;
     private static boolean sDialogCanceled = false;
-    private boolean mIsFresh;
+    private boolean mIsFresh = true;
 
     private enum OverallState {
         AUTHORIZING, PLAYBACK, UNKNOWN;
@@ -93,7 +93,6 @@ public class VideoCastControllerFragment extends Fragment implements OnVideoCast
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mIsFresh = true;
         sDialogCanceled = false;
         mCastController = (IVideoCastController) activity;
         mHandler = new Handler();
@@ -147,7 +146,8 @@ public class VideoCastControllerFragment extends Fragment implements OnVideoCast
      */
     private void handleMediaAuthTask(final IMediaAuthService authService) {
         mCastController.showLoading(true);
-        mCastController.setLine2(authService.getPendingMessage());
+        mCastController.setLine2(null != authService.getPendingMessage()
+                ? authService.getPendingMessage() : "");
         mAuthThread = new Thread(new Runnable() {
 
             @Override
@@ -263,11 +263,11 @@ public class VideoCastControllerFragment extends Fragment implements OnVideoCast
                         return;
                     }
                     try {
-                        double duration = mCastManager.getMediaDuration();
+                        int duration = (int) mCastManager.getMediaDuration();
                         if (duration > 0) {
                             try {
                                 currentPos = (int) mCastManager.getCurrentMediaPosition();
-                                mCastController.updateSeekbar(currentPos, (int) duration);
+                                mCastController.updateSeekbar(currentPos, duration);
                             } catch (Exception e) {
                                 LOGE(TAG, "Failed to get current media position", e);
                             }
@@ -330,7 +330,8 @@ public class VideoCastControllerFragment extends Fragment implements OnVideoCast
             case AUTHORIZING:
                 authService = mCastManager.getMediaAuthService();
                 if (null != authService) {
-                    mCastController.setLine2(authService.getPendingMessage());
+                    mCastController.setLine2(null != authService.getPendingMessage()
+                        ? authService.getPendingMessage() : "");
                     mCastController.showLoading(true);
                 }
                 break;
@@ -351,21 +352,20 @@ public class VideoCastControllerFragment extends Fragment implements OnVideoCast
         } else {
             imageUrl = Utils.getImageUrl(mSelectedMedia, 1);
         }
-        if (null != imageUrl) {
-            showImage(imageUrl);
-        }
+        showImage(imageUrl);
         if (null == mSelectedMedia) {
             return;
         }
         MediaMetadata mm = mSelectedMedia.getMetadata();
-        mCastController.setLine1(mm.getString(MediaMetadata.KEY_TITLE));
+        mCastController.setLine1(null != mm.getString(MediaMetadata.KEY_TITLE)
+            ? mm.getString(MediaMetadata.KEY_TITLE) : "");
         boolean isLive = mSelectedMedia.getStreamType() == MediaInfo.STREAM_TYPE_LIVE;
         mCastController.adjustControllersForLiveStream(isLive);
     }
 
     private void updatePlayerStatus() {
         int mediaStatus = mCastManager.getPlaybackStatus();
-        LOGD(TAG, "onRemoteMediaPlayerStatusUpdated(), status: " + mediaStatus);
+        LOGD(TAG, "updatePlayerStatus(), state: " + mediaStatus);
         if (null == mSelectedMedia) {
             return;
         }
@@ -378,18 +378,21 @@ public class VideoCastControllerFragment extends Fragment implements OnVideoCast
         }
         switch (mediaStatus) {
             case MediaStatus.PLAYER_STATE_PLAYING:
+            	mIsFresh = false;
                 if (mPlaybackState != MediaStatus.PLAYER_STATE_PLAYING) {
                     mPlaybackState = MediaStatus.PLAYER_STATE_PLAYING;
                     mCastController.setPlaybackStatus(mPlaybackState);
                 }
                 break;
             case MediaStatus.PLAYER_STATE_PAUSED:
+            	mIsFresh = false;
                 if (mPlaybackState != MediaStatus.PLAYER_STATE_PAUSED) {
                     mPlaybackState = MediaStatus.PLAYER_STATE_PAUSED;
                     mCastController.setPlaybackStatus(mPlaybackState);
                 }
                 break;
             case MediaStatus.PLAYER_STATE_BUFFERING:
+            	mIsFresh = false;
                 if (mPlaybackState != MediaStatus.PLAYER_STATE_BUFFERING) {
                     mPlaybackState = MediaStatus.PLAYER_STATE_BUFFERING;
                     mCastController.setPlaybackStatus(mPlaybackState);
@@ -423,7 +426,6 @@ public class VideoCastControllerFragment extends Fragment implements OnVideoCast
             default:
                 break;
         }
-        mCastController.setPlaybackStatus(mPlaybackState);
     }
 
     @Override
@@ -447,9 +449,8 @@ public class VideoCastControllerFragment extends Fragment implements OnVideoCast
                 mCastController.closeActivity();
             }
             mCastManager.addVideoCastConsumer(mCastConsumer);
-            updatePlayerStatus();
-            mIsFresh = false;
             mCastManager.incrementUiCounter();
+            if (!mIsFresh) updatePlayerStatus();
         } catch (CastException e) {
             // logged already
         }
@@ -485,6 +486,11 @@ public class VideoCastControllerFragment extends Fragment implements OnVideoCast
     private void showImage(final String url) {
         if (null != mImageAsyncTask) {
             mImageAsyncTask.cancel(true);
+        }
+        if (null == url) {
+            mCastController.setImage(BitmapFactory.decodeResource(getActivity().getResources(),
+                    R.drawable.dummy_album_art_large));
+            return;
         }
         if (null != mUrlAndBitmap && mUrlAndBitmap.isMatch(url)) {
             // we can reuse mBitmap
@@ -522,7 +528,7 @@ public class VideoCastControllerFragment extends Fragment implements OnVideoCast
 
     /*
      * A modal dialog with an OK button, where upon clicking on it, will finish the activity. We use
-     * a DilaogFragment so during configuration changes, system manages the dialog for us.
+     * a DialogFragment so during configuration changes, system manages the dialog for us.
      */
     public static class ErrorDialogFragment extends DialogFragment {
 
@@ -739,6 +745,8 @@ public class VideoCastControllerFragment extends Fragment implements OnVideoCast
         if (!sDialogCanceled && null != mMediaAuthService) {
             mMediaAuthService.abort(MediaAuthStatus.ABORT_USER_CANCELLED);
         }
+
+        mCastManager.clearContext(getActivity());
     }
 
 }

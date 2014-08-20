@@ -85,9 +85,9 @@ public class MiniController extends RelativeLayout implements IMiniController {
         super(context, attrs);
         LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.mini_controller, this);
-        mPauseDrawable = getResources().getDrawable(R.drawable.ic_av_pause_light);
-        mPlayDrawable = getResources().getDrawable(R.drawable.ic_av_play_light);
-        mStopDrawable = getResources().getDrawable(R.drawable.ic_av_stop_light);
+        mPauseDrawable = getResources().getDrawable(R.drawable.ic_mini_controller_pause);
+        mPlayDrawable = getResources().getDrawable(R.drawable.ic_mini_controller_play);
+        mStopDrawable = getResources().getDrawable(R.drawable.ic_mini_controller_stop);
         loadViews();
         setupCallbacks();
     }
@@ -171,7 +171,8 @@ public class MiniController extends RelativeLayout implements IMiniController {
         loadViews();
     }
 
-    private void setIcon(Bitmap bm) {
+    @Override
+    final public void setIcon(Bitmap bm) {
         mIcon.setImageBitmap(bm);
     }
 

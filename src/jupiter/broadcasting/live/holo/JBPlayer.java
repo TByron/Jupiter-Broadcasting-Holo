@@ -141,7 +141,7 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
         mVideoCastManager.reconnectSessionIfPossible(this, true);
 
 
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.mediaplayer);
 
         type = getIntent().getIntExtra("type", 3);
@@ -491,12 +491,14 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
 
                     Toast.makeText(getBaseContext(), "Started", Toast.LENGTH_LONG).show();
                     Progress(false);
+                    int duration = videoView.getDuration();
                     iView.setVisibility(View.GONE);
                     videoView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT));
                 }
             });
             videoView.start();
+            mediaController.show();
         }
     }
 

@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Cast Companion Library</string>
+    <string name="ccl_version">1.8</string>
     <string name="media_route_menu_title">Play on&#8230;</string>
     <string name="live">Live</string>
 
@@ -11,7 +12,7 @@
     <!-- Title of the Error Dialog -->
     <string name="error">Error</string>
 
-    <!-- Shown an Video Cast Controller Activity -->
+    <!-- Shown in VideoCastController Activity -->
     <string name="casting_to_device">Casting to %1$s</string>
     <string name="loading">Loading&#8230;</string>
 

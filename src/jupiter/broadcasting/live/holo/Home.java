@@ -38,7 +38,7 @@ public class Home extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.startscreen);
 
-        BaseCastManager.checkGooglePlaySevices(this);
+        BaseCastManager.checkGooglePlayServices(this);
         mVideoCastManager = JBApplication.getVideoCastManager(this);
         mVideoCastManager.reconnectSessionIfPossible(this, true);
 
