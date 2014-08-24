@@ -1,8 +1,8 @@
 package jupiter.broadcasting.live.holo;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
-import android.support.v7.app.ActionBarActivity;
 
 /*
  * Copyright (c) 2014 Adam Szabo
@@ -13,13 +13,13 @@ import android.support.v7.app.ActionBarActivity;
  * @author Adam Szabo
  *
  */
-public class SettingsActivity extends ActionBarActivity {
+public class SettingsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle(R.string.settings);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        getActionBar().setTitle(R.string.settings);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
 
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new SettingsFragment())

@@ -6,7 +6,7 @@
     android:versionName="3.1">
 
     <uses-sdk
-        android:minSdkVersion="11"
+        android:minSdkVersion="L"
         android:targetSdkVersion="L"
          />
 
@@ -20,7 +20,7 @@
         android:name=".JBApplication"
         android:label="@string/app_name"
         android:allowBackup="true"
-        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+        android:theme="@style/AppTheme"
         tools:replace="android:theme, android:icon"
         >
     <meta-data

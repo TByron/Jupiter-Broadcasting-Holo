@@ -5,17 +5,18 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:+'
+
     }
 }
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 20
-    buildToolsVersion "20"
+    compileSdkVersion 'android-L'
+    buildToolsVersion '20.0.0'
 
     defaultConfig {
-        minSdkVersion 11
-        targetSdkVersion 20
+        minSdkVersion 'L'
+        targetSdkVersion 'L'
     }
 
     sourceSets {
@@ -42,8 +43,14 @@ android {
         release.setRoot('build-types/release')
     }
 }
+repositories {
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
 dependencies {
-    compile 'com.android.support:appcompat-v7:20.+'
+    compile 'com.android.support:appcompat-v7:21.+'
+    compile 'com.android.support:recyclerview-v7:21.+'
     compile project(':libs:volley')
     compile project(':libs:CastCompanionLibrary-android')
+    compile 'com.github.gabrielemariotti.recyclerview:recyclerview-animators:0.1.0-SNAPSHOT@aar'
 }

@@ -1,11 +1,11 @@
 package jupiter.broadcasting.live.holo;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.view.ActionMode;
+import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,7 +29,7 @@ import java.util.Vector;
  *
  */
 
-public class Catalogue extends ActionBarActivity {
+public class Catalogue extends Activity {
     ListView catList;
     ActionMode mActionMode;
     CatalogueAdapter cadapter;
@@ -40,11 +40,11 @@ public class Catalogue extends ActionBarActivity {
         final Vector<String> type = new Vector<String>();
         final Vector<String> path = new Vector<String>();
 
-        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.episodelist_fragment);
-        getSupportActionBar().setTitle(R.string.cat);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        getActionBar().setTitle(R.string.cat);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
 
         catList = (ListView) findViewById(R.id.episodelist);
         catList.setOnItemLongClickListener(liListener);
@@ -110,7 +110,7 @@ public class Catalogue extends ActionBarActivity {
                 return false;
             }
             catList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-            startSupportActionMode(mActionModeCallback);
+            startActionMode(mActionModeCallback);
             cadapter.change(position, true);
 
             return true; // so this action does not consume the event!!!

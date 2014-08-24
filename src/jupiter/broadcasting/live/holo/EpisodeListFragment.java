@@ -10,18 +10,19 @@ package jupiter.broadcasting.live.holo;
  * @hacked Adam Szabo
  */
 
-import android.content.Intent;
+import android.app.Activity;
+import android.app.Fragment;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,7 +40,7 @@ public class EpisodeListFragment extends Fragment {
     String afeed, vfeed, name;
     Hashtable<String, String[]> arssLinkTable;
     Hashtable<String, String[]> vrssLinkTable;
-    ListView asyncResultView;
+    RecyclerView asyncResultView;
     SharedPreferences history;
     View v;
     String title;
@@ -48,20 +49,32 @@ public class EpisodeListFragment extends Fragment {
     EpisodeAdapter lAdapter;
     boolean first;
     private List<String> titleList;
+    Context ctx;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        asyncResultView = (RecyclerView) v.findViewById(R.id.episodelist);
+        asyncResultView.setHasFixedSize(true);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(ctx);
+        asyncResultView.setLayoutManager(layoutManager);
 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.episodelist_fragment, null);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        ctx = activity;
+    }
 
-        asyncResultView = (ListView) v.findViewById(R.id.episodelist);
-        asyncResultView.setOnScrollListener(new EndlessScrollListener());
-        asyncResultView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        v = inflater.inflate(R.layout.episodelist_fragment, container);
+
+
+        //asyncResultView.setOnScrollListener(new EndlessScrollListener());
+        /*asyncResultView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 aurls = arssLinkTable.get(parent.getAdapter().getItem(position));
                 vurls = vrssLinkTable.get(parent.getAdapter().getItem(position));
@@ -80,6 +93,34 @@ public class EpisodeListFragment extends Fragment {
                 startActivity(p);
             }
         });
+        asyncResultView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            private int visibleThreshold = 4;
+            private int currentPage = 0;
+            private int previousTotal = 0;
+            private boolean loading = true;
+            @Override
+            public void onScrollStateChanged(int i) {
+                int k =0;
+
+            }
+
+            @Override
+            public void onScrolled(int visibleItemCount, int firstVisibleItem) {
+                if (loading) {
+                        loading = false;
+                        previousTotal = 0;
+
+                }
+                if (!loading) {
+                    // load the next page of shows using a background task
+                    currentPage++;
+                    Progress(true);
+                    RSS_parse scrollparse = new RSS_parse();
+                    scrollparse.execute(afeed, vfeed, String.valueOf(currentPage));
+                    loading = true;
+                }
+            }
+        });*/
         Bundle b = getArguments();
         afeed = b.getString("SHOW_AUDIO");
         vfeed = b.getString("SHOW_VIDEO");
@@ -91,6 +132,7 @@ public class EpisodeListFragment extends Fragment {
         RSS_parse newparse = new RSS_parse();  //do networking in async task SDK>9
         newparse.execute(afeed, vfeed, "0");
 
+        //asyncResultView.setItemAnimator(new DefaultItemAnimator());
         return v;
     }
 
@@ -114,8 +156,7 @@ public class EpisodeListFragment extends Fragment {
         }
 
         @Override
-        public void onScroll(AbsListView view, int firstVisibleItem,
-                             int visibleItemCount, int totalItemCount) {
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
             if (loading) {
                 if (totalItemCount > previousTotal) {
                     loading = false;
@@ -129,7 +170,6 @@ public class EpisodeListFragment extends Fragment {
                 RSS_parse scrollparse = new RSS_parse();
                 scrollparse.execute(afeed, vfeed, String.valueOf(currentPage));
                 loading = true;
-
             }
         }
     }
@@ -167,7 +207,7 @@ public class EpisodeListFragment extends Fragment {
             titleList = args;
             try {
                 if (first) {
-                    lAdapter = new EpisodeAdapter(getActivity(), titleList, vrssLinkTable, checkNew());
+                    //lAdapter = new EpisodeAdapter(getActivity(), titleList, vrssLinkTable, checkNew());
                     asyncResultView.setAdapter(lAdapter);
                     first = false;
                 } else {

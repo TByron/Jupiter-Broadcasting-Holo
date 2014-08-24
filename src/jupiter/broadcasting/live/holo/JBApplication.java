@@ -2,10 +2,8 @@ package jupiter.broadcasting.live.holo;
 
 import android.app.Application;
 import android.content.Context;
-import android.widget.Toast;
 
 import com.google.sample.castcompanionlibrary.cast.VideoCastManager;
-import com.google.sample.castcompanionlibrary.cast.callbacks.VideoCastConsumerImpl;
 
 /*
  * Copyright (c) 2014 Adam Szabo
@@ -34,7 +32,6 @@ public class JBApplication extends Application {
         mCastMgr.setStopOnDisconnect(true);
         return mCastMgr;
     }
-
 
 
 }

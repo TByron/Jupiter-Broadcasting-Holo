@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!-- The main content view -->
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/episodelist"
         android:orientation="vertical"
         android:layout_width="match_parent"

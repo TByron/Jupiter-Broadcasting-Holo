@@ -1,12 +1,11 @@
 package jupiter.broadcasting.live.holo;
 
-import android.app.Application;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,7 +14,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.google.sample.castcompanionlibrary.cast.BaseCastManager;
 import com.google.sample.castcompanionlibrary.cast.VideoCastManager;
 
 /*
@@ -27,7 +25,7 @@ import com.google.sample.castcompanionlibrary.cast.VideoCastManager;
  * @author Shane Quigley
  * @hacked Adam Szabo
  */
-public class Home extends ActionBarActivity {
+public class Home extends Activity {
 
     VideoCastManager mVideoCastManager;
     boolean[] av_quality;
@@ -38,7 +36,7 @@ public class Home extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.startscreen);
 
-        BaseCastManager.checkGooglePlayServices(this);
+        //BaseCastManager.checkGooglePlayServices(this);
         mVideoCastManager = JBApplication.getVideoCastManager(this);
         mVideoCastManager.reconnectSessionIfPossible(this, true);
 
@@ -60,11 +58,11 @@ public class Home extends ActionBarActivity {
         final Button play = (Button) this.findViewById(R.id.button1);
         ImageView pic = (ImageView) this.findViewById(R.id.imageView1);
         pic.setOnClickListener(new OnClickListener() {
-            public void onClick(View arg0) {
-                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.jupiterbroadcasting.com"));
-                startActivity(i);
-            }
-        }
+                                   public void onClick(View arg0) {
+                                       Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.jupiterbroadcasting.com"));
+                                       startActivity(i);
+                                   }
+                               }
         );
         Button donate = (Button) this.findViewById(R.id.button3);
         donate.setOnClickListener(new OnClickListener() {
@@ -111,7 +109,7 @@ public class Home extends ActionBarActivity {
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         mVideoCastManager = JBApplication.getVideoCastManager(this);
         mVideoCastManager.reconnectSessionIfPossible(this, true);
@@ -128,8 +126,7 @@ public class Home extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.settings, menu);
-        mVideoCastManager.addMediaRouterButton(menu,
-                R.id.media_route_menu_item);
+        //mVideoCastManager.addMediaRouterButton(menu,R.id.media_route_menu_item);
         return true;
     }
 

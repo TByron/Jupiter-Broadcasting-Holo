@@ -1,6 +1,7 @@
 package jupiter.broadcasting.live.holo;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.NotificationManager;
@@ -23,7 +24,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.ActionBarActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -69,7 +69,7 @@ import jupiter.broadcasting.live.holo.list.FadeImageView;
  *
  */
 
-public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSelectedListener,
+public class JBPlayer extends Activity implements AdapterView.OnItemSelectedListener,
         View.OnSystemUiVisibilityChangeListener, MediaController.MediaPlayerControl {
     private static int NOTIFICATION_ID = 3435;
     MediaPlayer mp;
@@ -141,14 +141,14 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
         mVideoCastManager.reconnectSessionIfPossible(this, true);
 
 
-        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.mediaplayer);
 
         type = getIntent().getIntExtra("type", 3);
         title = getIntent().getStringExtra("title");
         pic = "http://jb4.cdn.scaleengine.net/wp-content/themes/jb2014/images/logo.png";
         hasit = HasIt(title, av);
-        getSupportActionBar().setTitle(title);
+        getActionBar().setTitle(title);
         mDecorView = getWindow().getDecorView();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
             mDecorView.setOnSystemUiVisibilityChangeListener(this);
@@ -281,8 +281,7 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.settings, menu);
-        mVideoCastManager.addMediaRouterButton(menu,
-                R.id.media_route_menu_item);
+        //mVideoCastManager.addMediaRouterButton(menu,R.id.media_route_menu_item);
         return true;
     }
 
@@ -415,7 +414,7 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
     }
 
     public void Progress(boolean set) {
-        this.setSupportProgressBarIndeterminateVisibility(set);
+        this.setProgressBarIndeterminateVisibility(set);
     }
 
 
@@ -602,7 +601,7 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
             play.setVisibility(View.VISIBLE);
             tw.setVisibility(View.VISIBLE);
             showSystemUI();
-            getSupportActionBar().show();
+            getActionBar().show();
         } else {
             if (start && av == 1) {
                 spinner.setVisibility(View.GONE);
@@ -610,7 +609,7 @@ public class JBPlayer extends ActionBarActivity implements AdapterView.OnItemSel
                 play.setVisibility(View.GONE);
                 tw.setVisibility(View.GONE);
                 hideSystemUI();
-                getSupportActionBar().hide();
+                getActionBar().hide();
             }
         }
     }

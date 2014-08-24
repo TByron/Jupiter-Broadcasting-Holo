@@ -10,17 +10,17 @@ package jupiter.broadcasting.live.holo;
  * @hacked Adam Szabo
  */
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,10 +29,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.Locale;
+
+import it.gmariotti.recyclerview.itemanimator.SlideInOutRightItemAnimator;
+import jupiter.broadcasting.live.holo.parser.RssHandler;
+import jupiter.broadcasting.live.holo.parser.SaxRssParser;
 
 
-public class ShowActivity extends ActionBarActivity {
+public class ShowActivity extends Activity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -41,6 +50,22 @@ public class ShowActivity extends ActionBarActivity {
     public Hashtable<String, String> audioFeedTable;
     public Hashtable<String, String> videoFeedTable;
     public String[] shows;
+
+    //list parameters
+    List<String> episodes;
+    String afeed, vfeed, name;
+    Hashtable<String, String[]> arssLinkTable;
+    Hashtable<String, String[]> vrssLinkTable;
+    RecyclerView asyncResultView;
+    SharedPreferences history;
+    View v;
+    String title;
+    String aurls[];
+    String vurls[];
+    EpisodeAdapter lAdapter;
+    boolean first;
+    private List<String> titleList;
+    final Activity ctx = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,17 +126,23 @@ public class ShowActivity extends ActionBarActivity {
             videoFeedTable.put("Unfilter", "http://www.jupiterbroadcasting.com/feeds/unfilterHD.xml");
         }
 
-        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.main);
-
 
         mTitle = mDrawerTitle = getTitle();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.showlist);
 
+        asyncResultView = (RecyclerView) findViewById(R.id.episodelist);
+        asyncResultView.setItemAnimator(new SlideInOutRightItemAnimator(asyncResultView));
+        asyncResultView.setHasFixedSize(true);
+        asyncResultView.setAdapter(lAdapter = new EpisodeAdapter(this));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(ctx);
+        asyncResultView.setLayoutManager(layoutManager);
+
         // set a custom shadow that overlays the main content when the drawer opens
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+        //mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with shows
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.drawer_list_item, shows));
@@ -119,8 +150,8 @@ public class ShowActivity extends ActionBarActivity {
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         // enable ActionBar app icon to behave as action to toggle nav drawer (Not working for some reason)
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
 
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
@@ -130,12 +161,12 @@ public class ShowActivity extends ActionBarActivity {
                 R.string.drawer_close  /* "close drawer" description for accessibility */
         ) {
             public void onDrawerClosed(View view) {
-                getSupportActionBar().setTitle(mTitle);
+                getActionBar().setTitle(mTitle);
 
             }
 
             public void onDrawerOpened(View drawerView) {
-                getSupportActionBar().setTitle(mDrawerTitle);
+                getActionBar().setTitle(mDrawerTitle);
 
             }
         };
@@ -146,6 +177,35 @@ public class ShowActivity extends ActionBarActivity {
         if (savedInstanceState == null) {
             mDrawerLayout.openDrawer(mDrawerList);
         }
+
+        /*asyncResultView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            private int visibleThreshold = 4;
+            private int currentPage = 0;
+            private int previousTotal = 0;
+            private boolean loading = false;
+            @Override
+            public void onScrollStateChanged(int i) {
+                int k =0;
+
+            }
+
+            @Override
+            public void onScrolled(int visibleItemCount, int firstVisibleItem) {
+                if (loading && (visibleItemCount + 10 < firstVisibleItem)) {
+                    loading = false;
+                }
+
+                if (!loading && (visibleItemCount + 10 > firstVisibleItem) ) {
+                    // load the next page of shows using a background task
+                    currentPage++;
+                    //Progress(true);
+                    RSS_parse scrollparse = new RSS_parse();
+                    //scrollparse.execute(afeed, vfeed, String.valueOf(currentPage));
+                    loading = true;
+                }
+            }
+        });*/
+
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -185,20 +245,27 @@ public class ShowActivity extends ActionBarActivity {
     private void selectItem(int position) {
         // update the main content by replacing fragments
 
-        Fragment fragment = new EpisodeListFragment();
-        Bundle args = new Bundle();
-        String afeed = audioFeedTable.get(shows[position]);
-        String vfeed = videoFeedTable.get(shows[position]);
-        args.putInt("SHOW_ID", position);
-        args.putString("SHOW_AUDIO", afeed);
-        args.putString("SHOW_VIDEO", vfeed);
-        args.putString("SHOW_NAME", shows[position]);
-        fragment.setArguments(args);
+//        android.app.Fragment fragment = new EpisodeListFragment();
+//        Bundle args = new Bundle();
+        afeed = audioFeedTable.get(shows[position]);
+        vfeed = videoFeedTable.get(shows[position]);
+        name = shows[position];
+//        args.putInt("SHOW_ID", position);
+//        args.putString("SHOW_AUDIO", afeed);
+//        args.putString("SHOW_VIDEO", vfeed);
+//        args.putString("SHOW_NAME", shows[position]);
+//        fragment.setArguments(args);
+//
+//        android.app.FragmentManager fragmentManager = getFragmentManager();
+//        android.app.FragmentTransaction ft = fragmentManager.beginTransaction();
+//        //ft.setCustomAnimations(android.R.anim.fade_in,android.R.anim.fade_out);
+//        ft.replace(R.id.episodelist, fragment).commit();
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction ft = fragmentManager.beginTransaction();
-        //ft.setCustomAnimations(android.R.anim.fade_in,android.R.anim.fade_out);
-        ft.replace(R.id.episodelist, fragment).commit();
+        first = true;
+        history = getSharedPreferences(name, 0);
+        //Progress(true);
+        RSS_parse newparse = new RSS_parse();  //do networking in async task SDK>9
+        newparse.execute(afeed, vfeed, "0");
 
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);
@@ -209,7 +276,7 @@ public class ShowActivity extends ActionBarActivity {
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
-        getSupportActionBar().setTitle(mTitle);
+        getActionBar().setTitle(mTitle);
     }
 
     @Override
@@ -223,4 +290,88 @@ public class ShowActivity extends ActionBarActivity {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
+
+
+    public class RSS_parse extends AsyncTask<String, Integer, List<String>> {
+        @Override
+        protected List<String> doInBackground(String... link) {
+            int page = Integer.parseInt(link[2]);
+            SaxRssParser aparser = new SaxRssParser();
+            SaxRssParser vparser = new SaxRssParser();
+            RssHandler acustomhandler = new RssHandler("title", "link", page);
+            RssHandler vcustomhandler = new RssHandler("title", "link", page);
+            aparser.setRssHandler(acustomhandler);
+            vparser.setRssHandler(vcustomhandler);
+
+            if (first) {
+                arssLinkTable = aparser.parse(link[0]);
+                vrssLinkTable = vparser.parse(link[1]);
+
+            } else {
+                arssLinkTable.putAll(aparser.parse(link[0]));
+                vrssLinkTable.putAll(vparser.parse(link[1]));
+            }
+            episodes = vparser.getTitles();
+
+            return episodes;
+        }
+
+        @Override
+        protected void onPostExecute(List<String> args) {
+            titleList = args;
+            try {
+
+                if (first) {
+                    if (lAdapter.getItemCount() > 0)
+                        lAdapter.clear();
+
+                    lAdapter.addNew(titleList, vrssLinkTable, checkNew());
+                    first = false;
+                } else {
+                    lAdapter.add(titleList, vrssLinkTable);
+                }
+            } catch (Exception e) {
+                Log.e("image catch: ", e.toString());
+            }
+            //Progress(false);
+        }
+
+        private boolean[] checkNew() throws ParseException {
+
+            boolean[] newCount = new boolean[titleList.size()];
+            SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US);
+            try {
+                String lastTitle = history.getString("Y", formatter.format(new Date(0)));
+                //testing
+                //lastTitle = formatter.format(new Date(0));
+
+                Date olddate = formatter.parse(lastTitle);
+
+
+                for (int i = 0; i < titleList.size(); i++) {
+                    Date newdate = formatter.parse(vrssLinkTable.get(titleList.get(i))[2]);
+                    if (newdate.after(olddate)) {
+                        //something new
+                        newCount[i] = true;
+                    } else {
+                        //found the newest we saw last time
+                        break;
+                    }
+                }
+            } catch (Exception ignored) {
+
+            }
+
+            SharedPreferences.Editor editor = history.edit();
+            //saving the latest episode as publication date
+            editor.putString("Y", vrssLinkTable.get(titleList.get(0))[2]);
+            editor.commit();
+            //return newCount;
+            return new boolean[titleList.size()];
+        }
+    }
+
+    /*public void Progress(boolean set) {
+        ctx.setProgressBarIndeterminateVisibility(set);
+    }*/
 }
